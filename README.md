@@ -27,6 +27,10 @@ Individual pipeline stages: `--step download`, `--step panel`, `--step audit`.
 Configuration lives in `configs/data.yaml`; paths resolve from the working directory.
 `requirements-week1.lock.txt` records the validated environment.
 
+For cloud setup, use [the Colab/Kaggle bootstrap notebook](notebooks/00_runtime_setup.ipynb)
+and [infrastructure instructions](docs/infra.md). It checks the actual GPU and
+checkpoint storage; cloud access and GPU quota must be verified in your own session.
+
 ## Data and methodology
 
 Dataset: [NETOP GOTS-F](https://huggingface.co/datasets/netop/gotsf-ds), MIT license.

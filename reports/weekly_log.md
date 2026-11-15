@@ -13,10 +13,11 @@ Tasks completed:
 - 16 unit tests passed and Ruff passed.
 
 Tasks unfinished:
-- GitHub remote creation/push: configured GitHub token is invalid.
+- GitHub remote: authentication restored; private repository created for trbk07.
 - Colab/Drive/Kaggle account setup and GPU verification: not performed.
 
-Blocking issue: Remote publication needs restored GitHub authentication.
+Blocking issue: Cloud GPU allocation and Drive authorization require an interactive
+session owned by the user. Runtime bootstrap notebook is prepared and syntax checked.
 
 Decision: Retain internal chronological holdout. The card describes week 6 as
 immediate future but time resets; continuity approval remains false. No model trained.
