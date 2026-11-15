@@ -1,0 +1,12 @@
+{
+  "python": "3.13.16 (main, Oct  1 2026, 15:40:24) [GCC 13.3.0]",
+  "cuda_available": true,
+  "gpus": [
+    {
+      "name": "Tesla T4",
+      "vram_bytes": 15637086208
+    }
+  ],
+  "torch": "2.14.1+cu130",
+  "project_uploaded": false
+}

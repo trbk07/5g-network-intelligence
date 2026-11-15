@@ -70,5 +70,15 @@ D:\5G\.colab-venv\Scripts\colab.exe --auth oauth2 sessions
 
 Open the authorization URL printed by the command, complete Google consent, and
 paste the code back into that same terminal. After authentication, the agent can
-test session provisioning and remote execution. No Colab GPU allocation has yet
-been verified, and no subscription or paid credits have been purchased.
+test session provisioning and remote execution. Colab CPU execution and one Tesla T4 GPU were subsequently verified after owner
+OAuth login. Both test runtimes were terminated. No paid plan was purchased.
+
+
+## Verified Colab connection - 2026-11-15
+
+Official CLI OAuth authenticated successfully. A CPU runtime executed Python,
+then a T4 runtime reported CUDA available and PyTorch 2.14.1+cu130. Hardware
+evidence is in reports/colab_runtime.json. Downloading files also succeeded.
+The project source has not been uploaded: automatic approval review requested
+specific consent for transferring the project payload to Colab. Drive mounting
+and the full Week 1 pipeline on Colab remain unverified. GPU runtime was stopped.
