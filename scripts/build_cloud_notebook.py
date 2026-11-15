@@ -49,6 +49,8 @@ if not (IS_COLAB or IS_KAGGLE):
     raise RuntimeError('Open this notebook in Colab or Kaggle')
 WORK = Path('/kaggle/working' if IS_KAGGLE else '/content')
 PROJECT = WORK / '5g-network-intelligence'
+os.environ['SOURCE_GIT_COMMIT'] = {revision!r}
+os.environ['SOURCE_BUNDLE_SHA256'] = {digest!r}
 source = base64.b64decode({encoded!r})
 assert hashlib.sha256(source).hexdigest() == {digest!r}, 'Source bundle hash mismatch'
 PROJECT.mkdir(parents=True, exist_ok=True)
@@ -58,7 +60,7 @@ with zipfile.ZipFile(io.BytesIO(source)) as archive:
             raise ValueError('Unsafe archive member')
     archive.extractall(PROJECT)
 os.chdir(PROJECT)
-subprocess.run([sys.executable, '-m', 'pip', 'install', '-e', '.[dev,ml]'], check=True)
+subprocess.run([sys.executable, '-m', 'pip', 'install', '-e', '.[dev,ml,neural]'], check=True)
 print('Project ready:', PROJECT)
 '''
     notebook["cells"][1]["source"] = setup.splitlines(keepends=True)

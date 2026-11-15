@@ -22,11 +22,17 @@ from src.utils.metadata import collect_run_metadata
 def main() -> None:
     """Benchmark saved direct models over exactly the baseline validation origin sets."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model", choices=["lightgbm"], required=True)
+    parser.add_argument("--model", choices=["lightgbm", "gru"], required=True)
     parser.add_argument("--segment", choices=["val"], default="val")
     parser.add_argument("--data-config", default="configs/data.yaml")
-    parser.add_argument("--config", default="configs/lightgbm.yaml")
+    parser.add_argument("--config", default=None)
     args = parser.parse_args()
+    if args.model == "gru":
+        from scripts.evaluate_gru import evaluate_gru
+
+        evaluate_gru(args.data_config, args.config or "configs/gru.yaml")
+        return
+    args.config = args.config or "configs/lightgbm.yaml"
     data_config, config = load_config(args.data_config), load_config(args.config)
     panel, split = validation_inputs(data_config)
     reports = Path(data_config["reports_dir"])

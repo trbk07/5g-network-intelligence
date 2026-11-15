@@ -1,6 +1,7 @@
 """Run provenance without machine-specific paths or secrets."""
 import hashlib
 import json
+import os
 import platform
 import subprocess
 from datetime import datetime, timezone
@@ -17,7 +18,8 @@ def collect_run_metadata(config: dict) -> dict:
         "created_at": datetime.now(timezone.utc).isoformat(),
         "config": config,
         "config_sha256": hashlib.sha256(json.dumps(config, sort_keys=True).encode()).hexdigest(),
-        "git_commit": result.stdout.strip() if result.returncode == 0 else None,
+        "git_commit": result.stdout.strip() if result.returncode == 0 else os.environ.get("SOURCE_GIT_COMMIT"),
+        "source_bundle_sha256": os.environ.get("SOURCE_BUNDLE_SHA256"),
         "python": platform.python_version(),
         "packages": {name: version(name) for name in ("numpy", "pandas", "PyYAML")},
         "seed": config.get("seed"),

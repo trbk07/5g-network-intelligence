@@ -31,6 +31,10 @@ See [LightGBM protocol](docs/lightgbm.md), [validation analysis](reports/lightgb
 and `notebooks/03_lightgbm.ipynb`. The observed selected configuration is C1;
 final champion selection and holdout evaluation remain scheduled for Week 5.
 
+Week 4 adds GRU-A/B input preprocessing, beam sampling, resumable GPU training
+and validation replay. See [GRU protocol](docs/gru.md) and the
+[GPU pilot measurements](reports/gru_compute.md). Full neural training requires CUDA.
+
 ## Run Week 1
 
 Requires Python 3.12+ and internet access for the public dataset.
@@ -38,13 +42,13 @@ Run commands from the repository root (PowerShell):
 
 ```powershell
 uv venv --python 3.12 .venv
-uv pip install --python .venv/Scripts/python.exe -e ".[dev,ml]"
+uv pip install --python .venv/Scripts/python.exe -e ".[dev,ml,neural]"
 .venv/Scripts/python.exe -m scripts.prepare_data --step all
 .venv/Scripts/python.exe -m pytest -q
 .venv/Scripts/ruff.exe check .
 ```
 
-Or activate a standard Python virtual environment and use `pip install -e ".[dev,ml]"`.
+Or activate a standard Python virtual environment and use `pip install -e ".[dev,ml,neural]"`.
 Individual pipeline stages: `--step download`, `--step panel`, `--step audit`.
 Configuration lives in `configs/data.yaml`; paths resolve from the working directory.
 `requirements-week1.lock.txt` records the validated environment.

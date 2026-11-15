@@ -1,1 +1,1 @@
--e .[dev,ml]
+-e .[dev,ml,neural]
