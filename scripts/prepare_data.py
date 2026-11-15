@@ -68,6 +68,7 @@ def main() -> None:
     processed.mkdir(parents=True, exist_ok=True)
     logging.basicConfig(level=logging.INFO, handlers=[logging.StreamHandler(),
                         logging.FileHandler(reports / "prepare_data.log", encoding="utf-8")])
+    logging.getLogger("httpx").setLevel(logging.WARNING)
     set_seed(config["seed"])
     logging.info("Starting step=%s revision=%s", args.step, config["revision"])
     if args.step in ("download", "all"):
