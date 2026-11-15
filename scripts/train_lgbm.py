@@ -13,10 +13,12 @@ from src.models.lgbm import load_lgbm, save_lgbm, train_lgbm
 from src.utils.config import load_config
 from src.utils.metadata import collect_run_metadata
 from src.utils.seed import set_seed
+from src.utils.runtime import require_cloud_training
 
 
 def main() -> None:
     """Train C1/C2 × three horizons and save independent artifacts with parity checks."""
+    require_cloud_training()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-config", default="configs/data.yaml")
     parser.add_argument("--config", default="configs/lightgbm.yaml")

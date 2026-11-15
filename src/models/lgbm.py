@@ -8,6 +8,7 @@ import numpy as np
 
 from src.features.lightgbm_features import FEATURE_NAMES, build_features
 from src.features.static_stats import StaticStats
+from src.utils.runtime import require_cloud_training
 
 
 @dataclass
@@ -41,6 +42,7 @@ def train_lgbm(train_x: np.ndarray, train_y: np.ndarray, val_x: np.ndarray,
                name: str, seed: int = 17, num_threads: int = 4,
                metadata: dict | None = None) -> LGBMForecaster:
     """Fit a direct model; early stop on validation MAE and count missing targets."""
+    require_cloud_training()
     train_mask, val_mask = np.isfinite(train_y), np.isfinite(val_y)
     if not train_mask.any() or not val_mask.any():
         raise ValueError("Training and validation require observed targets")

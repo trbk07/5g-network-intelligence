@@ -1,6 +1,9 @@
 import torch
+import pytest
 
 from src.models.gru import GRUNet
+
+pytestmark = pytest.mark.cloud_training
 
 
 def test_shape_and_synthetic_minibatch_overfit():

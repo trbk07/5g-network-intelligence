@@ -11,6 +11,8 @@ from src.models.gru_train import masked_l1, train_gru
 from src.models.gru_forecaster import GRUForecaster
 from tests.utils.perturb import assert_causal
 
+pytestmark = pytest.mark.cloud_training
+
 
 def test_resume_matches_uninterrupted_training_and_cpu_guard(tmp_path):
     torch.set_num_threads(1)

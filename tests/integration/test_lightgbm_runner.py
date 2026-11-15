@@ -13,6 +13,8 @@ from scripts.train_lgbm import main as train_main
 from src.data.panel import Panel, save_panel
 from src.data.splits import build_split_config
 
+pytestmark = pytest.mark.cloud_training
+
 
 def test_train_reload_report_and_holdout_independence(tmp_path, monkeypatch):
     processed = tmp_path / "processed"

@@ -2,14 +2,16 @@
 
 ## Reproduce
 
-Install the ML extra in the project environment, prepare data and run baselines first:
+Run the following in a hosted Colab/Kaggle environment (prefix shell commands with
+`!` in notebook cells). Local training is forbidden by the owner's latest instruction.
+Install the ML extra, prepare data and run baselines first:
 
 ```powershell
-uv pip install --python .venv/Scripts/python.exe -e ".[dev,ml]"
-.venv/Scripts/python.exe -m scripts.prepare_data --step all
-.venv/Scripts/python.exe -m scripts.run_baselines --segment val
-.venv/Scripts/python.exe -m scripts.train_lgbm
-.venv/Scripts/python.exe -m scripts.evaluate_models --model lightgbm --segment val
+pip install -e ".[dev,ml,neural]"
+python -m scripts.prepare_data --step all
+python -m scripts.run_baselines --segment val
+python -m scripts.train_lgbm
+python -m scripts.evaluate_models --model lightgbm --segment val
 ```
 
 Training is CPU only, four threads, seed 17, deterministic column-wise histograms.

@@ -35,7 +35,10 @@ python -m scripts.evaluate_models --model gru --segment val
 Use --seconds-limit to constrain a run; the limit is checked after each completed
 epoch/checkpoint. The experiment-wide GPU target is at most four hours. Do not
 run full training on CPU; the CLI rejects it. CPU fixtures are intentionally tiny.
-The measured pilot and frozen settings are in reports/gru_compute.md.
+The measured pilot and frozen settings are in reports/gru_compute.md. All model
+training is forbidden on the owner's local machine, including synthetic fitting
+tests; those tests are marked cloud_training and skipped locally. Run the complete
+test suite inside Colab/Kaggle instead. Local checks only lint and test non-fitting paths.
 
 Artifacts live under artifacts/gru/{A|B}/seed{17|42}/ and include best.pt, last.pt,
 preprocessor.npz, history.jsonl and meta.json. Put the artifact directory on Drive

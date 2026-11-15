@@ -21,6 +21,7 @@ include = ["src*"]
 pythonpath = ["."]
 testpaths = ["tests"]
 addopts = "--basetemp=.pytest_tmp"
+markers = ["cloud_training: model fitting tests allowed only on hosted Colab/Kaggle"]
 
 [tool.ruff]
 line-length = 100

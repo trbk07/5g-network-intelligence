@@ -17,10 +17,12 @@ from src.models.gru_train import train_gru
 from src.utils.config import load_config
 from src.utils.metadata import collect_run_metadata
 from src.utils.seed import set_seed
+from src.utils.runtime import require_cloud_training
 
 
 def main() -> None:
     """Train one requested variant/seed; use --pilot for exactly one measured epoch."""
+    require_cloud_training()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--variant", choices=["A", "B"], required=True)
     parser.add_argument("--seed", type=int, default=17)

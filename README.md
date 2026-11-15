@@ -19,12 +19,12 @@ evaluator, three baselines and leakage canaries. Run the validation benchmark:
 See [evaluation protocol](docs/evaluation.md), [baseline analysis](reports/baseline_analysis.md)
 and `notebooks/02_baselines.ipynb`. Validation results are not final holdout results.
 
-Week 3 implements 44 causal features and global direct LightGBM models. Reproduce
-training and validation-only replay with:
+Week 3 implements 44 causal features and global direct LightGBM models. Run training
+inside hosted Colab/Kaggle only (local training is forbidden by the owner):
 
 ```powershell
-.venv/Scripts/python.exe -m scripts.train_lgbm
-.venv/Scripts/python.exe -m scripts.evaluate_models --model lightgbm --segment val
+python -m scripts.train_lgbm
+python -m scripts.evaluate_models --model lightgbm --segment val
 ```
 
 See [LightGBM protocol](docs/lightgbm.md), [validation analysis](reports/lightgbm_analysis.md)
@@ -34,6 +34,8 @@ final champion selection and holdout evaluation remain scheduled for Week 5.
 Week 4 adds GRU-A/B input preprocessing, beam sampling, resumable GPU training
 and validation replay. See [GRU protocol](docs/gru.md) and the
 [GPU pilot measurements](reports/gru_compute.md). Full neural training requires CUDA.
+All training, including synthetic fitting tests, runs only on hosted Colab/Kaggle.
+Local test runs automatically skip tests marked `cloud_training`.
 
 ## Run Week 1
 

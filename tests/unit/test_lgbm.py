@@ -8,6 +8,8 @@ from src.features.static_stats import compute_static
 from src.models.lgbm import load_lgbm, save_lgbm, train_lgbm
 from tests.utils.perturb import assert_causal
 
+pytestmark = pytest.mark.cloud_training
+
 
 def test_training_missing_targets_determinism_save_load_and_model_canary(tmp_path):
     rng = np.random.default_rng(17)

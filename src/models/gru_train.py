@@ -8,6 +8,7 @@ import torch
 
 from src.features.gru_inputs import GRUBatches
 from src.models.gru import GRUNet
+from src.utils.runtime import require_cloud_training
 
 
 def masked_l1(predicted: torch.Tensor, actual: torch.Tensor) -> tuple[torch.Tensor, int]:
@@ -30,6 +31,7 @@ def train_gru(model: GRUNet, train: GRUBatches, validation: GRUBatches, config: 
                allow_cpu_test: bool = False, run_identity: dict | None = None,
                seconds_limit: float | None = None) -> dict:
     """Train with AdamW, clipping, early stopping; reject full training on CPU."""
+    require_cloud_training()
     if train.device == "cpu" and not allow_cpu_test:
         raise ValueError("Full GRU training requires GPU; CPU is allowed only for small tests")
     directory = Path(directory)
