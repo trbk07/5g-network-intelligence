@@ -9,6 +9,16 @@ Week 1 implements dataset ingestion, provenance, panel construction, descriptive
 and chronological split preparation. Models and application components are scheduled
 for subsequent weeks in [the execution plan](plan5G.md).
 
+Week 2 adds chronological origins, metrics with coverage flags, a history-only
+evaluator, three baselines and leakage canaries. Run the validation benchmark:
+
+```powershell
+.venv/Scripts/python.exe -m scripts.run_baselines --segment val
+```
+
+See [evaluation protocol](docs/evaluation.md), [baseline analysis](reports/baseline_analysis.md)
+and `notebooks/02_baselines.ipynb`. Validation results are not final holdout results.
+
 ## Run Week 1
 
 Requires Python 3.12+ and internet access for the public dataset.
