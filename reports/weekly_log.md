@@ -13,7 +13,7 @@ Tasks completed:
 - 17 local tests passed, including the offline end-to-end pipeline test; Ruff passed.
 
 Tasks unfinished:
-- Colab/Drive: still unverified; browser automation remains unavailable.
+- Google Drive mounting: still unverified. Colab CLI CPU and T4 runtime now work.
 
 Kaggle setup completed after owner OAuth login. Private notebook version 2 completed
 on two Tesla T4 GPUs; checkpoint probe, full data pipeline and 16 tests passed.
@@ -42,3 +42,7 @@ as split.json. The integration test validates CSV alignment, preserved missing/z
 values, separate week 11 storage, audit figures and agreement between split outputs.
 The Kaggle version 2 result above covers the earlier 16-test code snapshot;
 the follow-up is validated locally with 17 tests.
+
+Colab follow-up: authenticated CLI, T4 CUDA available, full Week 1 data pipeline,
+17 tests and Ruff passed. Runtime checkpoint write probe passed, reports downloaded,
+and GPU runtime terminated. See reports/colab_runtime.json. No model training done.

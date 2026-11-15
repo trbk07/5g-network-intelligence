@@ -4,8 +4,8 @@ Validated locally on Windows, Python 3.12.13 using `.venv` and uv.
 The default system Python is an MSYS Python without pip; use the project venv.
 Dependencies are recorded in `requirements-week1.lock.txt`.
 
-CPU preprocessing only in Week 1. Kaggle has now been verified; Colab and Google
-Drive remain unverified because browser automation is unavailable.
+CPU preprocessing only in Week 1. Kaggle and Colab CLI execution have now been verified. Google Drive mounting
+remains unverified.
 Before Week 4: create the Colab runtime, mount the user's Drive for checkpoints,
 measure one GPU epoch, and record GPU model, VRAM, epoch time and quota;
 use Kaggle only if Colab is unavailable. Never run full GRU training on CPU.
@@ -79,6 +79,8 @@ OAuth login. Both test runtimes were terminated. No paid plan was purchased.
 Official CLI OAuth authenticated successfully. A CPU runtime executed Python,
 then a T4 runtime reported CUDA available and PyTorch 2.14.1+cu130. Hardware
 evidence is in reports/colab_runtime.json. Downloading files also succeeded.
-The project source has not been uploaded: automatic approval review requested
-specific consent for transferring the project payload to Colab. Drive mounting
-and the full Week 1 pipeline on Colab remain unverified. GPU runtime was stopped.
+After owner consent, the allowlisted source bundle was uploaded and the full
+Week 1 pipeline completed on Colab T4. All 17 tests and Ruff passed; the main panel
+was (840, 2880, 4). Local runtime checkpoint write/read succeeded, reports were
+downloaded and the GPU runtime was terminated. Google Drive mounting remains
+unverified; local runtime disk is ephemeral and must not be treated as persistent Drive storage.
