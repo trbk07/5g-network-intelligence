@@ -26,6 +26,9 @@ Or activate a standard Python virtual environment and use `pip install -e ".[dev
 Individual pipeline stages: `--step download`, `--step panel`, `--step audit`.
 Configuration lives in `configs/data.yaml`; paths resolve from the working directory.
 `requirements-week1.lock.txt` records the validated environment.
+The panel stage also writes `configs/evaluation.yaml` from the resolved split
+decision, keeping it consistent with `data/processed/split.json`. Source manifests
+reject missing or unexpected CSVs in addition to checksum mismatches.
 
 For cloud setup, use [the Colab/Kaggle bootstrap notebook](notebooks/00_runtime_setup.ipynb)
 and [infrastructure instructions](docs/infra.md). It checks the actual GPU and

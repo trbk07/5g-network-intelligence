@@ -1,17 +1,18 @@
 {
-  "created_at": "2026-11-15T01:39:35.232891+00:00",
+  "created_at": "2026-11-15T02:07:50.506338+00:00",
   "config": {
     "repo_id": "netop/gotsf-ds",
     "revision": "c9ecaf153354b2cc415c64750a966c47c7f3f6ac",
     "raw_dir": "data/raw",
     "processed_dir": "data/processed",
     "reports_dir": "reports",
+    "evaluation_config": "configs/evaluation.yaml",
     "seed": 17,
     "continuity_verified": false,
     "continuity_evidence": ""
   },
-  "config_sha256": "e9ed6e0d8fd591807aeaa283a98f13cc64764c6faf73c177f8f97023a2f174d6",
-  "git_commit": "98dcf8a76ffd2d081a1657cf153d0f63c9c57148",
+  "config_sha256": "2c58907d003c50d363fb440f42f74c2916cb6476cf45bc8de000d4b124862cb5",
+  "git_commit": "88419952b58ef9daaff52a987d03832379dbe60f",
   "python": "3.12.13",
   "packages": {
     "numpy": "2.5.4",

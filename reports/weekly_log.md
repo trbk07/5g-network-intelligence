@@ -10,10 +10,9 @@ Tasks completed:
 - Manifest with MIT license, SHA256, bytes, row counts and source columns.
 - Main panel (840, 2880, 4), separate week 6/week 11 panels, NPZ parity tests.
 - Audit, figures, EDA notebook, data dictionary, conservative split decision.
-- 16 unit tests passed and Ruff passed.
+- 17 local tests passed, including the offline end-to-end pipeline test; Ruff passed.
 
 Tasks unfinished:
-- GitHub remote: authentication restored; private repository created for trbk07.
 - Colab/Drive: still unverified; browser automation remains unavailable.
 
 Kaggle setup completed after owner OAuth login. Private notebook version 2 completed
@@ -36,3 +35,10 @@ by the sandbox account had incompatible ownership when switching execution conte
 `ruff check .` passed. This is an environment ACL issue, not a fixture failure.
 
 Next week's priority: Origin alignment, evaluation metrics, three baselines and leakage tests.
+
+Week 1 follow-up: manifest now rejects missing source files as well as checksum
+mismatches. Panel preparation generates evaluation.yaml from the same split decision
+as split.json. The integration test validates CSV alignment, preserved missing/zero
+values, separate week 11 storage, audit figures and agreement between split outputs.
+The Kaggle version 2 result above covers the earlier 16-test code snapshot;
+the follow-up is validated locally with 17 tests.

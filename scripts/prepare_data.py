@@ -6,6 +6,7 @@ from pathlib import Path
 
 import matplotlib
 import numpy as np
+import yaml
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -94,6 +95,14 @@ def main() -> None:
         save_panel(panels["week6"], processed / "week6.npz")
         save_panel(panels["week11"], processed / "week11.npz")
         write_json(processed / "split.json", split)
+        evaluation_path = Path(config["evaluation_config"])
+        evaluation_path.parent.mkdir(parents=True, exist_ok=True)
+        evaluation_path.write_text(yaml.safe_dump({
+            "lookback": split["lookback"], "horizons": split["horizons"],
+            "evaluation_stride": 1, "split_mode": split["mode"],
+            "fit": split["fit"], "validation": split["validation"],
+            "holdout": split["holdout"],
+        }, sort_keys=False), encoding="utf-8")
         write_json(reports / "temporal_boundary.json", boundary)
         (reports / "split_decision.md").write_text(
             f"# Temporal split decision\n\nMode: **{split['mode']}**.\n\n"

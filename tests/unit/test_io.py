@@ -17,6 +17,9 @@ def test_manifest_counts_and_tamper_detection(tmp_path):
     path.write_text("Time,0_0_0\n0,9\n")
     with pytest.raises(ValueError, match="Checksum mismatch"):
         build_manifest(tmp_path)
+    path.unlink()
+    with pytest.raises(ValueError, match="missing="):
+        build_manifest(tmp_path)
 
 
 def test_config_rejects_list(tmp_path):

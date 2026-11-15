@@ -1,7 +1,16 @@
 lookback: 168
-horizons: [1, 6, 24]
+horizons:
+- 1
+- 6
+- 24
 evaluation_stride: 1
 split_mode: fallback
-fit: [0, 503]
-validation: [504, 671]
-holdout: [672, 839]
+fit:
+- 0
+- 503
+validation:
+- 504
+- 671
+holdout:
+- 672
+- 839

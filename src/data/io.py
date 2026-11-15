@@ -51,6 +51,13 @@ def build_manifest(raw_dir: str | Path) -> dict:
     """Inspect CSV row counts, columns, byte sizes and checksums."""
     raw_dir = Path(raw_dir)
     provenance = json.loads((raw_dir / "provenance.json").read_text(encoding="utf-8"))
+    expected = set(provenance.get("checksums", {}))
+    if not expected:
+        raise ValueError("Provenance must include source file checksums")
+    actual = {p.relative_to(raw_dir).as_posix() for p in raw_dir.rglob("*.csv")}
+    if actual != expected:
+        raise ValueError(f"Source files differ: missing={sorted(expected - actual)}, "
+                         f"unexpected={sorted(actual - expected)}")
     files = []
     for path in sorted(raw_dir.rglob("*.csv")):
         with path.open(newline="", encoding="utf-8-sig") as handle:
