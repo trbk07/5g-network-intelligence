@@ -51,3 +51,36 @@ and GPU runtime terminated. See reports/colab_runtime.json. No model training do
 Drive follow-up: owner completed Google consent; mount and checkpoint read/write
 passed in the dedicated project folder. Evidence: reports/drive_verification.json.
 CPU runtime terminated after verification. Week 1 infrastructure checks complete.
+
+## Week 2 - Evaluation framework and baselines
+
+Hours used: Not tracked; no claim against the 12-hour budget.
+
+Tasks completed:
+- T2.1: training, joint-training and evaluation origins; cross-horizon target
+  disjointness checks; exact origin arrays saved in processed split.json.
+- T2.2: all eight planned metrics/load-tier functions, explicit exclusion
+  counts and flags for undefined results, hand-calculated metric tests.
+- T2.3: history-only Forecaster protocol, fixed-model replay evaluator,
+  pickle-free forecast records, coverage-aware benchmark rows.
+- T2.4: Persistence, Seasonal Naive 24h and Seasonal Naive 168h, with rejection
+  of future/out-of-history seasonal references and +24h equivalence test.
+- T2.5: future perturbation canaries, deliberately leaky predictor detection,
+  fit-only load-tier canary and validation-runner holdout perturbation test.
+- T2.6: validation benchmark on all 2,880 real beams, overall/load-tier metrics,
+  active/zero analysis, per-beam errors and top-10 report, replay NPZ with digest,
+  provenance, notebook and evaluation protocol documentation.
+
+Validation: 45 tests passed locally; Ruff passed; baseline notebook schema and
+Python cell syntax validated. Cloud hardware and Week 1 cloud results remain
+documented separately; Week 2 benchmark was run locally on CPU.
+
+Validation winners (DLPRB usage MAE, not final holdout performance):
+- +1h: Persistence, approximately 0.297747.
+- +6h: Seasonal Naive 24h, approximately 0.332699.
+- +24h: Persistence and Seasonal Naive 24h tie, approximately 0.332065.
+
+Tasks unfinished: None in Week 2 scope.
+Blocking issue: None.
+Decision: Gate G2 passed. Holdout was not evaluated; the baseline CLI refuses it.
+Next week's priority: Week 3 causal features, LightGBM and validation benchmark.
