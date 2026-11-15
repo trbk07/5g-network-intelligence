@@ -12,12 +12,13 @@ Tasks completed:
 - Audit, figures, EDA notebook, data dictionary, conservative split decision.
 - 17 local tests passed, including the offline end-to-end pipeline test; Ruff passed.
 
-Tasks unfinished:
-- Google Drive mounting: still unverified. Colab CLI CPU and T4 runtime now work.
+Week 1 infrastructure: complete. Kaggle, Colab CLI and Google Drive checkpoint
+read/write have all been verified.
 
 Kaggle setup completed after owner OAuth login. Private notebook version 2 completed
 on two Tesla T4 GPUs; checkpoint probe, full data pipeline and 16 tests passed.
-See reports/kaggle_runtime.json. No training performed. Colab/Drive remain unverified.
+See reports/kaggle_runtime.json. No training performed. Colab and Drive were
+subsequently verified as recorded below.
 
 Decision: Retain internal chronological holdout. The card describes week 6 as
 immediate future but time resets; continuity approval remains false. No model trained.
@@ -46,3 +47,7 @@ the follow-up is validated locally with 17 tests.
 Colab follow-up: authenticated CLI, T4 CUDA available, full Week 1 data pipeline,
 17 tests and Ruff passed. Runtime checkpoint write probe passed, reports downloaded,
 and GPU runtime terminated. See reports/colab_runtime.json. No model training done.
+
+Drive follow-up: owner completed Google consent; mount and checkpoint read/write
+passed in the dedicated project folder. Evidence: reports/drive_verification.json.
+CPU runtime terminated after verification. Week 1 infrastructure checks complete.

@@ -1,0 +1,7 @@
+{
+  "drive_mounted": true,
+  "checkpoint_write_read": "passed",
+  "checkpoint_dir": "/content/drive/MyDrive/5g-network-intelligence/checkpoints",
+  "verification_file": "/content/drive/MyDrive/5g-network-intelligence/checkpoints/setup-check-20261115T022232.json",
+  "checked_at": "2026-11-15T02:22:32.289832+00:00"
+}

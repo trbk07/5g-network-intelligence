@@ -4,10 +4,9 @@ Validated locally on Windows, Python 3.12.13 using `.venv` and uv.
 The default system Python is an MSYS Python without pip; use the project venv.
 Dependencies are recorded in `requirements-week1.lock.txt`.
 
-CPU preprocessing only in Week 1. Kaggle and Colab CLI execution have now been verified. Google Drive mounting
-remains unverified.
-Before Week 4: create the Colab runtime, mount the user's Drive for checkpoints,
-measure one GPU epoch, and record GPU model, VRAM, epoch time and quota;
+CPU preprocessing only in Week 1. Kaggle and Colab CLI execution have now been verified. Google Drive mounting and checkpoint read/write have also passed.
+Before Week 4: measure one GPU training epoch and record GPU model, VRAM,
+epoch time and quota; runtime provisioning and Drive checkpoint storage are verified.
 use Kaggle only if Colab is unavailable. Never run full GRU training on CPU.
 
 GitHub CLI authentication is now valid for `trbk07`. The private repository is
@@ -59,7 +58,8 @@ runtime detection now prioritizes Kaggle and avoids mounting Google Drive there.
 
 Official `google-colab-cli` 0.8.0 is installed in `.colab-venv`. On this Windows
 machine its help and OAuth authorization prompt work. The upstream documentation
-supports Linux/macOS only, so VM provisioning on Windows is still unverified.
+supports Linux/macOS only; despite that limitation, CPU and T4 provisioning,
+execution, file download and Drive mounting have passed on this Windows machine.
 Docker is installed but its Linux engine was not running during inspection.
 
 Owner login command (run locally, never paste the resulting code into chat):
@@ -82,5 +82,16 @@ evidence is in reports/colab_runtime.json. Downloading files also succeeded.
 After owner consent, the allowlisted source bundle was uploaded and the full
 Week 1 pipeline completed on Colab T4. All 17 tests and Ruff passed; the main panel
 was (840, 2880, 4). Local runtime checkpoint write/read succeeded, reports were
-downloaded and the GPU runtime was terminated. Google Drive mounting remains
-unverified; local runtime disk is ephemeral and must not be treated as persistent Drive storage.
+downloaded and the GPU runtime was terminated. Drive mounting was verified in a subsequent CPU session (see below). Local runtime
+disk is ephemeral and must not be treated as persistent Drive storage.
+
+
+## Verified Google Drive checkpoint storage - 2026-11-15
+
+After owner consent through Google, the official CLI mounted Drive at
+`/content/drive`. Created the project checkpoint directory at
+`/content/drive/MyDrive/5g-network-intelligence/checkpoints`, wrote a timestamped
+setup-check JSON file and verified its contents by reading it back. No unrelated
+Drive files were inspected or modified. The report was downloaded to
+`reports/drive_verification.json`; the CPU runtime was terminated afterwards.
+Future sessions may require fresh Google authorization before mounting Drive.
