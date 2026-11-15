@@ -46,6 +46,8 @@ def evaluate(forecaster: Forecaster, panel: Panel, origins: np.ndarray,
     """Evaluate fixed-model replay; actuals observed through each origin update history."""
     if not np.array_equal(panel.time, np.arange(len(panel.time))):
         raise ValueError("Evaluation requires contiguous relative hourly indices from zero")
+    if hasattr(forecaster, "static") and forecaster.static.beam_ids != panel.beam_ids:
+        raise ValueError("Model and panel beam ordering differ")
     if not isinstance(horizon, (int, np.integer)) or isinstance(horizon, bool) or horizon < 1:
         raise ValueError("horizon must be a positive integer")
     origins = np.asarray(origins)
@@ -55,8 +57,13 @@ def evaluate(forecaster: Forecaster, panel: Panel, origins: np.ndarray,
         raise ValueError("Origins must increase uniquely and targets must be in bounds")
     forecasts = []
     for origin in origins:
-        prediction = np.asarray(forecaster.predict(history_at(panel, int(origin), lookback),
-                                                   horizon), dtype=float)
+        history = history_at(panel, int(origin), lookback)
+        if hasattr(forecaster, "predict_at"):
+            # Time context supplies phase only; observed inputs remain history-only.
+            prediction = forecaster.predict_at(history, int(origin), horizon)
+        else:
+            prediction = forecaster.predict(history, horizon)
+        prediction = np.asarray(prediction, dtype=float)
         if prediction.shape != (len(panel.beam_ids),) or np.isinf(prediction).any():
             raise ValueError("Forecast must be one value per beam, finite or NaN")
         forecasts.append(prediction.copy())
