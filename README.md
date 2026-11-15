@@ -19,6 +19,18 @@ evaluator, three baselines and leakage canaries. Run the validation benchmark:
 See [evaluation protocol](docs/evaluation.md), [baseline analysis](reports/baseline_analysis.md)
 and `notebooks/02_baselines.ipynb`. Validation results are not final holdout results.
 
+Week 3 implements 44 causal features and global direct LightGBM models. Reproduce
+training and validation-only replay with:
+
+```powershell
+.venv/Scripts/python.exe -m scripts.train_lgbm
+.venv/Scripts/python.exe -m scripts.evaluate_models --model lightgbm --segment val
+```
+
+See [LightGBM protocol](docs/lightgbm.md), [validation analysis](reports/lightgbm_analysis.md)
+and `notebooks/03_lightgbm.ipynb`. The observed selected configuration is C1;
+final champion selection and holdout evaluation remain scheduled for Week 5.
+
 ## Run Week 1
 
 Requires Python 3.12+ and internet access for the public dataset.
@@ -26,13 +38,13 @@ Run commands from the repository root (PowerShell):
 
 ```powershell
 uv venv --python 3.12 .venv
-uv pip install --python .venv/Scripts/python.exe -e ".[dev]"
+uv pip install --python .venv/Scripts/python.exe -e ".[dev,ml]"
 .venv/Scripts/python.exe -m scripts.prepare_data --step all
 .venv/Scripts/python.exe -m pytest -q
 .venv/Scripts/ruff.exe check .
 ```
 
-Or activate a standard Python virtual environment and use `pip install -e ".[dev]"`.
+Or activate a standard Python virtual environment and use `pip install -e ".[dev,ml]"`.
 Individual pipeline stages: `--step download`, `--step panel`, `--step audit`.
 Configuration lives in `configs/data.yaml`; paths resolve from the working directory.
 `requirements-week1.lock.txt` records the validated environment.

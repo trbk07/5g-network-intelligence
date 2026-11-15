@@ -58,7 +58,7 @@ with zipfile.ZipFile(io.BytesIO(source)) as archive:
             raise ValueError('Unsafe archive member')
     archive.extractall(PROJECT)
 os.chdir(PROJECT)
-subprocess.run([sys.executable, '-m', 'pip', 'install', '-e', '.[dev]'], check=True)
+subprocess.run([sys.executable, '-m', 'pip', 'install', '-e', '.[dev,ml]'], check=True)
 print('Project ready:', PROJECT)
 '''
     notebook["cells"][1]["source"] = setup.splitlines(keepends=True)

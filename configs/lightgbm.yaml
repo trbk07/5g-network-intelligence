@@ -2,7 +2,7 @@ seed: 17
 training_stride: 2
 num_threads: 4
 artifact_dir: artifacts/lgbm
-selected_config: null
+selected_config: c1
 configs:
   c1:
     objective: regression_l1

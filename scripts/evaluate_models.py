@@ -34,8 +34,9 @@ def main() -> None:
     baseline_meta = json.loads((reports / "baselines_run_metadata.json").read_text())
     if baseline_meta["dataset_revision"] != data_config["revision"]:
         raise ValueError("Baseline dataset revision differs")
-    if baseline_meta["config"]["evaluation"]["fit"] != split["fit"]:
-        raise ValueError("Baseline fitted boundary differs")
+    for key in ("fit", "validation", "holdout", "horizons", "lookback"):
+        if baseline_meta["config"]["evaluation"][key] != split[key]:
+            raise ValueError(f"Baseline evaluation differs: {key}")
     tiers = assign_load_tiers(panel.values[:split["fit"][1] + 1, :, 0])
     records, rows, importance = [], [], []
     artifact_checksums = {}
@@ -63,7 +64,9 @@ def main() -> None:
             benchmark_rows = to_benchmark_rows(record, tiers)
             for row in benchmark_rows:
                 row["best_iteration"] = model.metadata["best_iteration"]
-                row["negative_predictions"] = int((predicted < 0).sum())
+                mask = np.ones(len(tiers), dtype=bool) if row["load_tier"] == "All" else (
+                    tiers == row["load_tier"])
+                row["negative_predictions"] = int((predicted[:, mask] < 0).sum())
             rows.extend(benchmark_rows)
             for feature, gain, count in zip(FEATURE_NAMES, model.booster.feature_importance("gain"),
                                             model.booster.feature_importance("split")):
