@@ -14,10 +14,11 @@ Tasks completed:
 
 Tasks unfinished:
 - GitHub remote: authentication restored; private repository created for trbk07.
-- Colab/Drive/Kaggle account setup and GPU verification: not performed.
+- Colab/Drive: still unverified; browser automation remains unavailable.
 
-Blocking issue: Cloud GPU allocation and Drive authorization require an interactive
-session owned by the user. Runtime bootstrap notebook is prepared and syntax checked.
+Kaggle setup completed after owner OAuth login. Private notebook version 2 completed
+on two Tesla T4 GPUs; checkpoint probe, full data pipeline and 16 tests passed.
+See reports/kaggle_runtime.json. No training performed. Colab/Drive remain unverified.
 
 Decision: Retain internal chronological holdout. The card describes week 6 as
 immediate future but time resets; continuity approval remains false. No model trained.

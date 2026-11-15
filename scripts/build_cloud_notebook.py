@@ -43,8 +43,8 @@ import subprocess
 import sys
 import zipfile
 
-IS_COLAB = 'COLAB_RELEASE_TAG' in os.environ
-IS_KAGGLE = 'KAGGLE_KERNEL_RUN_TYPE' in os.environ
+IS_KAGGLE = 'KAGGLE_KERNEL_RUN_TYPE' in os.environ or Path('/kaggle/working').is_dir()
+IS_COLAB = not IS_KAGGLE and 'COLAB_RELEASE_TAG' in os.environ
 if not (IS_COLAB or IS_KAGGLE):
     raise RuntimeError('Open this notebook in Colab or Kaggle')
 WORK = Path('/kaggle/working' if IS_KAGGLE else '/content')

@@ -1,0 +1,33 @@
+{
+  "kernel": "truongbaokien/5g-network-intelligence-runtime",
+  "version": 2,
+  "status": "COMPLETE",
+  "is_private": true,
+  "runtime": {
+    "checked_at": "2026-11-15T02:03:29.260475+00:00",
+    "python": "3.13.16",
+    "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "cuda_available": true,
+    "gpu_devices": [
+      {
+        "name": "Tesla T4",
+        "vram_bytes": 15636037632
+      },
+      {
+        "name": "Tesla T4",
+        "vram_bytes": 15636037632
+      }
+    ],
+    "torch": "2.11.0+cu130",
+    "nvidia_smi": "name, memory.total [MiB], driver_version\nTesla T4, 15360 MiB, 580.178.04\nTesla T4, 15360 MiB, 580.178.04",
+    "checkpoint_dir": "/kaggle/working/checkpoints"
+  },
+  "panel_shape": [
+    840,
+    2880,
+    4
+  ],
+  "tests": "16 passed",
+  "checkpoint_write_probe": "passed",
+  "training_performed": false
+}
