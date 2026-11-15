@@ -26,3 +26,16 @@ ZIP as a private input, enable Internet and a GPU accelerator, then set SOURCE_Z
 to the attached file path. Save a version with outputs to retain checkpoints.
 GPU quota and the Week 4 training pilot remain unverified until actually run.
 No full CPU training is started by this notebook.
+
+## Fallback when browser automation is unavailable
+
+`notebooks/00_cloud_standalone.ipynb` embeds an allowlisted source bundle with a
+SHA256 integrity check. Upload this one file to Colab or Kaggle; no source ZIP,
+GitHub token, or private repository access is needed inside the cloud runtime.
+Rebuild after code changes with `python -m scripts.build_cloud_notebook`.
+Credentials, raw data, environment folders and Git history are excluded.
+
+An isolated Kaggle CLI environment is available locally at `.kaggle-venv`.
+No Kaggle credentials were found during setup. The account owner must complete
+`D:\5G\.kaggle-venv\Scripts\kaggle.exe auth login` before authenticated API operations.
+Never send tokens through chat or commit credential files.

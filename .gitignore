@@ -1,4 +1,5 @@
 .venv/
+.kaggle-venv/
 .uv-cache/
 .cache/
 __pycache__/
