@@ -84,3 +84,37 @@ Tasks unfinished: None in Week 2 scope.
 Blocking issue: None.
 Decision: Gate G2 passed. Holdout was not evaluated; the baseline CLI refuses it.
 Next week's priority: Week 3 causal features, LightGBM and validation benchmark.
+
+## Week 3 - LightGBM forecasting
+
+Hours used: Not tracked; no claim against the 12-hour budget.
+
+Tasks completed:
+- T3.1: 44 ordered features with fit-only static stats, vectorization over beams,
+  native NaN preservation, 19 hand-calculated feature checks and future canaries.
+- T3.2: six global direct models (C1/C2 for +1/+6/+24), training stride 2,
+  early stopping on validation MAE, saved text models/static stats/provenance,
+  independent artifact load and prediction parity checks.
+- T3.3: both planned configs evaluated; C1 selected by mean normalized validation
+  MAE over the three horizons and recorded in configs/lightgbm.yaml.
+- T3.4: validation benchmark, load-tier/active/zero analysis, feature importance,
+  skill versus baselines, top beam errors, 18 failure examples, analysis notebook.
+- T3.5: 52 local tests passed; Ruff passed; deterministic training fixture,
+  save/load and batch/history replay parity, holdout perturbation test, and
+  exact CSV metric equality after reloading all six real artifacts and replaying.
+
+Observed C1 validation MAE / skill versus the best baseline:
+- +1h: approximately 0.230489 / 22.59% improvement.
+- +6h: approximately 0.253698 / 23.75% improvement.
+- +24h: approximately 0.251002 / 24.41% improvement.
+
+Best iteration: C1 344/275/235; C2 499/499/491 for +1/+6/+24 respectively.
+C2 reached near the planned round cap; the cap was retained, with no extra search.
+Real-data training and validation replay ran locally on CPU with four threads.
+Artifacts and forecast NPZ files remain local generated files; reports/checksums
+and source are committed. The full benchmark can be reproduced from configuration.
+
+Tasks unfinished: None in Week 3 scope.
+Blocking issue: None.
+Decision: Gate G3 passed. No holdout evaluation, final champion freeze or GRU training.
+Next week's priority: Week 4 GRU data pipeline, GPU pilot and limited neural benchmarks.

@@ -1,0 +1,8 @@
+{
+  "path": "forecasts/lightgbm_val.npz",
+  "sha256": "2ecc5f2eaa15d43405d949887e098f173d81ca64bafc58574230c797732b9b13",
+  "size_bytes": 37327417,
+  "records": 6,
+  "source_git_commit": "b10aa2258cc82a5e04442f2ef5327846a947c46e",
+  "selected_config": "c1"
+}

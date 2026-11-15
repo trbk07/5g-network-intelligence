@@ -88,7 +88,8 @@ Do not train before reviewing `reports/split_decision.md` and `split.json`.
 | `reports/run_metadata.json` | Config, hash, seed, package versions, Git commit |
 
 Audit figures include holdout observations for Week 1 data verification only;
-do not use them to tune models. No forecasting or risk results have been measured.
+do not use them to tune models. Forecasting results are validation-only; final
+holdout and risk results have not been measured.
 This project is historical/offline replay, not live network telemetry. Statistical
 threshold exceedance is not verified congestion or incident detection.
 
