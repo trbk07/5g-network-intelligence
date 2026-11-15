@@ -28,11 +28,11 @@ No full CPU training is started by this notebook.
 
 ## Fallback when browser automation is unavailable
 
-`notebooks/00_cloud_standalone.ipynb` embeds an allowlisted source bundle with a
-SHA256 integrity check. Upload this one file to Colab or Kaggle; no source ZIP,
-GitHub token, or private repository access is needed inside the cloud runtime.
-Rebuild after code changes with `python -m scripts.build_cloud_notebook`.
-Credentials, raw data, environment folders and Git history are excluded.
+`notebooks/00_cloud_standalone.ipynb` now contains readable module source cells
+and Vietnamese explanations, replacing the earlier encoded-source bootstrap at
+the owner's request. It needs no GitHub token or source ZIP. Rebuild after code
+changes with `python -m scripts.build_cloud_notebook`. All training flags default
+to false; explicit cloud training mode is described in docs/gru.md.
 
 An isolated Kaggle CLI environment is available locally at `.kaggle-venv`.
 The account owner completed Kaggle OAuth login for `truongbaokien`.

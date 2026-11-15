@@ -24,3 +24,15 @@ final replay. This is an estimate, not a guarantee. Per-run time limits and
 per-epoch checkpoints constrain execution. Checkpoints will be written to the
 project Drive folder after owner authorization for this runtime, or Kaggle Output
 if Drive cannot be authorized. No full CPU GRU training is permitted.
+
+## Completed runs
+
+Full training used Kaggle GPU with persistent Kaggle Output while runtime-specific
+Drive authorization was pending. Authorization arrived after the Kaggle job had
+already been dispatched; no duplicate training was launched. All four runs completed
+without exhausting their time limits, with 84 total epochs. Training and final
+validation replay took 687.85 seconds (about 11.5 minutes), below the four-hour ceiling.
+The T4 training image used PyTorch 2.11.0+cu130; the Colab pilot used 2.14.1+cu130.
+Per-run times and VRAM are recorded in reports/gru_training_summary.csv.
+No real-data GRU training ran locally. Following the owner's explicit restriction,
+all fitting tests also run on hosted cloud only.

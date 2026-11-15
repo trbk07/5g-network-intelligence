@@ -1,6 +1,7 @@
 """Training-fitted imputation/scaling and causal GRU batches without window materialization."""
 from dataclasses import dataclass
 from pathlib import Path
+from collections.abc import Iterator
 
 import numpy as np
 import torch
@@ -21,9 +22,10 @@ class GRUPreprocessor:
     fit_end: int
 
     @classmethod
-    def fit(cls, panel: Panel, fit_end: int):
+    def fit(cls, panel: Panel, fit_end: int) -> "GRUPreprocessor":
         """Fit only the training prefix; entirely missing KPIs use zero/one fallback."""
         stats = compute_static(panel, fit_end)
+        # Never fit preprocessing on validation: slice the training prefix before any reduction.
         values = panel.values[:fit_end+1]
         median = np.array([np.median(values[:, :, k][np.isfinite(values[:, :, k])])
                            if np.isfinite(values[:, :, k]).any() else 0 for k in range(4)])
@@ -44,6 +46,7 @@ class GRUPreprocessor:
         if variant not in ("A", "B") or values.shape[-1] != 4:
             raise ValueError("Expected variant A/B and four KPI channels")
         missing = ~np.isfinite(values)
+        # Zero is observed. Only nonfinite entries are replaced; masks retain that information.
         scaled = (np.where(missing, self.median, values) - self.mean) / self.scale
         indices = [0] if variant == "A" else [0, 1, 2, 3]
         return np.concatenate([scaled[..., indices], missing[..., indices]], axis=-1).astype(np.float32)
@@ -62,7 +65,7 @@ class GRUPreprocessor:
                             static=self.static, beam_ids=np.array(self.beam_ids), fit_end=self.fit_end)
 
     @classmethod
-    def load(cls, path: str | Path):
+    def load(cls, path: str | Path) -> "GRUPreprocessor":
         """Restore a trusted schema from a pickle-free numerical artifact."""
         with np.load(path, allow_pickle=False) as data:
             return cls(data["median"], data["mean"], data["scale"], data["static"],
@@ -73,7 +76,7 @@ class GRUBatches:
     """Keep compact panel tensors on the selected device and assemble windows per batch."""
 
     def __init__(self, panel: Panel, preprocessor: GRUPreprocessor, variant: str,
-                 origins: np.ndarray, beam_indices: np.ndarray, device: str = "cpu"):
+                 origins: np.ndarray, beam_indices: np.ndarray, device: str = "cpu") -> None:
         if panel.beam_ids != preprocessor.beam_ids:
             raise ValueError("Preprocessor beam order differs")
         self.origins, self.beams = np.asarray(origins), np.asarray(beam_indices)
@@ -89,7 +92,8 @@ class GRUBatches:
         self.pairs = np.array(np.meshgrid(self.origins, self.beams, indexing="ij")).reshape(2, -1).T
         self.n_samples = len(self.pairs)
 
-    def batches(self, batch_size: int, shuffle_seed: int | None = None):
+    def batches(self, batch_size: int, shuffle_seed: int | None = None
+                ) -> Iterator[tuple[torch.Tensor, torch.Tensor, torch.Tensor]]:
         """Yield (history, static6, target3) tensors; NaN targets remain masked by the loss."""
         order = np.arange(self.n_samples)
         if shuffle_seed is not None:
@@ -100,6 +104,7 @@ class GRUBatches:
             pairs = self.pairs[order[start:start+batch_size]]
             origins = torch.as_tensor(pairs[:, 0], device=self.device)
             beams = torch.as_tensor(pairs[:, 1], device=self.device)
+            # For origin t, index exactly t-167..t. No target/future value enters the sequence.
             sequence = self.values[origins[:, None] + offsets, beams[:, None]]
             static = torch.as_tensor(self._preprocessor.static_at(pairs[:, 0], pairs[:, 1]),
                                      device=self.device)

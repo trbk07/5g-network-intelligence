@@ -1,0 +1,33 @@
+{
+  "artifacts": {
+    "artifacts/gru/A/seed17/best.pt": "65686288928296d9939f1d5e0c7361104b8d9cce161235525f522ca66203b361",
+    "artifacts/gru/A/seed17/history.jsonl": "3065c913a590d3c5c1797294857757b218e13b3cd59d6fd752d32ff8eff292c2",
+    "artifacts/gru/A/seed17/last.pt": "b6570f9b6e520f9c0f2b32b9f80a1238c90e348ede2a1bc5feb79ae46584e9f2",
+    "artifacts/gru/A/seed17/meta.json": "5c5ae0b8bd64c0c16ac2fb3afa40115bdf6c67389e5615515ede427ab14c6269",
+    "artifacts/gru/A/seed17/preprocessor.npz": "f6681f994c4c749e37d039cdfa52bbf46818e9ec264002066b210180dba0ca42",
+    "artifacts/gru/A/seed42/best.pt": "daddde41410c847612bbe061bf18ecbea15c417c353e8e5ddb6e2e1ada2fa6c8",
+    "artifacts/gru/A/seed42/history.jsonl": "26e2ea456374e572002640de23807f99f9203fec33fc6d30d3d76658cc353959",
+    "artifacts/gru/A/seed42/last.pt": "c9f6e6c87b07c9bfa39b502c4df61937d8604f1d0a65c31fb413ac201d81806d",
+    "artifacts/gru/A/seed42/meta.json": "7723984796163cc020f678a7eacd5a5b2ed09925ecc7190c7360f0554a4498e6",
+    "artifacts/gru/A/seed42/preprocessor.npz": "f6681f994c4c749e37d039cdfa52bbf46818e9ec264002066b210180dba0ca42",
+    "artifacts/gru/B/seed17/best.pt": "997f021154cf83cd1bc423170efcf4f92b1ae7586a0cd628323d6fdcd3c1950f",
+    "artifacts/gru/B/seed17/history.jsonl": "b1b53d9380608a27e51c76ddcafbfb1d5d7500e4675b99a2f0f6b9f01de9d182",
+    "artifacts/gru/B/seed17/last.pt": "83edb4f78ce0caf688989050cba11f2b5107ebbe35e675bd24cee84f027da32b",
+    "artifacts/gru/B/seed17/meta.json": "44d259800011b5b8e3a4afd637c03c417a1bcd8264dea90e23fce55c6e3e8e0f",
+    "artifacts/gru/B/seed17/preprocessor.npz": "f6681f994c4c749e37d039cdfa52bbf46818e9ec264002066b210180dba0ca42",
+    "artifacts/gru/B/seed42/best.pt": "9377cdc5fcc0b0b9a3724fe6efb2a110e92039a48cad1751af79a2eb991d4267",
+    "artifacts/gru/B/seed42/history.jsonl": "580c5a382b3a027da8bd9555482950d59e295261991ee7ae9301d7ed4122d9ac",
+    "artifacts/gru/B/seed42/last.pt": "19bfa9dab264a4bbeb7832a2804a5acb600cdfcebe249a5ef20fb784439daf56",
+    "artifacts/gru/B/seed42/meta.json": "d242d92422ce9c9a1fb5bf0d9b4657da69c2603c71c0ff9f66b050dfc99bdaa3",
+    "artifacts/gru/B/seed42/preprocessor.npz": "f6681f994c4c749e37d039cdfa52bbf46818e9ec264002066b210180dba0ca42"
+  },
+  "forecast_path": "reports/forecasts/gru_val.npz",
+  "forecast_sha256": "4eee735ce42d7e780f4de137df957decc8395bada00201a908f5450dbdb6c243",
+  "forecast_records": 12,
+  "training_location": "Kaggle GPU",
+  "training_kernel_version": 1,
+  "training_kernel": "truongbaokien/5g-network-intelligence-gru",
+  "shared_preprocessing_parity": true,
+  "holdout_evaluated": false,
+  "any_run_budget_exhausted": false
+}

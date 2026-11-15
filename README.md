@@ -36,6 +36,9 @@ and validation replay. See [GRU protocol](docs/gru.md) and the
 [GPU pilot measurements](reports/gru_compute.md). Full neural training requires CUDA.
 All training, including synthetic fitting tests, runs only on hosted Colab/Kaggle.
 Local test runs automatically skip tests marked `cloud_training`.
+Use [the commented GRU review notebook](notebooks/04_gru_review.ipynb) to inspect
+the code, debug one beam and view the measured comparison. It does not retrain
+on Run All. All four GRU runs finished on Kaggle; C1 remains better on validation.
 
 ## Run Week 1
 

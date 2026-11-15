@@ -1,0 +1,49 @@
+{
+  "created_at": "2026-11-15T08:53:30.886254+00:00",
+  "config": {
+    "repo_id": "netop/gotsf-ds",
+    "revision": "c9ecaf153354b2cc415c64750a966c47c7f3f6ac",
+    "raw_dir": "data/raw",
+    "processed_dir": "data/processed",
+    "reports_dir": "reports",
+    "evaluation_config": "configs/evaluation.yaml",
+    "seed": 17,
+    "continuity_verified": false,
+    "continuity_evidence": "",
+    "gru": {
+      "hidden_size": 64,
+      "num_layers": 2,
+      "dropout": 0.1,
+      "learning_rate": 0.001,
+      "batch_size": 256,
+      "max_epochs": 25,
+      "early_stopping_patience": 5,
+      "gradient_clip": 1.0,
+      "training_stride": 3,
+      "sample_beams": 600,
+      "sample_seed": 17,
+      "seeds": [
+        17,
+        42
+      ],
+      "variants": [
+        "A",
+        "B"
+      ],
+      "artifact_dir": "artifacts/gru",
+      "gpu_budget_seconds": 14400
+    },
+    "segment": "val"
+  },
+  "config_sha256": "c9c978511db04c0824c77eeb7bc2de673943c4d4c7d4419d49c397cf55b0c1a7",
+  "git_commit": "571834db0418331032178e9612a354c6fdce2ddd",
+  "source_bundle_sha256": "62409755c9e7d99368ee3d67a5018973453fd5ee5660b5ff32171a700de9dd6c",
+  "python": "3.13.16",
+  "packages": {
+    "numpy": "2.1.3",
+    "pandas": "2.3.3",
+    "PyYAML": "6.0.3"
+  },
+  "seed": 17,
+  "dataset_revision": "c9ecaf153354b2cc415c64750a966c47c7f3f6ac"
+}

@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "tests_passed": 56,
+  "skipped": 0,
+  "environment": "Kaggle hosted CPU; synthetic fitting tests only",
+  "source_commit": "c8aba51d52020378b58cc1e7cc03d86323a09eb6",
+  "kernel": "truongbaokien/5g-network-intelligence-tests",
+  "scope": "Full suite, including synthetic fitting tests, executed only in hosted Kaggle",
+  "ruff": "passed"
+}

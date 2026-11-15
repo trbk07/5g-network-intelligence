@@ -118,3 +118,44 @@ Tasks unfinished: None in Week 3 scope.
 Blocking issue: None.
 Decision: Gate G3 passed. No holdout evaluation, final champion freeze or GRU training.
 Next week's priority: Week 4 GRU data pipeline, GPU pilot and limited neural benchmarks.
+
+## Week 4 - GRU and comparison
+
+Hours used: Not tracked; no claim against the active-work budget.
+
+Tasks completed:
+- T4.1: shared stratified 600-beam sample, training-prefix median imputer/scaler,
+  missingness masks, static6, causal batches and three aligned targets.
+- T4.2: GRU-A/B, AdamW/masked L1, gradient clipping, early stopping, per-epoch
+  best/last checkpoint, optimizer/RNG/patience resume; synthetic overfit and exact
+  CPU-fixture resume tests are included in the hosted-cloud suite.
+- T4.3: measured Colab T4 pilot, 8.43 seconds/epoch, about 445 MiB peak allocated
+  GPU memory. Retained batch256, stride3, 600 beams and seeds17/42.
+- T4.4: all four real-data runs completed on Kaggle GPU, checkpoints in version1
+  Output. A17/A42/B17/B42 completed 22/22/25/15 epochs; zero-based best epochs
+  were 16/16/19/9. No run exhausted its budget. Total train/replay about 11.5 minutes.
+- T4.5: all-beam validation, A/B ablation, comparisons with LightGBM/baselines,
+  load-tier and active/zero metrics, failure examples, 12 replay records and manifests.
+
+Validation: 56 tests passed on Kaggle, including fitting tests; Ruff passed.
+Local checks after the owner's prohibition performed no model fitting: 52 passed,
+4 fitting tests skipped. AGENTS.md and runtime guards enforce cloud-only training.
+
+Findings: GRUs improve over best baselines but do not beat LightGBM C1 on any
+horizon. GRU-B mean MAE is about 0.242076/0.273128/0.263339 for +1/+6/+24.
+The B-vs-A benefit is small/mixed across horizons, and two-seed SD is descriptive.
+Strict actual-zero/prediction>0 FPR is high (about 97.7-99.7% across variant/horizon
+means), so these neural forecasts frequently produce positive values on zeros.
+No extra tuning or clipping was applied after seeing validation results.
+
+Notebook presentation: replaced encoded-source Kaggle pages with commented,
+sectioned Python notebooks. Review versions do not retrain on Run All. The original
+GPU training/checkpoint results remain in Kaggle GRU version1 and local artifacts.
+Fixed Vietnamese encoding lost by the initial PowerShell-generated utility notebooks.
+Generators now write ASCII-safe JSON Unicode escapes; four text regression checks
+passed and the downloaded Kaggle source retained Vietnamese headings/comments.
+
+Tasks unfinished: None in Week 4 scope.
+Blocking issue: None.
+Decision: Gate G4 passed with both variants and both seeds evaluated. No holdout used.
+Next week's priority: Week 5 risk engine, validation champion selection and freeze.

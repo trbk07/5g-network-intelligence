@@ -14,6 +14,7 @@ from src.utils.runtime import require_cloud_training
 def masked_l1(predicted: torch.Tensor, actual: torch.Tensor) -> tuple[torch.Tensor, int]:
     """Return mean absolute error among finite targets and number of valid targets."""
     mask = torch.isfinite(actual)
+    # Exclude missing labels from supervision; do not impute the forecast target.
     count = int(mask.sum())
     if not count:
         return predicted.sum() * 0, 0
@@ -83,6 +84,7 @@ def train_gru(model: GRUNet, train: GRUBatches, validation: GRUBatches, config: 
         if not count or not val_count:
             raise ValueError("No observed training/validation targets")
         score = val_total / val_count
+        # Selection uses validation loss only. Save the best model separately from resume state.
         improved = score < best
         best, best_epoch, stale = (score, epoch, 0) if improved else (best, best_epoch, stale + 1)
         state = {"model": model.state_dict(), "optimizer": optimizer.state_dict(), "epoch": epoch,

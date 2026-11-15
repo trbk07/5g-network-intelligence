@@ -5,6 +5,8 @@ from pathlib import Path
 import numpy as np
 import torch
 
+from src.data.panel import Panel
+
 from src.features.gru_inputs import GRUPreprocessor
 from src.models.gru import GRUNet
 
@@ -12,7 +14,7 @@ from src.models.gru import GRUNet
 class GRUForecaster:
     """Load one seed/variant; return unscaled predictions for all three horizons."""
 
-    def __init__(self, directory: str | Path, device: str = "cpu"):
+    def __init__(self, directory: str | Path, device: str = "cpu") -> None:
         directory = Path(directory)
         self.metadata = json.loads((directory / "meta.json").read_text())
         self.preprocessor = GRUPreprocessor.load(directory / "preprocessor.npz")
@@ -45,7 +47,7 @@ class GRUForecaster:
             raise ValueError("Unsupported horizon")
         return self.predict_all(history, origin)[:, (1, 6, 24).index(horizon)]
 
-    def predict_origins(self, panel, origins: np.ndarray, batch_size: int = 256) -> np.ndarray:
+    def predict_origins(self, panel: Panel, origins: np.ndarray, batch_size: int = 256) -> np.ndarray:
         """Batch replay over all beams, returning (origin,beam,horizon) without future inputs."""
         origins = np.asarray(origins)
         if (origins.ndim != 1 or not origins.size or not np.issubdtype(origins.dtype, np.integer)

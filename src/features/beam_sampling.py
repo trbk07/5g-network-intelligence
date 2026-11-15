@@ -18,6 +18,7 @@ def sample_beams(static: StaticStats, size: int = 600, seed: int = 17) -> np.nda
     strata = bins @ np.array([9, 3, 1])
     labels, counts = np.unique(strata, return_counts=True)
     desired = counts * size / counts.sum()
+    # Allocate integer quotas proportionally, then distribute leftover slots by largest remainder.
     allocations = np.floor(desired).astype(int)
     for i in np.argsort(-(desired - allocations), kind="stable")[:size - allocations.sum()]:
         allocations[i] += 1

@@ -54,3 +54,29 @@ dataset revision, beam order and batch/history parity. Reports provide per-run
 metrics, mean and sample SD across seeds, A/B ablation, comparisons with C1 and
 best baselines, load-tier/active/zero analysis and descriptive failure examples.
 Two seeds provide descriptive variation only. One-seed SD is undefined.
+
+## Package a private Kaggle job from local source
+
+Packaging performs no fitting. After restoring Kaggle authentication, use:
+
+```powershell
+python -m scripts.package_gru_job --owner YOUR_KAGGLE_USERNAME
+kaggle kernels push -p .cache/kaggle-gru --accelerator NvidiaTeslaT4 -t 1800
+```
+
+The packager creates a readable notebook with separate Python source cells and
+Vietnamese explanations, not an encoded source payload. This launches the four
+declared experiments and validation replay on Kaggle,
+writing per-epoch checkpoints to Kaggle Output and a result archive at completion.
+Each individual run has a 360-second budget checked after a full epoch; inspect
+meta.json for budget_exhausted and resume on cloud if further work is needed.
+The job itself has a 30-minute timeout, below the plan's four-hour GPU ceiling.
+
+## Review without retraining
+
+`notebooks/04_gru_review.ipynb` is the readable companion notebook. Data preparation,
+training and evaluation each have explicit flags, all false by default. It includes
+actual recorded validation results, module source with comments, a one-beam/origin
+debug cell, a single-run training cell and an explicit four-experiment switch.
+The original Kaggle training/checkpoint outputs remain under notebook version 1;
+subsequent versions are review-only and do not silently retrain on Run All.
