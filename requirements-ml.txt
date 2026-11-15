@@ -1,0 +1,2 @@
+-e .[dev]
+# Week 3/4 dependencies will be pinned when their training environment is validated.

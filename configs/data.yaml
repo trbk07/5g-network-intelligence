@@ -1,0 +1,10 @@
+repo_id: netop/gotsf-ds
+revision: c9ecaf153354b2cc415c64750a966c47c7f3f6ac
+raw_dir: data/raw
+processed_dir: data/processed
+reports_dir: reports
+seed: 17
+# Dataset card calls week 6 the immediate future, but its Time index resets.
+# Conservative fallback until an explicit continuity review is recorded.
+continuity_verified: false
+continuity_evidence: ''

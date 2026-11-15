@@ -1,0 +1,4 @@
+# Week 6 application dependencies; not needed by the Week 1 pipeline.
+fastapi>=0.115,<1
+uvicorn>=0.34,<1
+streamlit>=1.41,<2

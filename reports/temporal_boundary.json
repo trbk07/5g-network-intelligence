@@ -1,0 +1,7 @@
+{
+  "continuity_verified": false,
+  "structure_ok": true,
+  "evidence": "",
+  "week6_time_offset": null,
+  "reason": "Use internal holdout: continuity has not passed evidence and structure checks"
+}
