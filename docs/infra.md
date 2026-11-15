@@ -54,3 +54,21 @@ rebuilt as `(840, 2880, 4)` and all 16 tests passed. Evidence is recorded in
 `reports/kaggle_runtime.json`. No GRU training or epoch-time measurement was done.
 Version 1 failed because the image exposed a Colab environment variable;
 runtime detection now prioritizes Kaggle and avoids mounting Google Drive there.
+
+## Colab CLI fallback
+
+Official `google-colab-cli` 0.8.0 is installed in `.colab-venv`. On this Windows
+machine its help and OAuth authorization prompt work. The upstream documentation
+supports Linux/macOS only, so VM provisioning on Windows is still unverified.
+Docker is installed but its Linux engine was not running during inspection.
+
+Owner login command (run locally, never paste the resulting code into chat):
+
+```powershell
+D:\5G\.colab-venv\Scripts\colab.exe --auth oauth2 sessions
+```
+
+Open the authorization URL printed by the command, complete Google consent, and
+paste the code back into that same terminal. After authentication, the agent can
+test session provisioning and remote execution. No Colab GPU allocation has yet
+been verified, and no subscription or paid credits have been purchased.
