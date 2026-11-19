@@ -18,7 +18,7 @@ def test_resume_matches_uninterrupted_training_and_cpu_guard(tmp_path):
     torch.set_num_threads(1)
     panel = Panel(np.random.default_rng(17).uniform(size=(220, 2, 4)),
                   np.arange(220), ("0_0_0", "0_0_1"), {})
-    prep = GRUPreprocessor.fit(panel, 167)
+    prep = GRUPreprocessor.fit(panel, 167, "A")
     train = GRUBatches(panel, prep, "A", np.array([167, 170]), np.arange(2))
     val = GRUBatches(panel, prep, "A", np.array([180]), np.arange(2))
     config = {"learning_rate": .001, "max_epochs": 2, "batch_size": 2,

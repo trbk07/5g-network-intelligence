@@ -1,8 +1,7 @@
-"""Vectorized 44-feature design; rows are ordered origin-major then beam-major."""
+"""Causal 40-feature schema: no fit-segment beam summaries enter model inputs."""
 import numpy as np
 
 from src.data.schema import KPIS
-from src.features.static_stats import StaticStats
 
 LAGS = (0, 1, 2, 3, 6, 12, 24, 48, 167)
 FEATURE_NAMES = (
@@ -14,12 +13,11 @@ FEATURE_NAMES = (
     + ["target_phase_24", "target_phase_168"]
     + [f"{kpi}_{suffix}" for kpi in KPIS[1:]
        for suffix in ("lag_0", "lag_1", "lag_24", "roll_6_mean", "roll_24_mean")]
-    + ["beam_fit_mean", "beam_fit_std", "beam_fit_p90", "beam_fit_active_ratio"]
 )
 
 
 def build_features(values: np.ndarray, origins: np.ndarray, horizon: int,
-                   static: StaticStats, phase_origins: np.ndarray | None = None) -> np.ndarray:
+                   static: object | None = None, phase_origins: np.ndarray | None = None) -> np.ndarray:
     """Build float32 features from observed indices only, without sliding-window tensors.
 
     phase_origins supplies absolute origins when values is a local history window.
@@ -33,8 +31,6 @@ def build_features(values: np.ndarray, origins: np.ndarray, horizon: int,
         raise ValueError("Feature horizons must lie in 1..24")
     if origins.min() < 167 or origins.max() >= len(values):
         raise ValueError("Each origin requires 168 observed history rows")
-    if static.values.shape != (values.shape[1], 4):
-        raise ValueError("Static statistics must match the beam axis")
     phases = origins if phase_origins is None else np.asarray(phase_origins)
     if phases.shape != origins.shape:
         raise ValueError("One absolute phase origin is required per origin")
@@ -77,5 +73,4 @@ def build_features(values: np.ndarray, origins: np.ndarray, horizon: int,
         columns.extend(observed[origins - lag, :, kpi] for lag in (0, 1, 24))
         columns.extend(rolling(kpi, 6))
         columns.extend(rolling(kpi, 24))
-    columns.extend(np.broadcast_to(static.values[:, i], count.shape) for i in range(4))
     return np.stack(columns, axis=-1).reshape(-1, len(FEATURE_NAMES)).astype(np.float32)

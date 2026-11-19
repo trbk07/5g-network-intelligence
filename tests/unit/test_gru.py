@@ -10,7 +10,7 @@ def test_shape_and_synthetic_minibatch_overfit():
     torch.set_num_threads(1)
     torch.manual_seed(17)
     model = GRUNet(2, hidden_size=8, num_layers=1, dropout=0)
-    x, s, y = torch.randn(4, 12, 2), torch.randn(4, 6), torch.ones(4, 3)
+    x, s, y = torch.randn(4, 12, 2), torch.randn(4, 4), torch.ones(4, 3)
     optimizer = torch.optim.AdamW(model.parameters(), lr=.02)
     initial = torch.abs(model(x, s)-y).mean().item()
     for _ in range(80):

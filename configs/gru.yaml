@@ -11,5 +11,5 @@ sample_beams: 600
 sample_seed: 17
 seeds: [17, 42]
 variants: [A, B]
-artifact_dir: artifacts/gru
+artifact_dir: artifacts/gru_w5
 gpu_budget_seconds: 14400

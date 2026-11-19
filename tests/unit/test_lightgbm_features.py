@@ -13,11 +13,11 @@ def fixture_panel():
     return Panel(values.astype(float), np.arange(240), ("0_0_0", "0_0_1", "0_0_2"), {})
 
 
-def test_44_features_hand_calculated():
+def test_40_features_hand_calculated():
     panel = fixture_panel()
     static = compute_static(panel, 199)
     x = build_features(panel.values, np.array([200]), 6, static)
-    assert x.shape == (3, 44) and len(set(FEATURE_NAMES)) == 44
+    assert x.shape == (3, 40) and len(set(FEATURE_NAMES)) == 40
     row = dict(zip(FEATURE_NAMES, x[0]))
     expected = {"DLPRB_lag_0": 200, "DLPRB_lag_1": 199, "DLPRB_lag_167": 33,
                 "DLPRB_target_seasonal_1d": 182, "DLPRB_target_seasonal_7d": 38,
@@ -26,8 +26,7 @@ def test_44_features_hand_calculated():
                 "DLPRB_roll_24_mean": 188.5, "DLPRB_roll_168_mean": 116.5,
                 "DLPRB_roll_168_max": 200, "target_phase_24": 14, "target_phase_168": 38,
                 "DLThpVol_lag_0": 1200, "DLThpVol_lag_24": 1176,
-                "DLThpVol_roll_6_mean": 1197.5, "beam_fit_mean": 99.5,
-                "beam_fit_p90": 179.1, "beam_fit_active_ratio": 199 / 200}
+                "DLThpVol_roll_6_mean": 1197.5}
     for name, value in expected.items():
         assert row[name] == pytest.approx(value, rel=1e-6), name
 
@@ -45,7 +44,7 @@ def test_future_canary_and_batch_history_parity(h):
                                 phase_origins=np.array([origin]))
         np.testing.assert_array_equal(original, local)
     batch = build_features(panel.values, np.array([180, 200]), h, static)
-    assert batch.shape == (6, 44)
+    assert batch.shape == (6, 40)
     np.testing.assert_array_equal(batch[3:], original)
 
 

@@ -1,0 +1,9 @@
+schema_version: week5-causal-v2
+bootstrap_repetitions: 1000
+bootstrap_seed: 17
+confidence: 0.95
+selection_rule: mean_normalized_validation_mae_with_paired_ci_cheaper_fallback
+family_order: [persistence, seasonal_naive_24, seasonal_naive_168, lightgbm_c1, lightgbm_c2, gru_A, gru_B]
+gru_family_rule: arithmetic_mean_of_both_declared_seeds
+holdout_allowed: false
+p1_quantiles: skipped_due_to_required_retraining

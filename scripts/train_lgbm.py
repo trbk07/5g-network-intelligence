@@ -8,8 +8,7 @@ import numpy as np
 from src.evaluation.origins import evaluation_origins, train_origins
 from src.evaluation.validation import validation_inputs
 from src.features.lightgbm_features import FEATURE_NAMES, build_features
-from src.features.static_stats import compute_static
-from src.models.lgbm import load_lgbm, save_lgbm, train_lgbm
+from src.models.lgbm import FeatureContext, load_lgbm, save_lgbm, train_lgbm
 from src.utils.config import load_config
 from src.utils.metadata import collect_run_metadata
 from src.utils.seed import set_seed
@@ -28,7 +27,7 @@ def main() -> None:
         raise ValueError("Week 3 permits exactly c1 and c2")
     set_seed(config["seed"])
     panel, split = validation_inputs(data_config)
-    static = compute_static(panel, split["fit"][1])
+    static = FeatureContext(panel.beam_ids, split["fit"][1])
     reports = Path(data_config["reports_dir"])
     reports.mkdir(parents=True, exist_ok=True)
     (reports / "feature_manifest.json").write_text(json.dumps({
@@ -36,6 +35,7 @@ def main() -> None:
         "row_order": "origin-major, beam-major", "fit_end": static.fit_end,
         "rolling_std_ddof": 0, "seasonal_mean": "observed-only 7 target-aligned daily lags",
         "missing_policy": "preserve NaN; native LightGBM handling",
+        "schema": "lgbm-causal40-v2", "beam_statistics_in_inputs": False,
     }, indent=2), encoding="utf-8")
     for h in split["horizons"]:
         origins = train_origins(split["fit"][1], h, stride=config["training_stride"])

@@ -78,7 +78,7 @@ def main() -> None:
                                             model.booster.feature_importance("split")):
                 importance.append({"model": model.name, "horizon": h, "feature": feature,
                                    "gain": float(gain), "split_count": int(count)})
-            for artifact in ("model.txt", "meta.json", "static.npz"):
+            for artifact in ("model.txt", "meta.json", "context.npz"):
                 artifact_checksums[str(directory / artifact)] = sha256(directory / artifact)
             print(f"Evaluated {name} +{h}h; batch/history parity passed", flush=True)
     frame, importance_frame = pd.DataFrame(rows), pd.DataFrame(importance)

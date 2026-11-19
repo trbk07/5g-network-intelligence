@@ -45,7 +45,7 @@ def main() -> None:
     if args.seed not in config["seeds"] or args.variant not in config["variants"]:
         raise ValueError("Requested run is outside the frozen experiment list")
     panel, split = validation_inputs(data_config)
-    preprocessor = GRUPreprocessor.fit(panel, split["fit"][1])
+    preprocessor = GRUPreprocessor.fit(panel, split["fit"][1], args.variant)
     selected = sample_beams(compute_static(panel, split["fit"][1]), config["sample_beams"],
                              config["sample_seed"])
     reports = Path(data_config["reports_dir"])
@@ -70,6 +70,7 @@ def main() -> None:
     if args.pilot:
         training["max_epochs"] = 1
     identity = {"variant": args.variant, "dataset_revision": data_config["revision"],
+                "schema": "gru-global-kpi-phase4-v2",
                 "fit_end": split["fit"][1], "validation_end": split["validation"][1],
                 "beam_sample": selected.tolist()}
     torch.cuda.reset_peak_memory_stats()
@@ -79,6 +80,7 @@ def main() -> None:
             "variant": args.variant, "seed": args.seed, "architecture": {
                 k: config[k] for k in ("hidden_size", "num_layers", "dropout")},
             "fit_end": split["fit"][1], "train_samples": train.n_samples,
+            "preprocessing_schema": "gru-global-kpi-phase4-v2", "phase_features": 4,
             "validation_joint_samples": validation.n_samples, "pilot": args.pilot,
             "torch_version": torch.__version__, "gpu": torch.cuda.get_device_name(0)}
     (directory / "meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")

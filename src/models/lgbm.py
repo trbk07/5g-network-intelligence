@@ -10,13 +10,22 @@ from src.features.lightgbm_features import FEATURE_NAMES, build_features
 from src.features.static_stats import StaticStats
 from src.utils.runtime import require_cloud_training
 
+SCHEMA = "lgbm-causal40-v2"
+
+
+@dataclass
+class FeatureContext:
+    """Beam order and fit cutoff are metadata, never numerical model inputs."""
+    beam_ids: tuple[str, ...]
+    fit_end: int
+
 
 @dataclass
 class LGBMForecaster:
     """One direct horizon model; absolute origin is required for phase features."""
 
     booster: lgb.Booster
-    static: StaticStats
+    static: FeatureContext
     horizon: int
     name: str
     metadata: dict
@@ -65,8 +74,9 @@ def train_lgbm(train_x: np.ndarray, train_y: np.ndarray, val_x: np.ndarray,
             "train_rows": int(train_mask.sum()), "validation_rows": int(val_mask.sum()),
             "train_missing_targets": int((~train_mask).sum()),
             "validation_missing_targets": int((~val_mask).sum()), "history": history,
-            "lightgbm_version": lgb.__version__}
-    return LGBMForecaster(booster, static, horizon, name, meta)
+            "lightgbm_version": lgb.__version__, "feature_schema": SCHEMA,
+            "beam_statistics_in_inputs": False}
+    return LGBMForecaster(booster, FeatureContext(static.beam_ids, static.fit_end), horizon, name, meta)
 
 
 def save_lgbm(model: LGBMForecaster, directory: str | Path) -> None:
@@ -75,8 +85,8 @@ def save_lgbm(model: LGBMForecaster, directory: str | Path) -> None:
     directory.mkdir(parents=True, exist_ok=True)
     model.booster.save_model(str(directory / "model.txt"), num_iteration=model.booster.best_iteration)
     (directory / "meta.json").write_text(json.dumps(model.metadata, indent=2), encoding="utf-8")
-    np.savez_compressed(directory / "static.npz", values=model.static.values,
-                        beam_ids=np.array(model.static.beam_ids), fit_end=model.static.fit_end)
+    np.savez_compressed(directory / "context.npz", beam_ids=np.array(model.static.beam_ids),
+                        fit_end=model.static.fit_end)
 
 
 def load_lgbm(directory: str | Path) -> LGBMForecaster:
@@ -84,10 +94,11 @@ def load_lgbm(directory: str | Path) -> LGBMForecaster:
     directory = Path(directory)
     meta = json.loads((directory / "meta.json").read_text(encoding="utf-8"))
     booster = lgb.Booster(model_file=str(directory / "model.txt"))
-    if meta["feature_names"] != FEATURE_NAMES or booster.feature_name() != FEATURE_NAMES:
+    if (meta.get("feature_schema") != SCHEMA or meta["feature_names"] != FEATURE_NAMES
+            or booster.feature_name() != FEATURE_NAMES):
         raise ValueError("Artifact feature schema mismatch")
-    with np.load(directory / "static.npz", allow_pickle=False) as data:
-        static = StaticStats(data["values"], tuple(data["beam_ids"].tolist()), int(data["fit_end"]))
-    if static.fit_end != meta["fit_end"] or static.values.shape != (len(static.beam_ids), 4):
+    with np.load(directory / "context.npz", allow_pickle=False) as data:
+        static = FeatureContext(tuple(data["beam_ids"].tolist()), int(data["fit_end"]))
+    if static.fit_end != meta["fit_end"]:
         raise ValueError("Artifact static schema mismatch")
     return LGBMForecaster(booster, static, meta["horizon"], meta["name"], meta)

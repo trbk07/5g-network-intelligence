@@ -1,0 +1,106 @@
+{
+  "status": "FAIL",
+  "required_action": "Retrain all 6 LightGBM and 4 GRU runs on cloud; skip all Week 5 P1; do not evaluate holdout",
+  "artifacts": [
+    {
+      "artifact": "artifacts/lgbm/c1/h1/meta.json",
+      "status": "FAIL",
+      "feature_count": 44,
+      "reason": "Legacy 44-feature schema includes four fit-segment beam statistics"
+    },
+    {
+      "artifact": "artifacts/lgbm/c1/h24/meta.json",
+      "status": "FAIL",
+      "feature_count": 44,
+      "reason": "Legacy 44-feature schema includes four fit-segment beam statistics"
+    },
+    {
+      "artifact": "artifacts/lgbm/c1/h6/meta.json",
+      "status": "FAIL",
+      "feature_count": 44,
+      "reason": "Legacy 44-feature schema includes four fit-segment beam statistics"
+    },
+    {
+      "artifact": "artifacts/lgbm/c2/h1/meta.json",
+      "status": "FAIL",
+      "feature_count": 44,
+      "reason": "Legacy 44-feature schema includes four fit-segment beam statistics"
+    },
+    {
+      "artifact": "artifacts/lgbm/c2/h24/meta.json",
+      "status": "FAIL",
+      "feature_count": 44,
+      "reason": "Legacy 44-feature schema includes four fit-segment beam statistics"
+    },
+    {
+      "artifact": "artifacts/lgbm/c2/h6/meta.json",
+      "status": "FAIL",
+      "feature_count": 44,
+      "reason": "Legacy 44-feature schema includes four fit-segment beam statistics"
+    },
+    {
+      "artifact": "artifacts/gru/A/seed17/preprocessor.npz",
+      "status": "FAIL",
+      "keys": [
+        "median",
+        "mean",
+        "scale",
+        "static",
+        "beam_ids",
+        "fit_end"
+      ],
+      "parameter_shape": [
+        4
+      ],
+      "reason": "Legacy static6 includes beam statistics; GRU-A parameters also contain 4 KPI entries instead of 1"
+    },
+    {
+      "artifact": "artifacts/gru/A/seed42/preprocessor.npz",
+      "status": "FAIL",
+      "keys": [
+        "median",
+        "mean",
+        "scale",
+        "static",
+        "beam_ids",
+        "fit_end"
+      ],
+      "parameter_shape": [
+        4
+      ],
+      "reason": "Legacy static6 includes beam statistics; GRU-A parameters also contain 4 KPI entries instead of 1"
+    },
+    {
+      "artifact": "artifacts/gru/B/seed17/preprocessor.npz",
+      "status": "FAIL",
+      "keys": [
+        "median",
+        "mean",
+        "scale",
+        "static",
+        "beam_ids",
+        "fit_end"
+      ],
+      "parameter_shape": [
+        4
+      ],
+      "reason": "Legacy static6 includes beam statistics; GRU-A parameters also contain 4 KPI entries instead of 1"
+    },
+    {
+      "artifact": "artifacts/gru/B/seed42/preprocessor.npz",
+      "status": "FAIL",
+      "keys": [
+        "median",
+        "mean",
+        "scale",
+        "static",
+        "beam_ids",
+        "fit_end"
+      ],
+      "parameter_shape": [
+        4
+      ],
+      "reason": "Legacy static6 includes beam statistics; GRU-A parameters also contain 4 KPI entries instead of 1"
+    }
+  ]
+}
