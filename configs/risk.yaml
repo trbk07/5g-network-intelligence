@@ -1,0 +1,7 @@
+quantiles: [0.90, 0.95]
+epsilon: 0.00000001
+min_active_ratio: 0.05
+min_observations: 168
+min_positive_report: 10
+comparison: greater_equal
+policy_source: fixed_before_validation_risk_from_fit_units_and_sampling_interval

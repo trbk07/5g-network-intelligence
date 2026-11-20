@@ -13,4 +13,5 @@ data/raw/
 data/processed/
 artifacts/
 reports/forecasts/
+reports/thresholds_validation.npz
 .env

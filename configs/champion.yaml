@@ -1,0 +1,67 @@
+frozen: true
+holdout_allowed: true
+freeze_tag: pre-holdout
+family: lightgbm_c1
+dataset_revision: c9ecaf153354b2cc415c64750a966c47c7f3f6ac
+panel_sha256: 4343629daac646d569f3df8e1d0f7eaa586ea58fc2f02431e464be585c9d569b
+split_mode: fallback
+lookback: 168
+horizons:
+- 1
+- 6
+- 24
+final_fit:
+- 0
+- 671
+holdout:
+- 672
+- 839
+training_stride: 2
+num_threads: 4
+routes:
+  1:
+    family: lightgbm
+    iterations: 284
+    parameters: &id001
+      objective: regression_l1
+      num_leaves: 31
+      learning_rate: 0.05
+      n_estimators: 500
+      early_stopping_rounds: 50
+    seed: 17
+    feature_schema: lgbm-causal40-v2
+  6:
+    family: lightgbm
+    iterations: 457
+    parameters: *id001
+    seed: 17
+    feature_schema: lgbm-causal40-v2
+  24:
+    family: lightgbm
+    iterations: 414
+    parameters: *id001
+    seed: 17
+    feature_schema: lgbm-causal40-v2
+baseline_comparators:
+  1: persistence
+  6: seasonal_naive_24
+  24: persistence
+risk_policy:
+  quantiles:
+  - 0.9
+  - 0.95
+  epsilon: 1.0e-08
+  min_active_ratio: 0.05
+  min_observations: 168
+  min_positive_report: 10
+  comparison: greater_equal
+  policy_source: fixed_before_validation_risk_from_fit_units_and_sampling_interval
+quantile_models: null
+bootstrap:
+  repetitions: 1000
+  seed: 17
+  confidence: 0.95
+selection_evidence:
+  candidate_sha256: 0c5adca69ebf5ec3947f6e77fc2e097e82c99d256ae1916bd2bb9d7be00c9984
+  quality_gate_sha256: b3294960a37ce47da11fcb66405799f891c8e159d3bbaa7f6718ea17f27612b6
+  risk_validation_sha256: e7b7aaf00975d8bae6c53b1a46e80cb4c3f5007b7a8d70a8bfeac9e6f16567b1
