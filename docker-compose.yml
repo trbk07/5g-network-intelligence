@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile.api
     image: 5g-network-intelligence-api:week7
     ports:
-      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:${API_PORT:-8000}:8000"
     environment:
       ASSET_DIR: /app/demo_assets
     volumes:
@@ -21,7 +21,7 @@ services:
       dockerfile: Dockerfile.dashboard
     image: 5g-network-intelligence-dashboard:week7
     ports:
-      - "127.0.0.1:8501:8501"
+      - "127.0.0.1:${DASHBOARD_PORT:-8501}:8501"
     environment:
       API_URL: http://api:8000
     depends_on:

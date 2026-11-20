@@ -1,0 +1,9 @@
+{
+  "filename": "5g-demo-assets.tar.gz",
+  "sha256": "3563d0447b713f7a208d9eeafedd23305ebb492309db8056b7ff8da891cd401b",
+  "size_bytes": 1788914,
+  "model_version": "12262838648d",
+  "beams_loaded": 24,
+  "content": "Frozen champion and 24 real NETOP GOTS-F replay beams; MIT dataset attribution in README",
+  "training_performed": false
+}
