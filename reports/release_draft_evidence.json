@@ -1,0 +1,59 @@
+{
+  "assets": [
+    {
+      "apiUrl": "https://api.github.com/repos/trbk07/5g-network-intelligence/releases/assets/772690916",
+      "contentType": "application/x-gtar",
+      "createdAt": "2026-11-20T17:23:59Z",
+      "digest": "sha256:3563d0447b713f7a208d9eeafedd23305ebb492309db8056b7ff8da891cd401b",
+      "downloadCount": 0,
+      "id": "RA_kwDOVuysQM4uDlPk",
+      "label": "",
+      "name": "5g-demo-assets.tar.gz",
+      "size": 1788914,
+      "state": "uploaded",
+      "updatedAt": "2026-11-20T17:24:00Z",
+      "url": "https://github.com/trbk07/5g-network-intelligence/releases/download/untagged-76598659c1286baa89a3/5g-demo-assets.tar.gz"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/trbk07/5g-network-intelligence/releases/assets/772690907",
+      "contentType": "application/json",
+      "createdAt": "2026-11-20T17:23:59Z",
+      "digest": "sha256:3d5f2d979bfdf550bf89b55660504fdf2339d87720fca136fdc0b7539f808f9e",
+      "downloadCount": 0,
+      "id": "RA_kwDOVuysQM4uDlPb",
+      "label": "",
+      "name": "champion-artifacts-manifest.json",
+      "size": 1256,
+      "state": "uploaded",
+      "updatedAt": "2026-11-20T17:23:59Z",
+      "url": "https://github.com/trbk07/5g-network-intelligence/releases/download/untagged-76598659c1286baa89a3/champion-artifacts-manifest.json"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/trbk07/5g-network-intelligence/releases/assets/772690908",
+      "contentType": "application/json",
+      "createdAt": "2026-11-20T17:23:59Z",
+      "digest": "sha256:e49c3e370682d3ec2c0a5bdb26d158d29a6c6ab62bb78c1571a8a4da371d0e17",
+      "downloadCount": 0,
+      "id": "RA_kwDOVuysQM4uDlPc",
+      "label": "",
+      "name": "demo-assets-checksums.json",
+      "size": 339,
+      "state": "uploaded",
+      "updatedAt": "2026-11-20T17:23:59Z",
+      "url": "https://github.com/trbk07/5g-network-intelligence/releases/download/untagged-76598659c1286baa89a3/demo-assets-checksums.json"
+    }
+  ],
+  "id": "RE_kwDOVuysQM4a__uV",
+  "isDraft": true,
+  "targetCommitish": "24c8b0ac5ac49889dd360a4416c707711f5c6485",
+  "url": "https://github.com/trbk07/5g-network-intelligence/releases/tag/untagged-76598659c1286baa89a3",
+  "verification": {
+    "downloaded_from_github": true,
+    "asset_sha256": "3563d0447b713f7a208d9eeafedd23305ebb492309db8056b7ff8da891cd401b",
+    "installed_new_directory": true,
+    "expected_beams": 24,
+    "production_changed": false,
+    "release_published": false,
+    "v1_tag_created": false
+  }
+}

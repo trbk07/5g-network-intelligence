@@ -19,8 +19,8 @@ Release v1.0.0 has not yet been declared ready. Outstanding items are explicit.
 | Real screenshots and 90-150s video | capture_demo.py, docs/screenshots, demo_walkthrough.webm | PASS: actual 120s video; frames at 35s/80s and API screenshot inspected |
 | Safe test suite / lint | release_nontraining_tests.log; Ruff | PASS: 103 passed, 1 smoke skipped, 5 fitting tests deselected; real HTTP parity separately rerun |
 | Dataset attribution and code license | dataset_card.md names dataset MIT/citation | Code license awaits owner choice |
-| Release download + checksum cold start | direct demo archive install verified in separate directory; checksum/traversal tests | Local package path PASS; published release download remains pending |
-| v1.0.0 tag and GitHub Release | No final release created yet | Pending final QA and license |
+| Release download + checksum cold start | pinned draft asset downloaded from GitHub and installed in a new directory; checksum/traversal tests | Draft download/install PASS; published release path remains pending |
+| v1.0.0 tag and GitHub Release | Private draft created with assets; no v1.0.0 tag yet | Publication pending owner code-license choice |
 
 The clean-clone test used independently downloaded GitHub source plus an
 explicit asset archive, not hidden local source or training data. It shut down

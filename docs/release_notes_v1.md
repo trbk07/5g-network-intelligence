@@ -1,4 +1,4 @@
-# v1.0.0 release notes - prepared, not published
+# v1.0.0 release notes - draft, not published
 
 5G Network Intelligence delivers historical beam-level KPI forecasts at
 1/6/24 hours, historical P90/P95 exceedance scenarios and an inspectable CPU
@@ -35,5 +35,6 @@ Known limits: a single internal holdout, uncertain physical usage units, weak
 P90 recall (about 10-16%), high strict actual-zero FP rate and no predictive
 bands. See `docs/limitations.md` and `reports/experiment_report.md`.
 
-Code license and final release publication remain pending owner selection and
-final QA. Dataset license/citation are preserved independently.
+Code license and final release publication remain pending owner selection.
+The draft release asset has been downloaded from GitHub, checksum-verified and
+installed in a fresh directory. Dataset license/citation are preserved independently.
