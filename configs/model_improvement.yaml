@@ -1,0 +1,53 @@
+# Research protocol declared before new scores. No observations after 671 are used.
+protocol_version: improvement-v1
+seed: 17
+threads: 4
+training_stride: 2
+max_rounds: 1000
+patience: 70
+folds:
+  - {name: inner1, fit_end: 335, stop_end: 383, score_end: 443}
+  - {name: inner2, fit_end: 395, stop_end: 443, score_end: 503}
+horizons: [1, 6, 24]
+promotion_count: 3
+objective: mean_normalized_original_unit_mae
+audit_range: [504, 671]
+holdout_allowed: false
+recipes:
+  c1:
+    transform: direct
+    params: {num_leaves: 31, learning_rate: 0.05, min_data_in_leaf: 20}
+  deeper:
+    transform: direct
+    params: {num_leaves: 63, learning_rate: 0.035, min_data_in_leaf: 100}
+  wide:
+    transform: direct
+    params: {num_leaves: 127, learning_rate: 0.035, min_data_in_leaf: 100, lambda_l2: 1.0}
+  dense:
+    transform: direct
+    stride: 1
+    params: {num_leaves: 63, learning_rate: 0.035, min_data_in_leaf: 100}
+  recent:
+    transform: direct
+    half_life: 168
+    params: {num_leaves: 63, learning_rate: 0.035, min_data_in_leaf: 100}
+  residual_last:
+    transform: residual_last
+    params: {num_leaves: 63, learning_rate: 0.035, min_data_in_leaf: 100, lambda_l2: 0.5}
+  residual_seasonal:
+    transform: residual_seasonal
+    params: {num_leaves: 63, learning_rate: 0.035, min_data_in_leaf: 100, lambda_l2: 0.5}
+  normalized:
+    transform: normalized
+    params: {num_leaves: 63, learning_rate: 0.035, min_data_in_leaf: 100, lambda_l2: 0.5}
+  normalized_residual:
+    transform: normalized_residual
+    params: {num_leaves: 63, learning_rate: 0.035, min_data_in_leaf: 100, lambda_l2: 0.5}
+catboost:
+  cb6: {depth: 6, learning_rate: 0.05, l2_leaf_reg: 3, iterations: 1800}
+  cb8: {depth: 8, learning_rate: 0.035, l2_leaf_reg: 5, iterations: 1800}
+ensemble:
+  weight_step: 0.1
+  max_members: 3
+  bias_grid: [-0.05, -0.02, -0.01, -0.005, 0.0, 0.005, 0.01, 0.02, 0.05]
+stopping_rule: Complete the declared screening, second-fold confirmation, complementary-family and ensemble audit; report if gains fail to replicate. No endless search or claim of global optimality.
