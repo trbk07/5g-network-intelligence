@@ -51,6 +51,14 @@ def paired_multihorizon_ci(
     draws = np.random.default_rng(seed).multinomial(n, np.full(n, 1 / n), repetitions)
     denominator = counts @ draws.T
     valid = (denominator > 0).all(0)
+    if valid.sum() < 2:
+        return {
+            "difference": float((sums.sum(1) / counts.sum(1)).mean()),
+            "lower": float("nan"),
+            "upper": float("nan"),
+            "status": "insufficient_resamples",
+            "n_clusters": n,
+        }
     bootstrap = ((sums @ draws[valid].T) / denominator[:, valid]).mean(0)
     alpha = (1 - confidence) / 2
     low, high = np.quantile(bootstrap, [alpha, 1 - alpha])

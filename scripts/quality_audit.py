@@ -24,7 +24,13 @@ def audit(data_path: str = "configs/data.yaml", write: bool = True) -> dict:
     checks, digests, preprocessors, samples = [], {}, [], []
 
     def check(label: str, condition: bool, detail: str = "") -> None:
-        checks.append({"check": label, "status": "PASS" if condition else "FAIL", "detail": detail})
+        checks.append(
+            {
+                "check": label.replace("\\", "/"),
+                "status": "PASS" if condition else "FAIL",
+                "detail": detail,
+            }
+        )
 
     check(
         "feature_schema",
@@ -66,7 +72,7 @@ def audit(data_path: str = "configs/data.yaml", write: bool = True) -> dict:
                         and meta[missing_key] == len(origins) * len(panel.beam_ids) - int(expected),
                     )
                 for filename in ("model.txt", "meta.json", "context.npz"):
-                    digests[str(directory / filename)] = sha256(directory / filename)
+                    digests[(directory / filename).as_posix()] = sha256(directory / filename)
             except (OSError, ValueError, KeyError) as exc:
                 check(str(directory), False, str(exc))
     for variant in gru_config["variants"]:
@@ -83,11 +89,14 @@ def audit(data_path: str = "configs/data.yaml", write: bool = True) -> dict:
                     and meta["dataset_revision"] == data["revision"]
                     and bool(meta["git_commit"])
                     and meta["seed"] == seed
+                    and state["identity"]["seed"] == seed
+                    and state["identity"]["run_identity"]["variant"] == variant
                     and prep.variant == variant
                     and prep.fit_end == split["fit"][1]
                     and meta["phase_features"] == 4
                     and state["model"]["head.0.weight"].shape[1]
                     == meta["architecture"]["hidden_size"] + 4
+                    and state["model"]["gru.weight_ih_l0"].shape[1] == 2 * k
                     and all(getattr(prep, p).shape == (k,) for p in ("median", "mean", "scale")),
                 )
                 identity = state["identity"]["run_identity"]
@@ -113,7 +122,7 @@ def audit(data_path: str = "configs/data.yaml", write: bool = True) -> dict:
                     "meta.json",
                     "history.jsonl",
                 ):
-                    digests[str(directory / filename)] = sha256(directory / filename)
+                    digests[(directory / filename).as_posix()] = sha256(directory / filename)
             except (OSError, ValueError, KeyError, RuntimeError) as exc:
                 check(str(directory), False, str(exc))
     check(
@@ -133,7 +142,9 @@ def audit(data_path: str = "configs/data.yaml", write: bool = True) -> dict:
     }
     if write:
         reports = Path(data["reports_dir"])
-        (reports / "model_quality_gate.json").write_text(json.dumps(result, indent=2))
+        (reports / "model_quality_gate.json").write_text(
+            json.dumps(result, indent=2), encoding="utf-8", newline="\n"
+        )
         lines = [
             "# Week 5 model quality gate",
             "",

@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "forecast_sha256": {
+    "baselines_val.npz": "ad08f1c59b3a9d49a245e332ef6b5b64e40375bdd06c41e2f3c977bc5dce9da8",
+    "lightgbm_val.npz": "3a0bf9cc3ec5e4d0acf184840e6ced4e6332310785477f1576e733b83325383e",
+    "gru_val.npz": "5ccb42c9e9a6999d21ccc8d433a8c974d8a897f9f45ab71d3b0549f0bf612624"
+  },
+  "candidate": "lightgbm_c1",
+  "cluster_unit": "verified_BS",
+  "holdout_evaluated": false,
+  "frozen": false,
+  "p1": "skipped_due_to_retraining"
+}

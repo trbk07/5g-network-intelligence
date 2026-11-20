@@ -2,16 +2,20 @@
 
 GRU-A uses DLPRB plus a missingness mask (2 channels). GRU-B uses four KPIs plus
 four masks (8 channels). Both consume 168 hours, two GRU layers with hidden size
-64 and dropout 0.1, then concatenate a 6-dimensional static vector before a
+64 and dropout 0.1, then concatenate exactly 4 deterministic phase features before a
 64-unit ReLU head predicting +1/+6/+24 jointly.
 
-The static vector contains training-normalized beam mean/std and sin/cos origin
-phase for 24/168 hours. Imputer medians and per-KPI mean/population std are fitted
+The phase vector contains sin/cos origin phase for 24/168 hours, with no beam
+statistics. The updated Week 5 gate rejected static6 artifacts and required full
+cloud retraining. Imputer medians and per-KPI mean/population std are fitted
 only on the full training prefix, not validation. Missing values are imputed with
 the training median and accompanied by 1=missing masks; zero is never missing.
 An entirely missing training KPI uses median/mean 0 and scale 1. No target is
 imputed: masked L1 excludes and counts each missing target entry. Predictions
 are inverse-scaled to original DLPRB usage, without clipping.
+Parameters have exactly one KPI entry for A and four for B, never a beam axis.
+The DLPRB parameters are identical for A/B. Normalization is fitted once at the
+training cutoff; earlier training origins are not independent deployment episodes.
 
 The same 600-beam stratified sample is used for A/B and both seeds. Sampling is
 proportional over joint tertiles of fit-only mean/std/active ratio, with deterministic
@@ -40,7 +44,7 @@ training is forbidden on the owner's local machine, including synthetic fitting
 tests; those tests are marked cloud_training and skipped locally. Run the complete
 test suite inside Colab/Kaggle instead. Local checks only lint and test non-fitting paths.
 
-Artifacts live under artifacts/gru/{A|B}/seed{17|42}/ and include best.pt, last.pt,
+Artifacts live under artifacts/gru_w5/{A|B}/seed{17|42}/ and include best.pt, last.pt,
 preprocessor.npz, history.jsonl and meta.json. Put the artifact directory on Drive
 or Kaggle Output to retain checkpoints. Writes use a temporary file and atomic
 replace. Resume restores optimizer, epoch, best score, early-stop patience and
@@ -78,5 +82,6 @@ The job itself has a 30-minute timeout, below the plan's four-hour GPU ceiling.
 training and evaluation each have explicit flags, all false by default. It includes
 actual recorded validation results, module source with comments, a one-beam/origin
 debug cell, a single-run training cell and an explicit four-experiment switch.
-The original Kaggle training/checkpoint outputs remain under notebook version 1;
-subsequent versions are review-only and do not silently retrain on Run All.
+Current phase4 training/checkpoints are under Week 5 GPU job version 1
+(`truongbaokien/5g-network-intelligence-week5`). The old Week 4 static6 outputs
+are historical and not eligible for selection. Review notebooks do not retrain on Run All.

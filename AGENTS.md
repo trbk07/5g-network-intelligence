@@ -12,3 +12,6 @@
   explanations and useful comments. Never display base64/encoded source bundles.
   Separate configuration, preprocessing, model, training, debugging and evaluation;
   default review notebooks must not retrain on Run All.
+- Updated Week 5 contract: LightGBM has 40 causal inputs; GRU has phase4 and
+  global per-KPI preprocessing (A:1, B:4). Beam summaries may support sampling and
+  diagnostics only. Week 5 prepares a candidate; no final freeze or holdout evaluation.

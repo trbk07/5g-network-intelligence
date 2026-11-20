@@ -244,6 +244,7 @@ def compare(diagnostics: bool = True) -> None:
         "Selection uses the predeclared mean normalized MAE rule and cheaper-family fallback when paired CI cannot distinguish.",
         f"Cluster bootstrap: {unit}, {rules['bootstrap_repetitions']} repetitions; paired identical masks.",
         "Costs are an explicit simplicity order, not measured deployment latency.",
+        "Intervals are exploratory validation evidence without multiplicity adjustment, not final-test claims.",
         "GRU families use the arithmetic mean of both seed predictions; seed variation is descriptive only.",
         "Shared GRU beam sample and global DLPRB normalization were audited. A/B masks and origins are identical.",
         "Hypotheses for any neural shortfall include short fit history, sampling and bias/variance; these are not proven causes.",

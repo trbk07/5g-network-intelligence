@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-11-15T02:30:57.388831+00:00",
+  "created_at": "2026-11-19T09:00:24.900010+00:00",
   "config": {
     "repo_id": "netop/gotsf-ds",
     "revision": "c9ecaf153354b2cc415c64750a966c47c7f3f6ac",
@@ -37,11 +37,12 @@
     "load_tiers_fit_end": 503
   },
   "config_sha256": "91bf5129e2c336001a8c99d04cb9f01dcb921b277e70814154a626d58fe71eaf",
-  "git_commit": "353d1e38100723caf9c4c3b5de73f502b4abf345",
-  "python": "3.12.13",
+  "git_commit": "8596f5bb6dc149ef7d778bb05ca07a6333c5553d",
+  "source_bundle_sha256": null,
+  "python": "3.13.16",
   "packages": {
-    "numpy": "2.5.4",
-    "pandas": "3.1.1",
+    "numpy": "2.1.3",
+    "pandas": "2.3.3",
     "PyYAML": "6.0.3"
   },
   "seed": 17,

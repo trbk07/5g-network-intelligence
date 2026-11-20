@@ -1,0 +1,49 @@
+{
+  "created_at": "2026-11-15T02:30:57.388831+00:00",
+  "config": {
+    "repo_id": "netop/gotsf-ds",
+    "revision": "c9ecaf153354b2cc415c64750a966c47c7f3f6ac",
+    "raw_dir": "data/raw",
+    "processed_dir": "data/processed",
+    "reports_dir": "reports",
+    "evaluation_config": "configs/evaluation.yaml",
+    "seed": 17,
+    "continuity_verified": false,
+    "continuity_evidence": "",
+    "evaluation": {
+      "lookback": 168,
+      "horizons": [
+        1,
+        6,
+        24
+      ],
+      "evaluation_stride": 1,
+      "split_mode": "fallback",
+      "fit": [
+        0,
+        503
+      ],
+      "validation": [
+        504,
+        671
+      ],
+      "holdout": [
+        672,
+        839
+      ]
+    },
+    "segment": "val",
+    "zero_fp_epsilon": 0,
+    "load_tiers_fit_end": 503
+  },
+  "config_sha256": "91bf5129e2c336001a8c99d04cb9f01dcb921b277e70814154a626d58fe71eaf",
+  "git_commit": "353d1e38100723caf9c4c3b5de73f502b4abf345",
+  "python": "3.12.13",
+  "packages": {
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "PyYAML": "6.0.3"
+  },
+  "seed": 17,
+  "dataset_revision": "c9ecaf153354b2cc415c64750a966c47c7f3f6ac"
+}

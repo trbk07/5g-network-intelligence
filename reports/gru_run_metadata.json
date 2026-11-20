@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-11-15T08:53:30.886254+00:00",
+  "created_at": "2026-11-19T09:15:40.698357+00:00",
   "config": {
     "repo_id": "netop/gotsf-ds",
     "revision": "c9ecaf153354b2cc415c64750a966c47c7f3f6ac",
@@ -30,14 +30,14 @@
         "A",
         "B"
       ],
-      "artifact_dir": "artifacts/gru",
+      "artifact_dir": "artifacts/gru_w5",
       "gpu_budget_seconds": 14400
     },
     "segment": "val"
   },
-  "config_sha256": "c9c978511db04c0824c77eeb7bc2de673943c4d4c7d4419d49c397cf55b0c1a7",
-  "git_commit": "571834db0418331032178e9612a354c6fdce2ddd",
-  "source_bundle_sha256": "62409755c9e7d99368ee3d67a5018973453fd5ee5660b5ff32171a700de9dd6c",
+  "config_sha256": "327885c78713c4d25db770fc192123ec090bc0606595fc1715eb88118a7b314c",
+  "git_commit": "8596f5bb6dc149ef7d778bb05ca07a6333c5553d",
+  "source_bundle_sha256": null,
   "python": "3.13.16",
   "packages": {
     "numpy": "2.1.3",

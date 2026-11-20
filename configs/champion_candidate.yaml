@@ -1,0 +1,25 @@
+family: lightgbm_c1
+frozen: false
+holdout_allowed: false
+horizons:
+  1:
+  - artifacts/lgbm_w5/c1/h1
+  6:
+  - artifacts/lgbm_w5/c1/h6
+  24:
+  - artifacts/lgbm_w5/c1/h24
+selection_rule: mean_normalized_validation_mae_with_paired_ci_cheaper_fallback
+cluster_unit: verified_BS
+quality_gate_sha256: b3294960a37ce47da11fcb66405799f891c8e159d3bbaa7f6718ea17f27612b6
+forecast_sha256:
+  baselines_val.npz: ad08f1c59b3a9d49a245e332ef6b5b64e40375bdd06c41e2f3c977bc5dce9da8
+  lightgbm_val.npz: 3a0bf9cc3ec5e4d0acf184840e6ced4e6332310785477f1576e733b83325383e
+  gru_val.npz: 5ccb42c9e9a6999d21ccc8d433a8c974d8a897f9f45ab71d3b0549f0bf612624
+cost_order:
+- persistence
+- seasonal_naive_24
+- seasonal_naive_168
+- lightgbm_c1
+- lightgbm_c2
+- gru_A
+- gru_B

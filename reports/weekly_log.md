@@ -159,3 +159,49 @@ Tasks unfinished: None in Week 4 scope.
 Blocking issue: None.
 Decision: Gate G4 passed with both variants and both seeds evaluated. No holdout used.
 Next week's priority: Week 5 risk engine, validation champion selection and freeze.
+
+## Week 5 — Updated quality/research plan
+
+Date: 2026-11-20 (Asia/Bangkok). Hours not tracked; no claim against the active-hour budget.
+
+The updated plan supersedes the old Week 5 risk/freeze schedule. Holdout stays
+closed this week; risk, final freeze and refit belong to the revised Week 6.
+
+T5.1: initial quality FAIL for all legacy ML artifacts (44/static6, A preprocessing
+shape4). Retrained six LightGBM40 models on hosted cloud CPU and four phase4 GRUs
+on Kaggle GPU. New artifacts isolated in lgbm_w5/gru_w5; old artifacts/reports
+preserved. Current gate PASS, 38 artifact files hashed. A/B global DLPRB parameters
+and training sample match exactly; A parameters shape1, B shape4.
+
+T5.2: locked shared finite actual/forecast masks, 100% coverage across all 2,880 beams.
+Paired 1,000-draw bootstrap on 30 verified BS clusters, same draws across horizons
+for normalized-family comparisons. Reports separate raw missingness/comparison exclusions.
+
+T5.3: deterministic atlas: top5 error beams, 5 representatives per Low/Mid/High tier,
+2 miss-peak cases and 1 zero-to-active case; three requested figures rendered and inspected.
+
+T5.4: A/B paired-origin/seed/mask comparison and two-seed descriptive ablation.
+GRU family candidates use the declared two-seed forecast mean, not the best seed.
+LightGBM C1 remains the best validation candidate; causal40 MAE is approximately
+0.230635 / 0.253473 / 0.251246 at +1/+6/+24h. Explanations for neural differences
+remain hypotheses; no causal/operational incident claim is made.
+
+T5.5: baseline champions allowed and cheaper-CI-fallback tested. Candidate C1 is
+recorded with frozen:false, holdout_allowed:false and artifact/forecast/gate hashes.
+No pre-holdout tag, final refit or holdout evaluation was performed.
+
+T5.6 P1: skipped, as explicitly required when mandatory retraining is needed.
+
+Validation: hosted worker 65 tests passed (including all fitting tests); five
+notebook text checks are separately validated locally. Local suite 66 passed,
+4 fitting tests skipped. Ruff passed. No local model training.
+
+Deliverables: quality gate, common-mask comparison, paired CIs, ablation/model story,
+error atlas and champion-candidate registry. A readable review notebook is ready;
+the owner explicitly approved its new Kaggle review destination after the
+automatic egress review requested authorization. It was uploaded with training
+disabled and a CPU-only review execution, which completed successfully at
+https://www.kaggle.com/code/truongbaokien/5g-network-intelligence-week5-review.
+
+Gate G5: research P0 complete. Next priority: revised Week 6 risk engine/validation
+trade-off, final freeze, full-development cloud refit and one guarded holdout run.

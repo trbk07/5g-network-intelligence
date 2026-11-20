@@ -1,5 +1,9 @@
 {
-  "training_and_replay_seconds": 687.8518904270001,
+  "status": "complete",
+  "context": "Week5 mandatory phase4 rerun",
   "environment": "Kaggle GPU",
-  "status": "complete"
+  "training_epoch_seconds": 708.7012468140007,
+  "epochs_total": 93,
+  "whole_pipeline_wall_seconds": null,
+  "note": "Epoch timings exclude process startup, data preparation, LightGBM and final replay."
 }

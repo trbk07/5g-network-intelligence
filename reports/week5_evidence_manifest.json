@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "quality_gate": "PASS",
+  "artifact_files_verified": 38,
+  "candidate": "lightgbm_c1",
+  "frozen": false,
+  "holdout_evaluated": false,
+  "bootstrap_clusters": 30,
+  "bootstrap_repetitions": 1000,
+  "coverage_pct": 100.0,
+  "cloud_training_job": "truongbaokien/5g-network-intelligence-week5",
+  "cloud_validation_job": "truongbaokien/5g-network-intelligence-week5-validation",
+  "cloud_tests_passed": 65,
+  "cloud_notebook_encoding_tests_excluded": 4,
+  "local_nontraining_tests_passed": 66,
+  "local_fitting_tests_skipped": 4,
+  "p1_quantiles": "skipped_because_retraining_required",
+  "local_notebook_unicode_checks_passed": 5,
+  "review_notebook_status": "COMPLETE",
+  "review_notebook": "truongbaokien/5g-network-intelligence-week5-review"
+}

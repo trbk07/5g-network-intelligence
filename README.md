@@ -19,7 +19,8 @@ evaluator, three baselines and leakage canaries. Run the validation benchmark:
 See [evaluation protocol](docs/evaluation.md), [baseline analysis](reports/baseline_analysis.md)
 and `notebooks/02_baselines.ipynb`. Validation results are not final holdout results.
 
-Week 3 implements 44 causal features and global direct LightGBM models. Run training
+LightGBM uses the updated **40-feature** causal contract. Legacy Week 3 44-feature
+and Week 4 static6 artifacts were rejected and retrained on cloud in Week 5. Run training
 inside hosted Colab/Kaggle only (local training is forbidden by the owner):
 
 ```powershell
@@ -29,7 +30,8 @@ python -m scripts.evaluate_models --model lightgbm --segment val
 
 See [LightGBM protocol](docs/lightgbm.md), [validation analysis](reports/lightgbm_analysis.md)
 and `notebooks/03_lightgbm.ipynb`. The observed selected configuration is C1;
-final champion selection and holdout evaluation remain scheduled for Week 5.
+Week 5 produces a champion-ready candidate only; final freeze/holdout remain deferred
+under the updated [plan](plan5G.md).
 
 Week 4 adds GRU-A/B input preprocessing, beam sampling, resumable GPU training
 and validation replay. See [GRU protocol](docs/gru.md) and the
@@ -39,6 +41,19 @@ Local test runs automatically skip tests marked `cloud_training`.
 Use [the commented GRU review notebook](notebooks/04_gru_review.ipynb) to inspect
 the code, debug one beam and view the measured comparison. It does not retrain
 on Run All. All four GRU runs finished on Kaggle; C1 remains better on validation.
+
+Week 5 quality/research evidence is in [the quality gate](reports/model_quality_gate.md),
+[common-mask analysis](reports/model_analysis.md) and [error atlas](reports/error_atlas.md).
+Candidate metadata is in `configs/champion_candidate.yaml`: **not frozen**, holdout disabled.
+P1 quantile bands were skipped because all legacy models required cloud retraining.
+Use [the Week 5 review notebook](notebooks/05_model_quality.ipynb) for code, coverage,
+paired intervals and the atlas; Run All does not train or reopen holdout.
+
+```powershell
+# Read existing artifacts/forecasts and perform statistics only; no fitting occurs.
+.venv/Scripts/python.exe -m scripts.quality_audit
+.venv/Scripts/python.exe -m scripts.evaluate_models --model lightgbm --segment val --diagnostics
+```
 
 ## Run Week 1
 

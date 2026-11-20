@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "benchmark_replay_identical": true,
+  "artifact_files_verified": 18,
+  "forecast_records": 6,
+  "beams": 2880,
+  "validation_target_bounds": [
+    504,
+    671
+  ],
+  "source_evaluation_commit": "b10aa2258cc82a5e04442f2ef5327846a947c46e",
+  "selected_config": "c1",
+  "save_load_parity": "passed",
+  "batch_history_parity": "passed at three origins per model",
+  "tests_passed": 52,
+  "ruff": "passed",
+  "holdout_evaluated": false
+}

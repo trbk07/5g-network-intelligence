@@ -1,0 +1,25 @@
+# Week 5 model analysis
+
+Champion-ready candidate: **lightgbm_c1** (not frozen).
+Selection uses the predeclared mean normalized MAE rule and cheaper-family fallback when paired CI cannot distinguish.
+Cluster bootstrap: verified_BS, 1000 repetitions; paired identical masks.
+Costs are an explicit simplicity order, not measured deployment latency.
+GRU families use the arithmetic mean of both seed predictions; seed variation is descriptive only.
+Shared GRU beam sample and global DLPRB normalization were audited. A/B masks and origins are identical.
+Hypotheses for any neural shortfall include short fit history, sampling and bias/variance; these are not proven causes.
+No final refit/freeze, holdout evaluation or optional quantile experiment was performed.
+Legacy 44/static6 results are superseded; see model_quality_gate_initial.json.
+
+```csv
+family,normalized_mae,nominal_best,ci_lower_vs_best,ci_upper_vs_best,ci_status,eligible_cheaper_fallback,complexity_rank,recommended_candidate
+persistence,1.1645343190553907,lightgbm_c1,0.37493718612171245,0.4227890986432684,ok,False,0,False
+seasonal_naive_24,1.036041876129308,lightgbm_c1,0.25224248536883065,0.2911260019521436,ok,False,1,False
+seasonal_naive_168,1.053273393690906,lightgbm_c1,0.26113781924208285,0.3167491008861134,ok,False,2,False
+lightgbm_c1,0.764361399060471,lightgbm_c1,0.0,0.0,ok,True,3,True
+lightgbm_c2,0.7972250033872142,lightgbm_c1,0.027963306778418552,0.03820372379503854,ok,False,4,False
+gru_A,0.7980984172641087,lightgbm_c1,0.029234394634428038,0.03895258154909552,ok,False,5,False
+gru_B,0.7889881768475999,lightgbm_c1,0.02084408404467951,0.029141392815990257,ok,False,6,False
+```
+
+Paired per-horizon intervals: paired_model_comparison_val.csv. Seed ablation: ablation_study.csv.
+Error cases and selection rules: error_atlas.md.

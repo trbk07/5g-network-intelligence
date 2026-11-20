@@ -1,18 +1,11 @@
 {
-  "status": "passed",
-  "benchmark_replay_identical": true,
+  "status": "PASS",
+  "feature_schema": "lgbm-causal40-v2",
   "artifact_files_verified": 18,
-  "forecast_records": 6,
-  "beams": 2880,
-  "validation_target_bounds": [
-    504,
-    671
-  ],
-  "source_evaluation_commit": "b10aa2258cc82a5e04442f2ef5327846a947c46e",
-  "selected_config": "c1",
-  "save_load_parity": "passed",
-  "batch_history_parity": "passed at three origins per model",
-  "tests_passed": 52,
-  "ruff": "passed",
-  "holdout_evaluated": false
+  "cloud_save_load_parity": "passed",
+  "cloud_batch_history_parity": "passed at three origins per direct model",
+  "source_training_commit": "8596f5bb6dc149ef7d778bb05ca07a6333c5553d",
+  "cloud_tests_passed": 65,
+  "holdout_evaluated": false,
+  "local_training": false
 }

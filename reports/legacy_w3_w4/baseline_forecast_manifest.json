@@ -1,0 +1,9 @@
+{
+  "path": "forecasts/baselines_val.npz",
+  "sha256": "82eb5284e9c321fb499851f3ae7afa2c386e3dc36bf37d28a3acbd1c3be87ad3",
+  "size_bytes": 50349482,
+  "records": 9,
+  "dataset_revision": "c9ecaf153354b2cc415c64750a966c47c7f3f6ac",
+  "config_sha256": "91bf5129e2c336001a8c99d04cb9f01dcb921b277e70814154a626d58fe71eaf",
+  "source_git_commit": "353d1e38100723caf9c4c3b5de73f502b4abf345"
+}

@@ -1,5 +1,5 @@
 {
-  "count": 44,
+  "count": 40,
   "names": [
     "DLPRB_lag_0",
     "DLPRB_lag_1",
@@ -40,16 +40,14 @@
     "MR_number_lag_1",
     "MR_number_lag_24",
     "MR_number_roll_6_mean",
-    "MR_number_roll_24_mean",
-    "beam_fit_mean",
-    "beam_fit_std",
-    "beam_fit_p90",
-    "beam_fit_active_ratio"
+    "MR_number_roll_24_mean"
   ],
   "dtype": "float32",
   "row_order": "origin-major, beam-major",
   "fit_end": 503,
   "rolling_std_ddof": 0,
   "seasonal_mean": "observed-only 7 target-aligned daily lags",
-  "missing_policy": "preserve NaN; native LightGBM handling"
+  "missing_policy": "preserve NaN; native LightGBM handling",
+  "schema": "lgbm-causal40-v2",
+  "beam_statistics_in_inputs": false
 }
