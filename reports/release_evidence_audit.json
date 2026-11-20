@@ -1,0 +1,486 @@
+{
+  "status": "PASS",
+  "scope": "Pinned inputs and frozen outputs checked without training or final replay; local doc targets only, no remote link availability claim",
+  "checks": [
+    {
+      "check": "pinned_revision",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "raw:data/train/DLPRB_train_0w-5w.csv",
+      "status": "PASS",
+      "detail": "Local original data checksum, no training"
+    },
+    {
+      "check": "raw:data/train/DLThpVol_train_0w-5w.csv",
+      "status": "PASS",
+      "detail": "Local original data checksum, no training"
+    },
+    {
+      "check": "raw:data/train/DLThpTime_train_0w-5w.csv",
+      "status": "PASS",
+      "detail": "Local original data checksum, no training"
+    },
+    {
+      "check": "raw:data/train/MR_number_train_0w-5w.csv",
+      "status": "PASS",
+      "detail": "Local original data checksum, no training"
+    },
+    {
+      "check": "raw:data/test/DLPRB_test_5w-6w.csv",
+      "status": "PASS",
+      "detail": "Local original data checksum, no training"
+    },
+    {
+      "check": "raw:data/test/DLThpVol_test_5w-6w.csv",
+      "status": "PASS",
+      "detail": "Local original data checksum, no training"
+    },
+    {
+      "check": "raw:data/test/DLThpTime_test_5w-6w.csv",
+      "status": "PASS",
+      "detail": "Local original data checksum, no training"
+    },
+    {
+      "check": "raw:data/test/MR_number_test_5w-6w.csv",
+      "status": "PASS",
+      "detail": "Local original data checksum, no training"
+    },
+    {
+      "check": "raw:data/test/DLPRB_test_10w-11w.csv",
+      "status": "PASS",
+      "detail": "Local original data checksum, no training"
+    },
+    {
+      "check": "raw:data/test/DLThpVol_test_10w-11w.csv",
+      "status": "PASS",
+      "detail": "Local original data checksum, no training"
+    },
+    {
+      "check": "raw:data/test/DLThpTime_test_10w-11w.csv",
+      "status": "PASS",
+      "detail": "Local original data checksum, no training"
+    },
+    {
+      "check": "raw:data/test/MR_number_test_10w-11w.csv",
+      "status": "PASS",
+      "detail": "Local original data checksum, no training"
+    },
+    {
+      "check": "canonical_panel",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "real_pre_holdout_tag",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "frozen_config_semantic_hash",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:pyproject.toml",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:plan5G.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/__init__.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/data/audit.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/data/io.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/data/panel.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/data/schema.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/data/splits.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/data/__init__.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/evaluation/bootstrap.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/evaluation/common_mask.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/evaluation/diagnostics.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/evaluation/evaluator.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/evaluation/metrics.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/evaluation/origins.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/evaluation/reports.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/evaluation/validation.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/evaluation/__init__.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/features/beam_sampling.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/features/gru_inputs.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/features/lightgbm_features.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/features/static_stats.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/features/__init__.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/inference/freeze.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/inference/registry.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/inference/__init__.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/models/baselines.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/models/gru.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/models/gru_forecaster.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/models/gru_train.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/models/lgbm.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/models/__init__.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/risk/evaluator.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/risk/scorer.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/risk/thresholds.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/risk/__init__.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/utils/config.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/utils/metadata.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/utils/runtime.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/utils/seed.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:src/utils/__init__.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/build_cloud_notebook.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/build_gru_review_notebook.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/build_utility_notebooks.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/build_week5_job.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/build_week5_review.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/build_week5_validation.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/build_week6_job.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/check_runtime.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/compare_validation.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/evaluate_gru.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/evaluate_models.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/freeze_champion.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/package_gru_job.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/prepare_data.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/quality_audit.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/refit_champion.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/run_baselines.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/run_holdout.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/run_risk.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/select_champion.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/train_gru.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/train_lgbm.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:scripts/__init__.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:configs/champion.yaml",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:configs/champion_candidate.yaml",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:configs/data.yaml",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:configs/evaluation.yaml",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:configs/gru.yaml",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:configs/lightgbm.yaml",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:configs/quality.yaml",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "tagged_source:configs/risk.yaml",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "champion_artifact_manifest",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "final_completion_identity",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "saved_holdout:reports/champion_benchmark_holdout.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "saved_holdout:reports/paired_comparison_holdout.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "saved_holdout:reports/risk_holdout.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "saved_holdout:reports/risk_cases_holdout.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "saved_holdout:reports/forecasts/champion_holdout.npz",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "local_document_links",
+      "status": "PASS",
+      "detail": "[]"
+    }
+  ]
+}

@@ -14,6 +14,35 @@ from src.data.panel import Panel, load_panel, save_panel
 from src.inference.freeze import verify_artifacts
 
 
+def install_archive(archive_path, destination="."):
+    """Install the exact pinned demo package without raw data, training or model rebuilding."""
+    archive_path = Path(archive_path)
+    destination = Path(destination).resolve()
+    package = json.loads(Path("reports/demo_asset_package.json").read_text(encoding="utf-8"))
+    if sha256(archive_path) != package["sha256"]:
+        raise ValueError("Demo package checksum mismatch")
+    with tarfile.open(archive_path) as archive:
+        members = archive.getmembers()
+        if any(
+            not m.name.startswith("demo_assets/")
+            or not (destination / m.name).resolve().is_relative_to(destination)
+            or m.issym()
+            or m.islnk()
+            for m in members
+        ):
+            raise ValueError("Unsafe demo package member")
+        archive.extractall(destination, filter="data")
+    from src.inference.predictor import Predictor
+
+    predictor = Predictor(destination / "demo_assets")
+    if (
+        predictor.version != package["model_version"]
+        or len(predictor.store.index) != package["beams_loaded"]
+    ):
+        raise ValueError("Installed demo identity mismatch")
+    print("Installed verified frozen demo package; no original data or fitting required")
+
+
 def prepare(
     panel_path="data/processed/panel.npz", champion="artifacts/champion", output="demo_assets"
 ):
@@ -133,7 +162,15 @@ if __name__ == "__main__":
     parser.add_argument(
         "--download", action="store_true", help="Download pinned private Kaggle outputs first"
     )
+    parser.add_argument(
+        "--demo-archive", help="Install the pinned packaged demo directly, no raw data required"
+    )
     args = parser.parse_args()
-    if args.download:
-        download()
-    prepare()
+    if args.demo_archive:
+        if args.download:
+            parser.error("--demo-archive and --download are mutually exclusive")
+        install_archive(args.demo_archive)
+    else:
+        if args.download:
+            download()
+        prepare()

@@ -1,5 +1,12 @@
 # Verified historical demo assets
 
+If you already have the pinned packaged demo, run
+`python -m scripts.fetch_demo_assets --demo-archive PATH_TO_5g-demo-assets.tar.gz`.
+It verifies the committed package SHA256, rejects unsafe archive members and
+loads the installed model to verify identity. No original raw data is required.
+See `docs/release_notes_v1.md` for current release preparation status; no public
+download endpoint is claimed until a release has actually been published.
+
 Run `python -m scripts.fetch_demo_assets` from the project root after the frozen
 Week 6 artifacts and canonical panel are available. It creates 24 real beams
 across BS 0/5/15/29, three cells and two beams per cell, plus the original global
