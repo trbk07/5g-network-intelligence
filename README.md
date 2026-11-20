@@ -30,8 +30,8 @@ python -m scripts.evaluate_models --model lightgbm --segment val
 
 See [LightGBM protocol](docs/lightgbm.md), [validation analysis](reports/lightgbm_analysis.md)
 and `notebooks/03_lightgbm.ipynb`. The observed selected configuration is C1;
-Week 5 produces a champion-ready candidate only; final freeze/holdout remain deferred
-under the updated [plan](plan5G.md).
+Week 5 produces a champion-ready candidate only; Week 6 performs the final freeze
+and holdout evaluation under the updated [plan](plan5G.md).
 
 Week 4 adds GRU-A/B input preprocessing, beam sampling, resumable GPU training
 and validation replay. See [GRU protocol](docs/gru.md) and the
@@ -54,6 +54,26 @@ paired intervals and the atlas; Run All does not train or reopen holdout.
 .venv/Scripts/python.exe -m scripts.quality_audit
 .venv/Scripts/python.exe -m scripts.evaluate_models --model lightgbm --segment val --diagnostics
 ```
+
+Week 6 is complete: LightGBM C1 was frozen at tag `pre-holdout`, refitted on
+hosted Kaggle CPU with 284/457/414 fixed rounds and evaluated once on the internal
+holdout. No local training or holdout tuning occurred. The deployment configuration
+is `configs/champion.yaml`; Week 5 candidate metadata remains a historical record.
+
+| Horizon | Holdout MAE | Best validation baseline MAE | MAE reduction |
+| --- | ---: | ---: | ---: |
+| 1h | 0.228237 | 0.298215 | 23.47% |
+| 6h | 0.250562 | 0.327570 | 23.51% |
+| 24h | 0.249446 | 0.326987 | 23.71% |
+
+All three paired BS-bootstrap 95% MAE-difference intervals favor C1. Historical
+P90 recall is only 10-16%, so the alerting limitation remains explicit.
+See [final evidence and limitations](reports/week6_results.md),
+[the Week 6 protocol](docs/week6.md) and
+[the readable review notebook](notebooks/06_champion_risk_holdout.ipynb).
+The [private Kaggle review](https://www.kaggle.com/code/truongbaokien/5g-network-intelligence-week6-review)
+displays saved results and never retrains on Run All. Checkpoints remain in
+the [completed private execution Output](https://www.kaggle.com/code/truongbaokien/5g-network-intelligence-week6-final/output).
 
 ## Run Week 1
 
@@ -112,8 +132,8 @@ Do not train before reviewing `reports/split_decision.md` and `split.json`.
 | `reports/run_metadata.json` | Config, hash, seed, package versions, Git commit |
 
 Audit figures include holdout observations for Week 1 data verification only;
-do not use them to tune models. Forecasting results are validation-only; final
-holdout and risk results have not been measured.
+do not use them to tune models. Final internal holdout and historical risk results
+are recorded in [the Week 6 report](reports/week6_results.md).
 This project is historical/offline replay, not live network telemetry. Statistical
 threshold exceedance is not verified congestion or incident detection.
 

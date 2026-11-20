@@ -1,0 +1,41 @@
+{
+  "freeze_commit": "12262838648dbc36cef9ca7390857a88075247cc",
+  "frozen_config_sha256": "7f11d8e4209b4a7e49a5a67e9f754e5f9c2607d130fe1d60f7fc2dbb83d5593e",
+  "training_environment": "Kaggle hosted CPU",
+  "kernel": "truongbaokien/5g-network-intelligence-week6-final",
+  "kernel_version": 1,
+  "holdout_attempts": 1,
+  "holdout_reruns": 0,
+  "cloud_tests_passed": 70,
+  "archive_sha256": "141f8d9333bbd0bd86e277b6304539c5930d638a628ec85b932eca1792eb4198",
+  "artifact_manifest": {
+    "files": {
+      "champion_meta.json": "4aa48607269711281fec4b6645ae91decd8a04bed0f63e4cc79b29b4cbcffaba",
+      "thresholds.npz": "68575f272b9476a2eaaf36fa3c1ce76fe6b22f34a52f020d72436ed5723132ef",
+      "feature_schema.json": "393730ea2ffc26cdfd47715677d20473176cece495ca6dc0082a7620577251df",
+      "h1/meta.json": "fbc6ad578957b4115d0e803bf1eaf6103d916c46b091d0cf8b135f4735859306",
+      "h1/context.npz": "545b84a211ac12e2b6fc78d5706f72546614dfc09cf01c74e074b28d419cdf8a",
+      "h1/model.txt": "1e93e5cded89f0057471301536e885826521025c5f370f5dfe2ea08584751c4d",
+      "h24/meta.json": "2f501a823defd8293142bacde567c568442c6edfd02ed1c7c150de714c7fa89e",
+      "h24/context.npz": "545b84a211ac12e2b6fc78d5706f72546614dfc09cf01c74e074b28d419cdf8a",
+      "h24/model.txt": "bdebdcc910f705d6349d2a3bb56f8e581b1b2cf59cf8444fb62e01fcbc6fb164",
+      "h6/meta.json": "66ded15b55304e516692d390a538f9f40af88a40a9bcd764b1a299e71aaef0b4",
+      "h6/context.npz": "545b84a211ac12e2b6fc78d5706f72546614dfc09cf01c74e074b28d419cdf8a",
+      "h6/model.txt": "1b30dede96c7cb477f2a6377643b881f4bced8b3fe6fe91364faefbdb4c05924"
+    },
+    "frozen_config_sha256": "7f11d8e4209b4a7e49a5a67e9f754e5f9c2607d130fe1d60f7fc2dbb83d5593e",
+    "freeze_commit": "12262838648dbc36cef9ca7390857a88075247cc"
+  },
+  "holdout_completion": {
+    "status": "complete",
+    "freeze_commit": "12262838648dbc36cef9ca7390857a88075247cc",
+    "frozen_config_sha256": "7f11d8e4209b4a7e49a5a67e9f754e5f9c2607d130fe1d60f7fc2dbb83d5593e",
+    "files": {
+      "reports/champion_benchmark_holdout.csv": "07a7fd7161d1f1f3138c04cd70a9fc506ad9eda0225e6de3a487db2fef856172",
+      "reports/paired_comparison_holdout.csv": "632a108d9c224f3d518415604ceb3b1fc71856384bf70ad7fdba9744efad54d4",
+      "reports/risk_holdout.csv": "e0bafe90f879b4f031aa73af980d3242488cac300cc8caec14f494c5b44b13b0",
+      "reports/risk_cases_holdout.csv": "1bd16cc59de7faf4935d2a486492fcf9eef5b35997a1124eb0c3685f2beb97ee",
+      "reports/forecasts/champion_holdout.npz": "32025dec7bb8f5f4003a065c218ce009bc0234a79fe795de52631352f3b83295"
+    }
+  }
+}

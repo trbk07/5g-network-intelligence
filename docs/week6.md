@@ -1,5 +1,12 @@
 # Week 6 - Champion, historical risk and final holdout
 
+Completed on hosted Kaggle CPU: final execution version 1, one holdout attempt,
+zero reruns; cloud tests 70 passed. See [final results](../reports/week6_results.md).
+The annotated `pre-holdout` tag points to `12262838648dbc36cef9ca7390857a88075247cc`.
+Later commits add results and improve review packaging only. For the frozen
+execution package use the tagged checkout; later development HEAD is rejected
+by the original freeze guard. Do not submit another final evaluation job.
+
 The selected Week 5 candidate is LightGBM C1 (40 causal features). Final refit
 uses development hours 0-671 and fixed validation iterations 284/457/414 for
 1/6/24 hours, seed 17. The final internal holdout is 672-839. No holdout tuning,
@@ -19,6 +26,7 @@ fallback; a different GRU champion would require a separate fixed-epoch refit.
 4. Package `python -m scripts.build_week6_job --mode final`; upload the private
    execution notebook. It attaches completed Week 5 Output, checks all source
    hashes, runs cloud tests, refits and saves independent load-verified models.
+   The actual execution slug is `truongbaokien/5g-network-intelligence-week6-final`.
 5. The guarded holdout runner checks tag attestation, executing commit, frozen
    config, panel checksum, artifact checksums and a single-attempt marker before
    accessing final targets. It compares against validation-selected baselines

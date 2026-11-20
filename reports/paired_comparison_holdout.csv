@@ -1,0 +1,4 @@
+horizon,model_a,model_b,cluster_unit,difference,lower,upper,status,n_clusters,repetitions,seed
+1,lightgbm_c1,persistence,BS,-0.06997856356984201,-0.07447058230474882,-0.06529515826420011,ok,30,1000,17
+6,lightgbm_c1,seasonal_naive_24,BS,-0.07700796476000875,-0.0846472950837494,-0.06823625501198102,ok,30,1000,17
+24,lightgbm_c1,persistence,BS,-0.07754108295609628,-0.0862635013435971,-0.06738612601614516,ok,30,1000,17

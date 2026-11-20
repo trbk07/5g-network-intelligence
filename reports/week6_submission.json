@@ -1,0 +1,12 @@
+{
+  "status": "complete",
+  "kernel": "truongbaokien/5g-network-intelligence-week6-final",
+  "freeze_commit": "12262838648dbc36cef9ca7390857a88075247cc",
+  "prepared_utc": "2026-11-20T02:22:06.491964+00:00",
+  "holdout_attempts_submitted": 1,
+  "version": 1,
+  "holdout_reruns": 0,
+  "outputs_verified": true,
+  "cloud_tests_passed": 70,
+  "artifact_files_verified": 12
+}

@@ -41,14 +41,46 @@ def build(mode="review"):
             "if not roots: raise FileNotFoundError('Attach completed Week 6 outputs')\n"
             "REPORTS = roots[0].parent\n",
         )
-        for name, title in [
-            ("champion_benchmark_holdout.csv", "Forecast metrics"),
-            ("paired_comparison_holdout.csv", "Paired BS bootstrap"),
-            ("risk_holdout.csv", "Historical exceedance metrics"),
-            ("risk_cases_holdout.csv", "False alarms and misses"),
+        for name, title, explanation, expression in [
+            (
+                "champion_benchmark_holdout.csv",
+                "Forecast metrics",
+                "Lower MAE/RMSE/WAPE is better. Each horizon has a validation-selected baseline.",
+                "table.loc[table.load_tier == 'All', ['model','horizon','mae','rmse','wape','active_only_mae']]",
+            ),
+            (
+                "champion_benchmark_holdout.csv",
+                "Errors by development load tier",
+                "Load groups were fitted on development data. Compare errors within each group.",
+                "table.loc[table.load_tier != 'All', ['model','horizon','load_tier','mae','wape','n_valid']]",
+            ),
+            (
+                "paired_comparison_holdout.csv",
+                "Paired BS bootstrap",
+                "Difference is MAE(champion) minus MAE(baseline). A 95% interval below zero favors champion.",
+                "table[['horizon','model_b','difference','lower','upper','n_clusters']]",
+            ),
+            (
+                "risk_holdout.csv",
+                "Historical exceedance metrics",
+                "Precision measures alarm reliability. Recall measures the fraction of actual exceedances found. Low recall remains a limitation.",
+                "table.loc[table.load_tier == 'All', ['model','horizon','threshold','precision','recall','fpr','positive_events']]",
+            ),
+            (
+                "risk_cases_holdout.csv",
+                "False alarms and misses",
+                "FP is a false alarm; FN is a missed exceedance. First available examples, not inferred incidents.",
+                "table.head(12)",
+            ),
         ]:
-            cell("markdown", f"## {title}\n\nSaved results; no model fitting or new evaluation.\n")
-            cell("code", f"display(pd.read_csv(REPORTS / {name!r}))\n")
+            cell(
+                "markdown",
+                f"## {title}\n\n{explanation}\n\nSaved results; no training or new replay.\n",
+            )
+            cell(
+                "code",
+                f"# Show the columns needed for this question.\ntable = pd.read_csv(REPORTS / {name!r})\ndisplay({expression})\n",
+            )
     else:
         if mode == "final":
             _, manifest = verify_frozen()
@@ -154,7 +186,7 @@ os.environ['SOURCE_GIT_COMMIT'] = SOURCE_COMMIT
             "        if Path(folder).exists(): archive.add(folder,arcname=folder)\n"
             "print('WEEK6_COMPLETE',flush=True)\n",
         )
-    slug = "5g-network-intelligence-week6" + ("" if mode == "final" else "-" + mode)
+    slug = "5g-network-intelligence-week6-" + mode
     output = Path(".cache") / slug
     output.mkdir(parents=True, exist_ok=True)
     notebook = {
@@ -180,7 +212,7 @@ os.environ['SOURCE_GIT_COMMIT'] = SOURCE_COMMIT
         "dataset_sources": [],
         "competition_sources": [],
         "kernel_sources": [
-            "truongbaokien/5g-network-intelligence-week6"
+            "truongbaokien/5g-network-intelligence-week6-final"
             if mode == "review"
             else "truongbaokien/5g-network-intelligence-week5"
         ],

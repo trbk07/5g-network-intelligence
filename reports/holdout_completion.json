@@ -1,0 +1,12 @@
+{
+  "status": "complete",
+  "freeze_commit": "12262838648dbc36cef9ca7390857a88075247cc",
+  "frozen_config_sha256": "7f11d8e4209b4a7e49a5a67e9f754e5f9c2607d130fe1d60f7fc2dbb83d5593e",
+  "files": {
+    "reports/champion_benchmark_holdout.csv": "07a7fd7161d1f1f3138c04cd70a9fc506ad9eda0225e6de3a487db2fef856172",
+    "reports/paired_comparison_holdout.csv": "632a108d9c224f3d518415604ceb3b1fc71856384bf70ad7fdba9744efad54d4",
+    "reports/risk_holdout.csv": "e0bafe90f879b4f031aa73af980d3242488cac300cc8caec14f494c5b44b13b0",
+    "reports/risk_cases_holdout.csv": "1bd16cc59de7faf4935d2a486492fcf9eef5b35997a1124eb0c3685f2beb97ee",
+    "reports/forecasts/champion_holdout.npz": "32025dec7bb8f5f4003a065c218ce009bc0234a79fe795de52631352f3b83295"
+  }
+}
