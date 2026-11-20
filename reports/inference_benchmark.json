@@ -1,0 +1,73 @@
+{
+  "scope": "Local CPU shared Predictor.predict_risk, 3 horizons + 168-point histories; no training",
+  "model": {
+    "champion": "lightgbm_c1",
+    "model_version": "12262838648d",
+    "horizons": [
+      1,
+      6,
+      24
+    ],
+    "dataset_revision": "c9ecaf153354b2cc415c64750a966c47c7f3f6ac",
+    "is_replay": true,
+    "forecast_quantiles_available": false,
+    "preprocessing": "40 causal inputs; native missing values",
+    "limitations": [
+      "Historical offline replay, not live telemetry.",
+      "P90/P95 are historical beam thresholds, not forecast quantiles or congestion probabilities.",
+      "Measured P90 recall is only about 10-16%; many exceedances are missed.",
+      "Internal one-week holdout; external future-network generalization is unproven."
+    ]
+  },
+  "cpu": "13th Gen Intel(R) Core(TM) i7-13650HX",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.13",
+  "model_load_ms": 4161.5672999996605,
+  "memory": {
+    "python_traced_current_bytes": 55811966,
+    "python_traced_peak_bytes": 56404900,
+    "limitation": "Python allocation tracing excludes native LightGBM/NumPy memory.",
+    "process_rss_bytes_after_load": 182505472
+  },
+  "latency": [
+    {
+      "beams": 1,
+      "warmup": 10,
+      "repetitions": 100,
+      "p50_ms": 1.6562000009798794,
+      "p95_ms": 2.3385050013530413,
+      "min_ms": 1.512900000307127,
+      "max_ms": 2.959999999802676
+    },
+    {
+      "beams": 10,
+      "warmup": 10,
+      "repetitions": 100,
+      "p50_ms": 3.857499998957792,
+      "p95_ms": 4.850325000825249,
+      "min_ms": 3.4960000011778902,
+      "max_ms": 5.6786000004649395
+    }
+  ],
+  "docker_images": [
+    {
+      "tags": [
+        "5g-network-intelligence-api:week7"
+      ],
+      "size_bytes": 142256948,
+      "id": "sha256:e4bc8b001c2ac1c79a6d860a9a2e11cdacd1f1d8fd63b2d01db27a1ef9de477b"
+    },
+    {
+      "tags": [
+        "5g-network-intelligence-dashboard:week7"
+      ],
+      "size_bytes": 196415065,
+      "id": "sha256:28eeff270f8ce2173e560fb13fca7d216304ebd85c4efde8ea1935137b1ebbc0"
+    }
+  ],
+  "limitations": [
+    "Single process, sequential warm requests; not a production SLA or load test.",
+    "Cold model loading and warm inference are reported separately.",
+    "Image sizes reflect the deployed LightGBM profile only; baseline/GRU image sizes are not measured."
+  ]
+}
