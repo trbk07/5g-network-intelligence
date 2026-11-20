@@ -1,0 +1,37 @@
+# Post-freeze research only. Never promote using the already observed holdout.
+artifact_dir: artifacts/lgbm_w7
+seed: 17
+num_threads: 4
+training_stride: 2
+configs:
+  deeper_l1:
+    objective: regression_l1
+    num_leaves: 63
+    min_data_in_leaf: 100
+    learning_rate: 0.035
+    n_estimators: 1200
+    early_stopping_rounds: 80
+  regularized_l1:
+    objective: regression_l1
+    num_leaves: 31
+    min_data_in_leaf: 200
+    lambda_l1: 0.1
+    lambda_l2: 1.0
+    learning_rate: 0.025
+    n_estimators: 1600
+    early_stopping_rounds: 100
+  shallow_l1:
+    objective: regression_l1
+    num_leaves: 15
+    min_data_in_leaf: 100
+    learning_rate: 0.04
+    n_estimators: 1200
+    early_stopping_rounds: 80
+  squared_error:
+    objective: regression
+    num_leaves: 31
+    min_data_in_leaf: 100
+    lambda_l2: 1.0
+    learning_rate: 0.035
+    n_estimators: 1200
+    early_stopping_rounds: 80
