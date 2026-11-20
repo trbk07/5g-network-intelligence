@@ -1,0 +1,89 @@
+{
+  "1": {
+    "mae": 0.2338596853178688,
+    "weights": {
+      "dense": 0.6,
+      "residual_seasonal": 0.4
+    },
+    "bias": -0.01,
+    "single_model_mae": {
+      "cb8": 0.2365047931909165,
+      "dense": 0.2345206699241479,
+      "cb6": 0.23642468138055212,
+      "residual_seasonal": 0.23574168643532073,
+      "deeper": 0.23626346098800008,
+      "c1": 0.23675885819968331,
+      "wide": 0.23593019065831458,
+      "seasonal24": 0.33985019843215036,
+      "persistence": 0.3041896705776282
+    },
+    "shortlist": [
+      "dense",
+      "residual_seasonal",
+      "wide",
+      "deeper",
+      "cb6",
+      "c1",
+      "persistence"
+    ],
+    "selection_data": "inner1+inner2 score windows only"
+  },
+  "6": {
+    "mae": 0.2566143112025099,
+    "weights": {
+      "dense": 0.5,
+      "wide": 0.2,
+      "cb8": 0.3
+    },
+    "bias": -0.01,
+    "single_model_mae": {
+      "cb8": 0.2580294770032706,
+      "dense": 0.25720265522478775,
+      "cb6": 0.25836013542169795,
+      "deeper": 0.25815053819493006,
+      "c1": 0.2588799526787372,
+      "wide": 0.2576809805964705,
+      "seasonal24": 0.3396265469296793,
+      "persistence": 0.5108748937002798
+    },
+    "shortlist": [
+      "dense",
+      "wide",
+      "cb8",
+      "deeper",
+      "c1",
+      "seasonal24"
+    ],
+    "selection_data": "inner1+inner2 score windows only"
+  },
+  "24": {
+    "mae": 0.2524708455653343,
+    "weights": {
+      "dense": 0.6,
+      "wide": 0.2,
+      "cb8": 0.2
+    },
+    "bias": -0.01,
+    "single_model_mae": {
+      "cb8": 0.253999460836271,
+      "dense": 0.25299716463365984,
+      "cb6": 0.25481544902997993,
+      "recent": 0.25359483870894806,
+      "deeper": 0.25387440506728254,
+      "c1": 0.25460443072835637,
+      "wide": 0.25350262180011107,
+      "seasonal24": 0.33297773758612564,
+      "persistence": 0.33297773758612564
+    },
+    "shortlist": [
+      "dense",
+      "wide",
+      "recent",
+      "deeper",
+      "cb8",
+      "c1",
+      "persistence"
+    ],
+    "selection_data": "inner1+inner2 score windows only"
+  }
+}

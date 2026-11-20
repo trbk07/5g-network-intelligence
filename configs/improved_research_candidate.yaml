@@ -1,0 +1,59 @@
+research_only: true
+deployment_allowed: false
+holdout_allowed: false
+family: causal40_lgbm_catboost_ensemble
+artifact_dir: artifacts/improved_candidate
+fit_end: 503
+selection_sha256: ead74dc2575df585994db72a3102146a576cdb962037e02ae3cf0b95ffd9b030
+routes:
+  '1':
+    bias: -0.01
+    members:
+      dense:
+        family: lgbm
+        path: members/dense/h1
+        iterations: 532
+        weight: 0.6
+      residual_seasonal:
+        family: lgbm
+        path: members/residual_seasonal/h1
+        iterations: 599
+        weight: 0.4
+  '6':
+    bias: -0.01
+    members:
+      dense:
+        family: lgbm
+        path: members/dense/h6
+        iterations: 371
+        weight: 0.5
+      wide:
+        family: lgbm
+        path: members/wide/h6
+        iterations: 106
+        weight: 0.2
+      cb8:
+        family: catboost
+        path: members/cb8/h6
+        iterations: 1632
+        weight: 0.3
+  '24':
+    bias: -0.01
+    members:
+      dense:
+        family: lgbm
+        path: members/dense/h24
+        iterations: 432
+        weight: 0.6
+      wide:
+        family: lgbm
+        path: members/wide/h24
+        iterations: 109
+        weight: 0.2
+      cb8:
+        family: catboost
+        path: members/cb8/h24
+        iterations: 1286
+        weight: 0.2
+promotion_requirement: Fresh unseen chronological data under a separately frozen evaluation
+  protocol

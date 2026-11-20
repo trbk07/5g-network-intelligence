@@ -30,6 +30,14 @@ MAE by **0.337%** (a small exploratory gain). It is saved separately as a resear
 candidate; the deployed champion and final holdout remain unchanged. See
 [Week 7 results and trade-offs](reports/week7_results.md).
 
+The subsequent chronological search improves mean normalized validation MAE by
+**0.878% vs C1** and **0.543% vs the Week 7 candidate**. Its causal40 ensemble
+combines dense-origin LightGBM with a seasonal residual model at 1h and
+LightGBM/CatBoost at 6h/24h. See [measured results](reports/model_improvement_results.md)
+and [the report-only notebook](notebooks/08_model_improvement_review.ipynb).
+This is an independently loadable research candidate; fresh unseen chronological
+data is required before promotion. The frozen dashboard champion remains intact.
+
 Week 1 implements dataset ingestion, provenance, panel construction, descriptive audit,
 and chronological split preparation. Models and application components are scheduled
 for subsequent weeks in [the execution plan](plan5G.md).

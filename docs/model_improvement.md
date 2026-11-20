@@ -1,5 +1,12 @@
 # Model improvement protocol
 
+Completed: both search workers and the fixed ensemble audit finished on Kaggle.
+The new candidate reduces mean normalized reused-validation MAE by 0.878% vs C1
+and 0.543% vs Week 7 deeper. All three horizon MAEs improve. See
+[the full result](../reports/model_improvement_results.md) and
+`configs/improved_research_candidate.yaml`. It is research-only; no new final
+holdout score or production promotion was performed.
+
 Objective: minimize mean normalized original-unit MAE across +1/+6/+24 hours.
 Risk precision/recall/FPR, active/zero errors and load groups are secondary
 diagnostics. Do not silently change the objective to higher peak recall when
@@ -69,6 +76,12 @@ the winning horizon. Keep all new artifacts outside `artifacts/champion`.
   data and saved Week 7 validation references; cloud-select, refit and audit.
 - `src/models/research_ensemble.py::ResearchEnsemble`: independent CPU inference
   from the saved research candidate; no fitting in `predict_at`.
+- `python -m scripts.predict_research --origin 503 --beam-ids 0_0_0`: local
+  inference only from downloaded artifacts; the command restricts targets to
+  development/validation and never exposes final holdout actuals.
+- `python -m scripts.summarize_improvement`: checks saved artifact hashes,
+  selection identity and 60 CPU/cloud predictions, then summarizes existing
+  scores without fitting or choosing new weights.
 
 The execution notebooks show plain Python files in separate cells, with explicit
 cloud training sections and progress logs. A review notebook must only display

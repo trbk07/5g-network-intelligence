@@ -62,6 +62,10 @@ def main():
         name: float((1 - mae.loc["improved_ensemble"] / mae.loc[name]).mean() * 100)
         for name in ("lightgbm_c1", "week7_deeper_l1")
     }
+    risk = pd.read_csv(reports / "improvement_risk.csv")
+    risk_table = risk[risk.model == "improved_ensemble"][
+        ["horizon", "threshold", "precision", "recall", "fpr", "positive_events"]
+    ]
     lines = [
         "# Model improvement results",
         "",
@@ -107,6 +111,13 @@ def main():
         "Audit 504-671 is previously seen validation. No new final holdout score or global-optimality claim is made. Fresh unseen chronological data and a separately frozen promotion protocol remain necessary.",
         "Forecast MAE and exceedance alerting are different objectives: inspect improvement_risk.csv for precision/recall/FPR. Thresholds are historical scenarios, not verified congestion or predictive quantiles.",
         "No changes were made to artifacts/champion, configs/champion.yaml or Week 6 holdout reports.",
+        "",
+        "## Exceedance trade-off",
+        "",
+        "```csv",
+        risk_table.to_csv(index=False).strip(),
+        "```",
+        "The new ensemble favors point MAE. Its P90 recall remains roughly 10-17%; recall at 6h/24h is lower than C1 while precision improves and FPR falls. This is not a complete solution to peak alerting.",
         "",
         "## Reproduction",
         "",
