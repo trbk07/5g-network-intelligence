@@ -1,0 +1,14 @@
+{
+  "research_only": true,
+  "production_champion_unchanged": true,
+  "holdout_reopened": false,
+  "validation_best": "deeper_l1",
+  "mean_normalized_mae": {
+    "deeper_l1": 0.9966299205889261,
+    "lightgbm_c1": 1.0,
+    "regularized_l1": 0.9985745326074413,
+    "shallow_l1": 1.0019088956775641,
+    "squared_error": 1.0398987084090645
+  },
+  "limitation": "Repeated validation experiments are exploratory. Fresh unseen chronological data required for a new final claim or promotion."
+}

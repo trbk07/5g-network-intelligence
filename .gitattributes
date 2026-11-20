@@ -6,6 +6,9 @@
 *.md text eol=lf
 *.csv text eol=lf
 *.ipynb text eol=lf
+*.log text eol=lf
+*.txt text eol=lf
+*.toml text eol=lf
 *.png binary
 *.npz binary
 *.pt binary

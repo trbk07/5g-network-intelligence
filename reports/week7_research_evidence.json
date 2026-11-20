@@ -1,0 +1,130 @@
+{
+  "research_only": true,
+  "training_runtime": "Kaggle hosted CPU",
+  "kernel": "truongbaokien/5g-network-intelligence-week7-research",
+  "version": 2,
+  "status": "complete",
+  "completed_model_runs": 12,
+  "holdout_reopened": false,
+  "production_champion_changed": false,
+  "attempts": [
+    {
+      "version": 1,
+      "status": "packaging_error_before_fitting"
+    },
+    {
+      "version": 2,
+      "status": "complete"
+    }
+  ],
+  "archive_sha256": "db6b3732a57bb26719513a3bb4ba0452d6ccf00d374a361194983075b4eb6fd1",
+  "forecast_sha256": "03b744d6c8b02d1c8bcccd17b60dd929ea4b461b1f24c37660966b3cddba6f33",
+  "models": {
+    "deeper_l1/h1": {
+      "best_iteration": 635,
+      "files": {
+        "context.npz": "6ee4695e8ed9d034051161c93fc914d34348b026a0d158b63419768ae6556711",
+        "meta.json": "62b8877dd2986d8d6b59439ea6fd71e29b60dea713d2582a55bbc64313cb0b03",
+        "model.txt": "e615084e6df171df8ec94326c7616bd3a9e322db8f853fbe463713d584255e3b"
+      }
+    },
+    "deeper_l1/h6": {
+      "best_iteration": 435,
+      "files": {
+        "context.npz": "6ee4695e8ed9d034051161c93fc914d34348b026a0d158b63419768ae6556711",
+        "meta.json": "136730e1bc8aa520305db5949706eca85632968a6b93aeb8ba48cef40de50ffe",
+        "model.txt": "db92df73d35868904c3acc1bcf7215515d82c247a6b6b0443bfff9101a3b520c"
+      }
+    },
+    "deeper_l1/h24": {
+      "best_iteration": 408,
+      "files": {
+        "context.npz": "6ee4695e8ed9d034051161c93fc914d34348b026a0d158b63419768ae6556711",
+        "meta.json": "9499aec178a4350ae98c83fc94adaf6e43480b9a142197ca79b617c4c0e2fe1c",
+        "model.txt": "0ceb0cdcf5f4f425cca01713a369dda2b4c969794d8deace560fb9fc3fd7a7c4"
+      }
+    },
+    "regularized_l1/h1": {
+      "best_iteration": 709,
+      "files": {
+        "context.npz": "6ee4695e8ed9d034051161c93fc914d34348b026a0d158b63419768ae6556711",
+        "meta.json": "e463820f1a9898517733c3672ffce8cc4c4649553350b862896eff982e675882",
+        "model.txt": "6a64cd96f63ed9525182f623a95ffd2f6ae8bdcc2afb8932305f5dd27e9d4cd8"
+      }
+    },
+    "regularized_l1/h6": {
+      "best_iteration": 1270,
+      "files": {
+        "context.npz": "6ee4695e8ed9d034051161c93fc914d34348b026a0d158b63419768ae6556711",
+        "meta.json": "d670ac1ecae6392820e139eac4def1bda1aa9f31a41f2daf7901a2e17ba24f1c",
+        "model.txt": "637539d2e1110eb89dbb92f0c7ca82fded3aea08c1e8343bcac6f86ae1a646ff"
+      }
+    },
+    "regularized_l1/h24": {
+      "best_iteration": 1031,
+      "files": {
+        "context.npz": "6ee4695e8ed9d034051161c93fc914d34348b026a0d158b63419768ae6556711",
+        "meta.json": "23adc8cbedb09ed264350aa293672e6e4106a9b2a26a59f384a021debab8caa0",
+        "model.txt": "c1a24cb9d60dbae689542293da7085d4671521c0b05be7685762cd139232681f"
+      }
+    },
+    "shallow_l1/h1": {
+      "best_iteration": 574,
+      "files": {
+        "context.npz": "6ee4695e8ed9d034051161c93fc914d34348b026a0d158b63419768ae6556711",
+        "meta.json": "6a3a09ced5be888fa1ec12b9d51e6474df702d0d3bb65b5e5de7e7c0ea9c5a23",
+        "model.txt": "c097bebce8c218e373884f65420c7eec3d6efac3851c5802c61c66e68ecde1e3"
+      }
+    },
+    "shallow_l1/h6": {
+      "best_iteration": 786,
+      "files": {
+        "context.npz": "6ee4695e8ed9d034051161c93fc914d34348b026a0d158b63419768ae6556711",
+        "meta.json": "a2a07b81bc89de23004589e95b60ca918c11825a8e5bc049b52a3f8eb6d34bf9",
+        "model.txt": "d7838fd76cdd08fdfa1d8c85f666d983ea2c29775cabda5ab9a906e06d9af951"
+      }
+    },
+    "shallow_l1/h24": {
+      "best_iteration": 460,
+      "files": {
+        "context.npz": "6ee4695e8ed9d034051161c93fc914d34348b026a0d158b63419768ae6556711",
+        "meta.json": "274f43e719f2a6d40c7450741c90b50a7f727c867f27f1aa6d2908681e876553",
+        "model.txt": "68f1d978e9f9061d6af695b499f62f24f4db9258ca4326f39a195a2cca932fbf"
+      }
+    },
+    "squared_error/h1": {
+      "best_iteration": 1198,
+      "files": {
+        "context.npz": "6ee4695e8ed9d034051161c93fc914d34348b026a0d158b63419768ae6556711",
+        "meta.json": "ea27d839d4b9d4f5e9117a83b1d94359787c15c87e8bff107808c94dbc59a77f",
+        "model.txt": "0c4fa90cc5aeba46fa3d7ac57b070ce942e23d7604fec6b5e06f9d5cdff25057"
+      }
+    },
+    "squared_error/h6": {
+      "best_iteration": 1176,
+      "files": {
+        "context.npz": "6ee4695e8ed9d034051161c93fc914d34348b026a0d158b63419768ae6556711",
+        "meta.json": "e524f0ad90e337fa4446f0a47c4f8646e45c5cd8a4035f99b1346ab14fce908d",
+        "model.txt": "b3338b981189b3739786c5b12da6b172b0bf2f68e2fc07b5691ad23d7b0bfab1"
+      }
+    },
+    "squared_error/h24": {
+      "best_iteration": 1136,
+      "files": {
+        "context.npz": "6ee4695e8ed9d034051161c93fc914d34348b026a0d158b63419768ae6556711",
+        "meta.json": "db8bf35145214143c5ce991001a6bc6124cf3de35e616faf9e60fb07d9026a05",
+        "model.txt": "c3c9575758e3b34958632750e83a029de6a3386dbb14b6f43a91eeb6ed3c36a1"
+      }
+    }
+  },
+  "reports": {
+    "week7_research_validation.csv": "1b54790428d21dc03004a41da0ee44d48bd4143c3932c1e789331929f1bc6d8f",
+    "week7_research_risk.csv": "c9ee538d61691c75069e08bce0af2ff44f02683ba32e89d037b0f6c8eac03b70",
+    "week7_research_paired.csv": "49c02bc24cea6da7ca5909333b8eefcec6eca5bc24cffa325b9d3f13030ff826",
+    "week7_research_decision.json": "adb2a43fd573fa18b0a0ee9733c2c43320ab8937681845368f9120a0c5240b8a",
+    "week7_research.md": "08e340c176395e8cc2f0a22c4e8f9e383bf3d4d7dbcf6a7027f07dade4ca7963",
+    "week7_research_run.log": "159d583e4dee1039205e6225a2356e61fe66a775569e56cd11ef7a3aad5ad235"
+  },
+  "packaged_notebook_sha256": "2c2c3f7680cc1d3bc066ea716904c08e79e4da3a9b0d03680c90d1172bfc9867",
+  "source_note": "Exact submitted notebook snapshot; source cells are authoritative. Base Git commit plus working-tree packaging fix, no production artifact changes."
+}

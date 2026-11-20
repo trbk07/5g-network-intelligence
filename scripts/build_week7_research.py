@@ -11,6 +11,8 @@ def main():
     notebook = json.loads((stage / "week6.ipynb").read_text())
     for cell in notebook["cells"]:
         source = "".join(cell["source"])
+        if source.startswith("%%writefile "):
+            continue  # Preserve packaged modules verbatim; edit execution cells only.
         source = source.replace("scripts.run_risk", "scripts.research_week7").replace(
             "['scripts.research_week7', '--segment', 'val']", "['scripts.research_week7']"
         )
@@ -19,6 +21,9 @@ def main():
         )
         # Packaging template stores the archive tuple without spaces.
         source = source.replace("week6_results.tar.gz", "week7_research_results.tar.gz")
+        source = source.replace("holdout_run.log", "week7_research_run.log").replace(
+            "WEEK6_COMPLETE", "WEEK7_RESEARCH_COMPLETE"
+        )
         if "'m','pip','install'" in source:
             source = source.replace(".[dev,ml,neural]", ".[dev,ml,neural,app]")
         # This worker runs the research script, not the product test suite.

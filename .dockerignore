@@ -1,0 +1,11 @@
+*
+!src/
+!src/**
+!app/
+!app/**
+!.streamlit/
+!.streamlit/**
+!requirements-api.lock.txt
+!requirements-dashboard.lock.txt
+**/__pycache__/
+**/*.pyc

@@ -1,0 +1,52 @@
+{
+  "gate": "G7",
+  "status": "PASS",
+  "training_performed_locally": false,
+  "production_champion": "lightgbm_c1",
+  "model_version": "12262838648d",
+  "dataset_revision": "c9ecaf153354b2cc415c64750a966c47c7f3f6ac",
+  "beams_loaded": 24,
+  "historical_replay_only": true,
+  "compose_health": {
+    "api": "healthy",
+    "dashboard": "healthy"
+  },
+  "images": {
+    "5g-network-intelligence-api:week7": {
+      "size_bytes": 142256948,
+      "id": "sha256:e4bc8b001c2ac1c79a6d860a9a2e11cdacd1f1d8fd63b2d01db27a1ef9de477b"
+    },
+    "5g-network-intelligence-dashboard:week7": {
+      "size_bytes": 196415065,
+      "id": "sha256:28eeff270f8ce2173e560fb13fca7d216304ebd85c4efde8ea1935137b1ebbc0"
+    }
+  },
+  "cpu_profile": "LightGBM, torch/CUDA packages absent in API and dashboard images",
+  "parity": {
+    "beam_origin_pairs": 20,
+    "horizons": 3,
+    "atol": 1e-09,
+    "max_absolute_error": 0.0,
+    "transport": "real Docker HTTP"
+  },
+  "tests": {
+    "passed": 88,
+    "skipped_local_training": 4,
+    "ruff": "passed",
+    "browser_javascript_errors": 0,
+    "interactions": "beam A -> beam B -> new origin; status equals API"
+  },
+  "latency_ms": {
+    "scope": "20 sequential local Docker HTTP /risk requests, one beam; illustrative, not a load test",
+    "median": 3.3799999998791463,
+    "max": 31.834899999921618
+  },
+  "files": {
+    "reports/inference_parity.csv": "26cd45256fbd3b79cc385a09ded9dcdd05cbd3d2720ab21e116913b7dbb4d557",
+    "reports/figures/week7_dashboard.png": "e123fc855759b5b2dfd7e52473ea2e39e7daf1531cae8bc8fc050a3454beeaca",
+    "demo_assets/manifest.json": "6a141c679ce5722c550b51fde6bd5457f49150734c5ba6061caf66e4d57e3561",
+    "requirements-api.lock.txt": "b60c28922747806be0fdf68a587159a7f258cbc00c07a0f6cddf1299f8730e0d",
+    "requirements-dashboard.lock.txt": "4c3edf5cfadc65df26a197c9d3e01bc1493d55179811a514b35a0cf228fbb235",
+    "reports/week7_local_tests.log": "d1c027e63bee956e6189fde4b653e7d6d0a25a0c463cf029790714d54d38af7f"
+  }
+}

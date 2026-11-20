@@ -1,0 +1,25 @@
+family: lightgbm_deeper_l1
+research_only: true
+deployment_allowed: false
+frozen: false
+holdout_allowed: false
+fit:
+- 0
+- 503
+validation:
+- 504
+- 671
+feature_schema: lgbm-causal40-v2
+seed: 17
+routes:
+  1:
+    artifact_dir: artifacts/lgbm_w7/deeper_l1/h1
+    best_iteration: 635
+  6:
+    artifact_dir: artifacts/lgbm_w7/deeper_l1/h6
+    best_iteration: 435
+  24:
+    artifact_dir: artifacts/lgbm_w7/deeper_l1/h24
+    best_iteration: 408
+promotion_requirement: Fresh unseen chronological evaluation data and a separately
+  frozen protocol; do not reuse Week 6 holdout.

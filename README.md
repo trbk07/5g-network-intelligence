@@ -5,6 +5,31 @@
 A reproducible 5G beam-level KPI forecasting and historical capacity-risk monitoring
 system using LightGBM, GRU, FastAPI, Streamlit, and Docker.
 
+**Current product:** Weeks 1-7 are implemented. The historical replay dashboard
+and five-endpoint API run on CPU with the frozen Week 6 champion. See
+[Week 7 startup and verification](docs/week7.md) and
+[product evidence](reports/week7_product_evidence.json).
+
+```powershell
+# Prepare 24 verified real-data demo beams from the completed Week 6 artifacts.
+.venv/Scripts/python.exe -m scripts.fetch_demo_assets
+docker compose up --build -d --wait
+```
+
+Open [the dashboard](http://127.0.0.1:8501) or [API docs](http://127.0.0.1:8000/docs).
+For an authorized clean clone, asset setup supports `--download` from existing
+private Kaggle outputs; no public release asset is assumed. The app never trains.
+
+![Historical offline replay dashboard](reports/figures/week7_dashboard.png)
+
+Week 7 model research is isolated to the original fit/validation ranges. It
+does not replace the frozen champion or reuse the final holdout for selection.
+Review [the commented notebook](notebooks/07_product_and_research.ipynb).
+Cloud research completed 12 fits: `deeper_l1` reduces mean normalized validation
+MAE by **0.337%** (a small exploratory gain). It is saved separately as a research
+candidate; the deployed champion and final holdout remain unchanged. See
+[Week 7 results and trade-offs](reports/week7_results.md).
+
 Week 1 implements dataset ingestion, provenance, panel construction, descriptive audit,
 and chronological split preparation. Models and application components are scheduled
 for subsequent weeks in [the execution plan](plan5G.md).

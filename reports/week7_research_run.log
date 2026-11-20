@@ -1,0 +1,12 @@
+Validation research: deeper_l1 1 h; trees: 635
+Validation research: regularized_l1 1 h; trees: 709
+Validation research: shallow_l1 1 h; trees: 574
+Validation research: squared_error 1 h; trees: 1198
+Validation research: deeper_l1 6 h; trees: 435
+Validation research: regularized_l1 6 h; trees: 1270
+Validation research: shallow_l1 6 h; trees: 786
+Validation research: squared_error 6 h; trees: 1176
+Validation research: deeper_l1 24 h; trees: 408
+Validation research: regularized_l1 24 h; trees: 1031
+Validation research: shallow_l1 24 h; trees: 460
+Validation research: squared_error 24 h; trees: 1136

@@ -5,6 +5,51 @@ import numpy as np
 from src.evaluation.bootstrap import paired_multihorizon_ci
 
 
+def load_champion(directory="demo_assets/champion"):
+    """Load verified CPU inference artifacts once; no torch import for LightGBM/baseline."""
+    import json
+    from pathlib import Path
+
+    from src.inference.freeze import verify_artifacts
+    from src.models.baselines import Persistence, SeasonalNaive
+    from src.models.lgbm import SCHEMA, load_lgbm
+    from src.risk.thresholds import Thresholds
+
+    directory = Path(directory)
+    manifest = verify_artifacts(directory)
+    meta = json.loads((directory / "champion_meta.json").read_text())
+    if (
+        meta["frozen_config_sha256"] != manifest["frozen_config_sha256"]
+        or meta["freeze_commit"] != manifest["freeze_commit"]
+    ):
+        raise ValueError("Champion metadata provenance mismatch")
+    family = meta["family"]
+    if family.startswith("lightgbm_"):
+        models = {h: load_lgbm(directory / f"h{h}") for h in (1, 6, 24)}
+        if any(
+            m.metadata["feature_schema"] != SCHEMA
+            or m.static.fit_end != meta["fit_end"]
+            or list(m.static.beam_ids) != meta["beam_ids"]
+            for m in models.values()
+        ):
+            raise ValueError("Champion feature/context schema mismatch")
+    elif family in ("persistence", "seasonal_naive_24", "seasonal_naive_168"):
+        model = (
+            Persistence()
+            if family == "persistence"
+            else SeasonalNaive(int(family.rsplit("_", 1)[1]))
+        )
+        models = {h: model for h in (1, 6, 24)}
+    else:
+        raise ValueError(
+            "Unsupported deployment family: select the validated LightGBM/baseline profile"
+        )
+    thresholds = Thresholds.load(directory / "thresholds.npz")
+    if thresholds.fit_end != meta["fit_end"] or list(thresholds.beam_ids) != meta["beam_ids"]:
+        raise ValueError("Historical threshold context mismatch")
+    return models, thresholds, meta
+
+
 def choose_candidate(
     families: dict,
     clusters: np.ndarray,
