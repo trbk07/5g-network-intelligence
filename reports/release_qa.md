@@ -12,6 +12,8 @@ Release v1.0.0 has not yet been declared ready. Outstanding items are explicit.
 | LightGBM routing | actual frozen artifacts with synthetic request ordering | PASS |
 | Optional GRU CPU routing | initialized-state fixture, phase4, no training | PASS; GRU Docker profile not shipped |
 | Frozen model / holdout provenance | existing artifact/output checksum verification | PASS; final targets not replayed |
+| Original LightGBM/GRU artifact quality | release_model_quality_recheck.json | PASS, read-only schema/provenance/preprocessing checks |
+| Baseline/metric/common-mask/origin/leakage science subset | 30 focused tests | PASS, no fitting |
 | CPU latency / RSS / image footprint | inference_benchmark.json/.md | PASS, single-process measurement, no SLA claim |
 | Experiment report generated from CSV | scripts/build_report.py | PASS; rendered plot inspected |
 | Model card / architecture / limitations | docs/model_card.md, architecture.md, limitations.md | Present |
