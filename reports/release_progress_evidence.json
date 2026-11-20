@@ -1,10 +1,10 @@
 {
   "local_training": false,
   "nontraining_suite": {
-    "passed": 101,
+    "passed": 103,
     "skipped": 1,
     "deselected_fitting": 5,
-    "command": "pytest -m not-cloud-training (actual selector: not cloud_training)"
+    "command": "pytest -q -m not cloud_training (selector passed as one argument)"
   },
   "targeted_artifact_e2e": {
     "passed": 12,
@@ -27,6 +27,17 @@
     "docs/demo_walkthrough.webm": "a9b66be92ab83d0911a78c9f8cbe29d450c5227349c121068c9cf75b7c512d6c",
     "docs/screenshots/dashboard.png": "ce5104e917c0b329ad856073ee9a0c09a8a5c82f3aa3d0f70de6bad411f2dd97",
     "docs/screenshots/api_docs.png": "506e8f52ebf2031e849af83d3e02bb26d5b4b483d3f6562bfe3652b41a8d7ac3",
-    "reports/clean_clone_qa.json": "c879dcc19d7cf68ae066fb48bf5be35a14a0bc54cd95357118f0eb2e15d96d64"
-  }
+    "reports/clean_clone_qa.json": "a39dea9766bc711a07b87df9bbdec51cbc63d5180f9df1ab44df4639ebed1245",
+    "reports/release_nontraining_tests.log": "6708c507891003e5ddd1eb393de037a739bd69718163ecdcfb5b3871b9a621f6"
+  },
+  "source_rechecked": "ec9372e0463d93935a2e4e8d5176b0ca557f48cc",
+  "read_only_provenance_audit": {
+    "checks": 96,
+    "status": "PASS"
+  },
+  "remaining": [
+    "Code-license owner selection",
+    "Final Git tag/GitHub Release with assets",
+    "Published release asset download verification"
+  ]
 }
