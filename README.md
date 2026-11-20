@@ -5,6 +5,21 @@
 A reproducible 5G beam-level KPI forecasting and historical capacity-risk monitoring
 system using LightGBM, GRU, FastAPI, Streamlit, and Docker.
 
+**Problem:** beam-level usage changes make future load hard to inspect from raw
+KPI tables. This project forecasts usage at +1/+6/+24 hours and shows historical
+P90/P95 exceedance scenarios through an explicitly offline replay dashboard.
+
+| Internal holdout | 1h | 6h | 24h |
+| --- | ---: | ---: | ---: |
+| Champion MAE | 0.228237 | 0.250562 | 0.249446 |
+| Validation-selected baseline MAE | 0.298215 | 0.327570 | 0.326987 |
+| MAE reduction | 23.47% | 23.51% | 23.71% |
+
+Evaluation is chronological, uses common finite pairs and preserves a pre-holdout
+freeze. Historical risk is not verified congestion; P90 recall is only about
+10-16%. See the [model card](docs/model_card.md), [experiment report](reports/experiment_report.md)
+and [limitations](docs/limitations.md).
+
 **Current product:** Weeks 1-7 are implemented. The historical replay dashboard
 and five-endpoint API run on CPU with the frozen Week 6 champion. See
 [Week 7 startup and verification](docs/week7.md) and
@@ -17,6 +32,8 @@ docker compose up --build -d --wait
 ```
 
 Open [the dashboard](http://127.0.0.1:8501) or [API docs](http://127.0.0.1:8000/docs).
+Watch the [two-minute walkthrough](docs/demo_walkthrough.webm), or inspect the
+[real API screenshot](docs/screenshots/api_docs.png).
 For an authorized clean clone, asset setup supports `--download` from existing
 private Kaggle outputs; no public release asset is assumed. The app never trains.
 

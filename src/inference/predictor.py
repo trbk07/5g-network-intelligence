@@ -44,7 +44,13 @@ class Predictor:
             "dataset_revision": self.metadata["dataset_revision"],
             "is_replay": True,
             "forecast_quantiles_available": False,
-            "preprocessing": "40 causal inputs; native missing values",
+            "preprocessing": (
+                "global per-KPI preprocessing; phase4"
+                if self.metadata["family"].startswith("gru_")
+                else "40 causal inputs; native missing values"
+                if self.metadata["family"].startswith("lightgbm_")
+                else "history-only baseline; no learned preprocessing"
+            ),
             "limitations": [
                 "Historical offline replay, not live telemetry.",
                 "P90/P95 are historical beam thresholds, not forecast quantiles or congestion probabilities.",

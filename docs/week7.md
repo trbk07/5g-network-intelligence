@@ -84,9 +84,11 @@ saved offline forecasts. Declared LightGBM absolute tolerance is 1e-9; observed
 maximum error is 0, including the actual Linux Docker API and dashboard transport.
 The dashboard has also been rendered in headless Edge, with no JavaScript errors.
 
-The shipped profile is LightGBM/baseline only. Neither Docker image installs
-Torch or CUDA packages. A future GRU deployment needs a separately implemented,
-tested CPU-only profile; no unsupported GRU deployment is claimed.
+The shipped Docker profile is LightGBM/baseline only. Neither Docker image
+installs Torch or CUDA packages. The optional Python registry also routes GRU
+ensembles on CPU when torch is installed; an initialized-state fixture checks
+phase4 and subset inference without fitting. A future GRU Docker deployment
+still needs a separately built CPU-only dependency profile and image benchmark.
 
 Implementation references: [FastAPI lifespan](https://fastapi.tiangolo.com/advanced/events/),
 [Streamlit AppTest](https://docs.streamlit.io/develop/api-reference/app-testing/st.testing.v1.apptest),

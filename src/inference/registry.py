@@ -40,6 +40,29 @@ def load_champion(directory="demo_assets/champion"):
             else SeasonalNaive(int(family.rsplit("_", 1)[1]))
         )
         models = {h: model for h in (1, 6, 24)}
+    elif family in ("gru_A", "gru_B"):
+        # Optional CPU profile only; the shipped LightGBM image never imports torch.
+        from src.models.gru_forecaster import GRUForecaster
+
+        seeds = meta.get("seeds", [])
+        if not seeds:
+            raise ValueError("GRU champion requires explicit ensemble seeds")
+        members = [GRUForecaster(directory / f"seed{seed}", device="cpu") for seed in seeds]
+        if any(
+            m.preprocessor.fit_end != meta["fit_end"]
+            or list(m.preprocessor.beam_ids) != meta["beam_ids"]
+            or m.variant != family[-1]
+            for m in members
+        ):
+            raise ValueError("GRU champion preprocessing/phase schema mismatch")
+
+        class GRUEnsemble:
+            name = family
+
+            def predict_at(self, history, origin, horizon):
+                return np.mean([m.predict_at(history, origin, horizon) for m in members], axis=0)
+
+        models = {h: GRUEnsemble() for h in (1, 6, 24)}
     else:
         raise ValueError(
             "Unsupported deployment family: select the validated LightGBM/baseline profile"

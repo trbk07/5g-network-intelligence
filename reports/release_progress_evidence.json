@@ -1,0 +1,32 @@
+{
+  "local_training": false,
+  "nontraining_suite": {
+    "passed": 101,
+    "skipped": 1,
+    "deselected_fitting": 5,
+    "command": "pytest -m not-cloud-training (actual selector: not cloud_training)"
+  },
+  "targeted_artifact_e2e": {
+    "passed": 12,
+    "fit_calls": 0
+  },
+  "http_parity": {
+    "comparisons": 60,
+    "max_error": 0.0
+  },
+  "video": {
+    "duration_seconds": 120,
+    "size_bytes": 21204032,
+    "inspected_frames_seconds": [
+      35,
+      80
+    ],
+    "format": "VP9 WebM, 1440x1200, 25fps, captions, no audio"
+  },
+  "files": {
+    "docs/demo_walkthrough.webm": "a9b66be92ab83d0911a78c9f8cbe29d450c5227349c121068c9cf75b7c512d6c",
+    "docs/screenshots/dashboard.png": "ce5104e917c0b329ad856073ee9a0c09a8a5c82f3aa3d0f70de6bad411f2dd97",
+    "docs/screenshots/api_docs.png": "506e8f52ebf2031e849af83d3e02bb26d5b4b483d3f6562bfe3652b41a8d7ac3",
+    "reports/clean_clone_qa.json": "c879dcc19d7cf68ae066fb48bf5be35a14a0bc54cd95357118f0eb2e15d96d64"
+  }
+}

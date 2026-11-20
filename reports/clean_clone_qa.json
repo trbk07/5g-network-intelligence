@@ -1,0 +1,80 @@
+{
+  "commit": "f403602d73bfadebd680f4e1ed61c2217c654aea",
+  "source": "fresh remote GitHub clone",
+  "assets_sha256": "3563d0447b713f7a208d9eeafedd23305ebb492309db8056b7ff8da891cd401b",
+  "local_training": false,
+  "checks": {
+    "health": true,
+    "model_info": true,
+    "replay_meta": true,
+    "forecast": true,
+    "risk": true,
+    "docs": true,
+    "negative_404_422": true,
+    "forecast_risk_parity": true,
+    "dashboard_health": true
+  },
+  "compose_ps": [
+    {
+      "Command": "\"python -m uvicorn s\u00e2\u20ac\u00a6\"",
+      "CreatedAt": "2026-11-21 00:13:19 +0700 +07",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "eb56fce2632b",
+      "Image": "5g-network-intelligence-api:week7",
+      "Labels": "com.docker.compose.project.config_files=D:\\5G\\.cache\\clean-clone-1795194793\\docker-compose.yml,com.docker.compose.project.working_dir=D:\\5G\\.cache\\clean-clone-1795194793,com.docker.compose.depends_on=,com.docker.compose.image=sha256:4916f02e57f11fd42d5f850a6f23e4b7f3b3643ca4f609283faf55684a8cd94b,desktop.docker.io/binds/0/SourceKind=hostFile,com.docker.compose.config-hash=d508c04d37ee243e5169f140ce7a1b76be0ae3dcc7e4ba363fd32632030a1fa7,com.docker.compose.project=fiveg-cleanqa,com.docker.compose.service=api,com.docker.compose.version=5.5.0,desktop.docker.io/ports.scheme=v2,com.docker.compose.container-number=1,com.docker.compose.oneoff=False,desktop.docker.io/binds/0/Source=D:\\5G\\.cache\\clean-clone-1795194793\\demo_assets,desktop.docker.io/binds/0/Target=/app/demo_assets,desktop.docker.io/ports/8000/tcp=127.0.0.1:18000",
+      "LocalVolumes": "0",
+      "Mounts": "/run/desktop/m\u00e2\u20ac\u00a6",
+      "Name": "fiveg-cleanqa-api-1",
+      "Names": "fiveg-cleanqa-api-1",
+      "Networks": "fiveg-cleanqa_default",
+      "Ports": "127.0.0.1:18000->8000/tcp",
+      "Project": "fiveg-cleanqa",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 8000,
+          "PublishedPort": 18000,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "12 seconds ago",
+      "Service": "api",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 11 seconds (healthy)"
+    },
+    {
+      "Command": "\"python -m streamlit\u00e2\u20ac\u00a6\"",
+      "CreatedAt": "2026-11-21 00:13:19 +0700 +07",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "7055c799aebb",
+      "Image": "5g-network-intelligence-dashboard:week7",
+      "Labels": "com.docker.compose.project.working_dir=D:\\5G\\.cache\\clean-clone-1795194793,com.docker.compose.service=dashboard,com.docker.compose.version=5.5.0,desktop.docker.io/ports.scheme=v2,desktop.docker.io/ports/8501/tcp=127.0.0.1:18501,com.docker.compose.config-hash=f58ebcecdcdd0d5abea684d022c6ce19ca730749c98031935ff9e8fe9269b0ff,com.docker.compose.container-number=1,com.docker.compose.depends_on=api:service_healthy:false,com.docker.compose.image=sha256:6286adb6f3b8b59aafb3a05177127d9f98c3ec4e3578ee467345ed05da7a113a,com.docker.compose.oneoff=False,com.docker.compose.project=fiveg-cleanqa,com.docker.compose.project.config_files=D:\\5G\\.cache\\clean-clone-1795194793\\docker-compose.yml",
+      "LocalVolumes": "0",
+      "Mounts": "",
+      "Name": "fiveg-cleanqa-dashboard-1",
+      "Names": "fiveg-cleanqa-dashboard-1",
+      "Networks": "fiveg-cleanqa_default",
+      "Ports": "127.0.0.1:18501->8501/tcp",
+      "Project": "fiveg-cleanqa",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 8501,
+          "PublishedPort": 18501,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "12 seconds ago",
+      "Service": "dashboard",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 5 seconds (healthy)"
+    }
+  ],
+  "status": "PASS"
+}
