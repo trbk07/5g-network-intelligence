@@ -1,0 +1,24 @@
+Default metric period is 5 because MAE is/are not implemented for GPU
+CatBoost GPU inner1 cb6 1 MAE 0.23162947891908073 trees 1430
+Default metric period is 5 because MAE is/are not implemented for GPU
+CatBoost GPU inner1 cb8 1 MAE 0.23169681233447953 trees 1311
+Default metric period is 5 because MAE is/are not implemented for GPU
+CatBoost GPU inner1 cb6 6 MAE 0.26068478371296305 trees 1000
+Default metric period is 5 because MAE is/are not implemented for GPU
+CatBoost GPU inner1 cb8 6 MAE 0.26021400460616145 trees 1171
+Default metric period is 5 because MAE is/are not implemented for GPU
+CatBoost GPU inner1 cb6 24 MAE 0.24814189525047253 trees 500
+Default metric period is 5 because MAE is/are not implemented for GPU
+CatBoost GPU inner1 cb8 24 MAE 0.24689461651841363 trees 793
+Default metric period is 5 because MAE is/are not implemented for GPU
+CatBoost GPU inner2 cb6 1 MAE 0.2412198838420236 trees 1798
+Default metric period is 5 because MAE is/are not implemented for GPU
+CatBoost GPU inner2 cb8 1 MAE 0.2413127740473535 trees 1558
+Default metric period is 5 because MAE is/are not implemented for GPU
+CatBoost GPU inner2 cb6 6 MAE 0.256035487130433 trees 1595
+Default metric period is 5 because MAE is/are not implemented for GPU
+CatBoost GPU inner2 cb8 6 MAE 0.2558449494003799 trees 1299
+Default metric period is 5 because MAE is/are not implemented for GPU
+CatBoost GPU inner2 cb6 24 MAE 0.2614890028094874 trees 1715
+Default metric period is 5 because MAE is/are not implemented for GPU
+CatBoost GPU inner2 cb8 24 MAE 0.26110430515412836 trees 1578
