@@ -6,12 +6,24 @@ from src.evaluation.bootstrap import paired_multihorizon_ci
 
 
 def choose_candidate(
-    families: dict, clusters: np.ndarray, order: list[str], repetitions: int = 1000, seed: int = 17
+    families: dict,
+    clusters: np.ndarray,
+    order: list[str],
+    repetitions: int = 1000,
+    seed: int = 17,
+    confidence: float = 0.95,
 ) -> tuple[str, list[dict]]:
     """Rank complete three-horizon families; fall back to cheaper if CI cannot distinguish."""
     horizons = (1, 6, 24)
     if not families or any(set(records) != set(horizons) for records in families.values()):
         raise ValueError("Every candidate family must provide exactly horizons 1,6,24")
+    reference = next(iter(families.values()))
+    for records in families.values():
+        for h in horizons:
+            if not np.array_equal(
+                records[h][0], reference[h][0], equal_nan=True
+            ) or not np.array_equal(records[h][2], reference[h][2]):
+                raise ValueError("Candidate families must use identical actuals and common masks")
     baseline_names = [
         n for n in families if n in ("persistence", "seasonal_naive_24", "seasonal_naive_168")
     ]
@@ -46,8 +58,10 @@ def choose_candidate(
             (families[name][h][0], families[name][h][1], families[best][h][1], families[name][h][2])
             for h in horizons
         ]
-        ci = paired_multihorizon_ci(pairs, clusters, scales, repetitions, seed)
-        eligible = name == best or (ci["status"] == "ok" and ci["lower"] <= 0)
+        ci = paired_multihorizon_ci(pairs, clusters, scales, repetitions, seed, confidence)
+        eligible = name == best or (
+            order.index(name) < order.index(best) and ci["status"] == "ok" and ci["lower"] <= 0
+        )
         rows.append(
             {
                 "family": name,
@@ -61,4 +75,6 @@ def choose_candidate(
             }
         )
     selected = next(row["family"] for row in rows if row["eligible_cheaper_fallback"])
+    for row in rows:
+        row["recommended_candidate"] = row["family"] == selected
     return selected, rows

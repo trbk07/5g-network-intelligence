@@ -1,4 +1,5 @@
 """Reload LightGBM artifacts and reproduce the validation benchmark without retraining."""
+
 import argparse
 import json
 from pathlib import Path
@@ -26,7 +27,13 @@ def main() -> None:
     parser.add_argument("--segment", choices=["val"], default="val")
     parser.add_argument("--data-config", default="configs/data.yaml")
     parser.add_argument("--config", default=None)
+    parser.add_argument("--diagnostics", action="store_true")
     args = parser.parse_args()
+    if args.diagnostics:
+        from scripts.compare_validation import compare
+
+        compare(diagnostics=True)
+        return
     if args.model == "gru":
         from scripts.evaluate_gru import evaluate_gru
 
@@ -43,7 +50,7 @@ def main() -> None:
     for key in ("fit", "validation", "holdout", "horizons", "lookback"):
         if baseline_meta["config"]["evaluation"][key] != split[key]:
             raise ValueError(f"Baseline evaluation differs: {key}")
-    tiers = assign_load_tiers(panel.values[:split["fit"][1] + 1, :, 0])
+    tiers = assign_load_tiers(panel.values[: split["fit"][1] + 1, :, 0])
     records, rows, importance = [], [], []
     artifact_checksums = {}
     for name in config["configs"]:
@@ -52,8 +59,10 @@ def main() -> None:
             model = load_lgbm(directory)
             if model.static.fit_end != split["fit"][1] or model.static.beam_ids != panel.beam_ids:
                 raise ValueError("Artifact fit segment or beam axis mismatch")
-            if (model.metadata["dataset_revision"] != data_config["revision"]
-                    or model.metadata["config"] != config["configs"][name]):
+            if (
+                model.metadata["dataset_revision"] != data_config["revision"]
+                or model.metadata["config"] != config["configs"][name]
+            ):
                 raise ValueError("Artifact dataset or model config differs")
             origins = evaluation_origins(split["fit"][1], split["validation"][1], h)
             features = build_features(panel.values, origins, h, model.static)
@@ -62,22 +71,41 @@ def main() -> None:
             # Fast batch path must match independent history-only inference at multiple origins.
             for j in (0, len(origins) // 2, len(origins) - 1):
                 t = int(origins[j])
-                replay = model.predict_at(panel.values[t-167:t+1], t, h)
+                replay = model.predict_at(panel.values[t - 167 : t + 1], t, h)
                 np.testing.assert_allclose(predicted[j], replay, rtol=1e-9, atol=1e-9)
-            record = ForecastRecord(model.name, h, origins, panel.beam_ids,
-                                     panel.values[origins + h, :, 0].copy(), predicted)
+            record = ForecastRecord(
+                model.name,
+                h,
+                origins,
+                panel.beam_ids,
+                panel.values[origins + h, :, 0].copy(),
+                predicted,
+            )
             records.append(record)
             benchmark_rows = to_benchmark_rows(record, tiers)
             for row in benchmark_rows:
                 row["best_iteration"] = model.metadata["best_iteration"]
-                mask = np.ones(len(tiers), dtype=bool) if row["load_tier"] == "All" else (
-                    tiers == row["load_tier"])
+                mask = (
+                    np.ones(len(tiers), dtype=bool)
+                    if row["load_tier"] == "All"
+                    else (tiers == row["load_tier"])
+                )
                 row["negative_predictions"] = int((predicted[:, mask] < 0).sum())
             rows.extend(benchmark_rows)
-            for feature, gain, count in zip(FEATURE_NAMES, model.booster.feature_importance("gain"),
-                                            model.booster.feature_importance("split")):
-                importance.append({"model": model.name, "horizon": h, "feature": feature,
-                                   "gain": float(gain), "split_count": int(count)})
+            for feature, gain, count in zip(
+                FEATURE_NAMES,
+                model.booster.feature_importance("gain"),
+                model.booster.feature_importance("split"),
+            ):
+                importance.append(
+                    {
+                        "model": model.name,
+                        "horizon": h,
+                        "feature": feature,
+                        "gain": float(gain),
+                        "split_count": int(count),
+                    }
+                )
             for artifact in ("model.txt", "meta.json", "context.npz"):
                 artifact_checksums[str(directory / artifact)] = sha256(directory / artifact)
             print(f"Evaluated {name} +{h}h; batch/history parity passed", flush=True)
@@ -89,14 +117,25 @@ def main() -> None:
     Path(args.config).write_text(yaml.safe_dump(config, sort_keys=False), encoding="utf-8")
     metadata = collect_run_metadata({**data_config, "model_config": config, "segment": "val"})
     metadata["artifact_checksums"] = artifact_checksums
-    (reports / "lightgbm_run_metadata.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+    (reports / "lightgbm_run_metadata.json").write_text(
+        json.dumps(metadata, indent=2), encoding="utf-8"
+    )
     path = reports / "forecasts/lightgbm_val.npz"
     save_forecasts(records, path, metadata)
-    (reports / "lightgbm_forecast_manifest.json").write_text(json.dumps({
-        "path": "forecasts/lightgbm_val.npz", "sha256": sha256(path),
-        "size_bytes": path.stat().st_size, "records": len(records),
-        "source_git_commit": metadata["git_commit"], "selected_config": selected,
-    }, indent=2), encoding="utf-8")
+    (reports / "lightgbm_forecast_manifest.json").write_text(
+        json.dumps(
+            {
+                "path": "forecasts/lightgbm_val.npz",
+                "sha256": sha256(path),
+                "size_bytes": path.stat().st_size,
+                "records": len(records),
+                "source_git_commit": metadata["git_commit"],
+                "selected_config": selected,
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     print(f"Selected config by validation: {selected}", flush=True)
 
 

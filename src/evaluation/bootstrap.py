@@ -9,6 +9,8 @@ def _stats(actual, a, b, clusters, mask):
     labels = np.unique(clusters)
     if len(clusters) != actual.shape[1]:
         raise ValueError("One cluster label per beam is required")
+    if np.any(mask & ~(np.isfinite(actual) & np.isfinite(a) & np.isfinite(b))):
+        raise ValueError("Bootstrap mask includes a nonfinite comparison pair")
     sums, counts = [], []
     delta = np.abs(a - actual) - np.abs(b - actual)
     for label in labels:
