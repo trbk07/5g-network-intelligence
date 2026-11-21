@@ -1,9 +1,12 @@
 """Readable zero-inflation experiment; inherit pinned source instead of dumping the repo."""
 
 import json
+import pprint
 import shutil
 import subprocess
 from pathlib import Path
+
+import yaml
 
 
 def main():
@@ -44,8 +47,11 @@ def main():
         "    Path('reports').mkdir(exist_ok=True)\n")
     add("markdown", "## Fixed protocol\n\nFour positive conditional quantiles and one active-probability classifier. "
         "No class reweighting or tuned gate: probability must retain its probabilistic interpretation.\n")
-    cfg = Path("configs/hurdle_research.yaml").read_text(encoding="utf-8")
-    add("code", f"PROTOCOL_YAML = {cfg!r}\nif RUN_TRAINING:\n    Path('configs/hurdle_research.yaml').write_text(PROTOCOL_YAML, encoding='utf-8')\n")
+    cfg = yaml.safe_load(Path("configs/hurdle_research.yaml").read_text(encoding="utf-8"))
+    add("code", "# Fixed protocol: changing these values creates a new experiment.\n"
+        f"PROTOCOL = {pprint.pformat(cfg, sort_dicts=False, width=90)}\n"
+        "if RUN_TRAINING:\n    import yaml\n"
+        "    Path('configs/hurdle_research.yaml').write_text(yaml.safe_dump(PROTOCOL), encoding='utf-8')\n")
     add("markdown", "## Model: mixture median\n\nFor active probability p≤0.5, predict zero. Otherwise use "
         "positive conditional quantile q=1−0.5/p. This follows the mixture CDF at its median. "
         "Interpolation and sorted crossing repair approximate that quantile; probability miscalibration can hurt MAE.\n")

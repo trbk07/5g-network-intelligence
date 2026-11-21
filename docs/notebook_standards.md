@@ -37,6 +37,7 @@ Names for the current extension:
 - 10_single_source_transfer_experiments.ipynb
 - 11_multisource_transfer_ablation.ipynb
 - 12_transfer_results_and_error_analysis.ipynb
+- 13_zero_inflated_forecasting.ipynb
 
 Historical execution notebooks remain attached to their original job versions;
 renaming or restyling must not silently trigger repeated fitting or erase run

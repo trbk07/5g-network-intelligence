@@ -260,6 +260,22 @@ def results_book():
         "markdown",
         "## Research conclusion\n\nThe completed pilot found negative transfer from NR1800 at all tested weights; the balanced pool also regressed at all horizons. NR3500 gains were only 0.005%, 0.051% and 0.206% relative MAE at 1/6/24h versus target-only. These exploratory gains do not establish generalization. WAPE remains about 41–45%, above the 10% target.\n\nCheckpoint hashes and 81 history-only CPU/cloud comparisons passed with zero difference. Separate cloud jobs reproduced both shared cases exactly. Do not promote from reused validation. Original production artifacts and final holdout remain unchanged. A new unseen chronological evaluation requires a separately frozen protocol.\n",
     )
+    add("markdown", "## Execution evidence\n\nRecord attached report coverage in hosted output so a completed job cannot be mistaken for successfully loaded results. This records file availability and row counts, not a new model evaluation.\n")
+    add(
+        "code",
+        "review_evidence = {}\n"
+        "for kind in ('transfer_pilot', 'multisource_pilot'):\n"
+        "    path = report_path(f'{kind}_validation.csv')\n"
+        "    audit = report_path(f'{kind}_evidence.json')\n"
+        "    review_evidence[kind] = {'metrics_loaded': path is not None, 'verification_loaded': audit is not None}\n"
+        "    if path:\n        data = pd.read_csv(path)\n"
+        "        review_evidence[kind]['all_population_rows'] = int((data.load_tier == 'All').sum())\n"
+        "display(review_evidence)\n"
+        "if Path('/kaggle/working').is_dir():\n"
+        "    if not all(v['metrics_loaded'] and v['verification_loaded'] for v in review_evidence.values()):\n"
+        "        raise RuntimeError('Review requires the completed attached reports')\n"
+        "    Path('/kaggle/working/review_execution_evidence.json').write_text(json.dumps(review_evidence, indent=2))\n",
+    )
     return save("12_transfer_results_and_error_analysis.ipynb", cells)
 
 
