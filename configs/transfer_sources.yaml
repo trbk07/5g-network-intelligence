@@ -1,0 +1,16 @@
+# Structurally verified source domains. Their individual and pooled effects must be measured.
+sources:
+  - slug: pm01_nr1800
+    file: Dataset_01_NR_1800.csv
+    sha256: 56e9f080ae1ad265333d6151877bc268f3fcde378d80d9f692a7ef43b8bab3a3
+  - slug: pm03_nr2100
+    file: Dataset_03_NR_2100.csv
+    sha256: 49834808a21caaeb7b100305dd67469343740bd603e4804e5e36fba6c8ad57c9
+  - slug: pm03_nr3500
+    file: Dataset_03_NR_3500.csv
+    sha256: 8f68abc7fe9c48905c9267917ec48d5c48873ff5ded830d8346d44d317518844
+external_training_fraction: 0.80
+interpretation: Three frequency/population domains within one published commercial record, not three proven independent networks.
+partition02_policy: quarantined_conflicting_keys
+domain_weighting: normalize_each_sources_total_weight_before_combining
+overlap_policy: inspect_site_sector_timestamp_overlap_and_never_random_split_overlapping_windows

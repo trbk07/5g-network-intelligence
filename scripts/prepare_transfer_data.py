@@ -15,8 +15,8 @@ def entity_identity(entity):
     return [str(entity[0]), int(entity[1])]
 
 
-def prepare():
-    cfg = load_config("configs/transfer_research.yaml")
+def prepare(config=None, slug="transfer"):
+    cfg = config or load_config("configs/transfer_research.yaml")
     root = Path("data/external/zenodo") / cfg["external_record"]
     path = next(root.rglob(cfg["external_file"]))
     if sha256(path) != cfg["external_sha256"]:
@@ -63,7 +63,9 @@ def prepare():
             )
     if not segments:
         raise RuntimeError("No sufficiently long continuous external training segment")
-    target = Path("data/processed/transfer_training.npz")
+    if not slug.replace("_", "").isalnum():
+        raise ValueError("Invalid prepared-source identifier")
+    target = Path(f"data/processed/{slug}_training.npz")
     target.parent.mkdir(exist_ok=True, parents=True)
     np.savez_compressed(target, **arrays)
     report = {
@@ -77,8 +79,9 @@ def prepare():
         "aggregation": cfg["external_aggregation"],
         "unit_policy": "No physical unit equivalence claimed; relative target/history shape transfer only",
         "processed_sha256": sha256(target),
+        "processed_path": target.as_posix(),
     }
-    Path("reports/transfer_preparation.json").write_text(
+    Path(f"reports/{slug}_preparation.json").write_text(
         json.dumps(report, indent=2), encoding="utf-8", newline="\n"
     )
     print(

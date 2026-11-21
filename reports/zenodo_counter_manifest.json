@@ -32,6 +32,13 @@
   ],
   "files": [
     {
+      "path": "Dataset_03.zip",
+      "bytes": 709421773,
+      "sha256": "292fda5355f35f4ca0a8d30473fd42380b692d703c1c1572ae606abcffa5bfa9",
+      "upstream_checksum": "md5:f9e3517853f6a21f3b49ad089f1b8da0",
+      "url": "https://zenodo.org/api/records/17815388/files/Dataset_03.zip/content"
+    },
+    {
       "path": "README.md",
       "bytes": 2312,
       "sha256": "d42dc2aaf065dbd18f15bd2d997978430e7da4517801743c3ce1506d4d0d72f1",
@@ -56,7 +63,5 @@
   "training_performed": false,
   "status": "acquired_for_compatibility_and_temporal_audit_only",
   "sampling_claim": "15-minute commercial sector counters, not original beam series",
-  "not_downloaded": [
-    "Dataset_03.zip (larger partition; inspect smaller partitions first)"
-  ]
+  "not_downloaded": []
 }

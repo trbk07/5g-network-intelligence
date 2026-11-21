@@ -23,7 +23,9 @@ datasets:
     role: additional_multiband_candidate
     source: https://zenodo.org/records/17815388
     license: CC-BY-4.0
-    status: acquisition_started_audit_pending
+    status: downloaded_checksum_verified_NR_key_audit_passed
+    nr_entity_counts: {NR_2100: 749, NR_3500: 294}
+    max_continuous_days: 83
   oai_kpm:
     role: rejected_direct_transfer_candidate
     source: https://github.com/CTTCADAPTRU/OAI-KPM-dataset

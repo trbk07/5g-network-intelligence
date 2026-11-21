@@ -1,0 +1,20 @@
+{
+  "kernel": "truongbaokien/5g-network-intelligence-transfer-pilot",
+  "production_modified": false,
+  "original_final_holdout_replayed": false,
+  "attempts": [
+    {
+      "version": 1,
+      "status": "failed_before_model_training",
+      "cause": "NumPy int64 entity key not JSON serializable on cloud pandas runtime",
+      "fix_commit": "5c49156",
+      "regression_test": "tests/unit/test_transfer_preparation.py"
+    },
+    {
+      "version": 2,
+      "status": "submitted_and_confirmed_running",
+      "selection_data": "Original fit/stopping targets through 503; external chronological training prefix only",
+      "audit": "Reused original validation 504-671, never a fresh final-test claim"
+    }
+  ]
+}
