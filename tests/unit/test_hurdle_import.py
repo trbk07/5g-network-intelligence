@@ -10,7 +10,7 @@ import pytest
 from scripts.import_hurdle_results import import_results
 
 
-def archive_fixture(path, extra=None, bad_hash=False):
+def archive_fixture(path, extra=None, bad_hash=False, candidate=False):
     model = b"fixture checkpoint bytes, not a trained model"
     files = {
         "artifacts/hurdle_research/inner1/h1/direct.txt": model,
@@ -22,6 +22,11 @@ def archive_fixture(path, extra=None, bad_hash=False):
         "artifacts/champion/model.txt": b"must never be installed",
     }
     files.update(extra or {})
+    if candidate:
+        files = {name.replace("artifacts/hurdle_research/", "artifacts/hurdle_candidate/")
+                 .replace("reports/hurdle_development_scores.csv", "reports/hurdle_candidate_validation.csv"): value
+                 for name, value in files.items()}
+        files["reports/forecasts/hurdle_candidate_val.npz"] = b"test forecast bytes, not a model"
     with tarfile.open(path, "w:gz") as archive:
         for name, content in files.items():
             info = tarfile.TarInfo(name)
@@ -67,3 +72,14 @@ def test_existing_changed_checkpoint_is_preserved(tmp_path):
         import_results(archive, tmp_path)
     assert target.read_text() == "existing different evidence"
     assert not (tmp_path / "reports/hurdle_development_scores.csv").exists()
+
+
+def test_candidate_import_requires_separate_allowlist_and_evidence(tmp_path):
+    archive = tmp_path / "candidate.tar.gz"
+    archive_fixture(archive, candidate=True)
+    evidence = import_results(archive, tmp_path, kind="candidate")
+    assert evidence["verified_artifact_files"] == 1
+    assert (tmp_path / "reports/forecasts/hurdle_candidate_val.npz").exists()
+    assert (tmp_path / "reports/hurdle_candidate_import_evidence.json").exists()
+    assert not (tmp_path / "artifacts/hurdle_research").exists()
+    assert not (tmp_path / "artifacts/champion").exists()

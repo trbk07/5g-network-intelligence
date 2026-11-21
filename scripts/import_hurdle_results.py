@@ -17,14 +17,18 @@ def safe_relative(name):
     return path
 
 
-def import_results(archive_path, workspace):
+def import_results(archive_path, workspace, kind="development"):
     """Validate all input before copying an allowlist; existing different files fail."""
     workspace = Path(workspace).resolve()
     archive_path = Path(archive_path).resolve()
     stage_root = workspace / ".cache"
     stage_root.mkdir(exist_ok=True)
-    prefix = PurePosixPath("artifacts/hurdle_research")
-    report_names = {"reports/hurdle_development_scores.csv", "reports/hurdle_training.log"}
+    if kind not in ("development", "candidate"):
+        raise ValueError("Unknown hurdle archive kind")
+    candidate = kind == "candidate"
+    prefix = PurePosixPath("artifacts/hurdle_candidate" if candidate else "artifacts/hurdle_research")
+    required = {"reports/hurdle_candidate_validation.csv", "reports/forecasts/hurdle_candidate_val.npz"} if candidate else {"reports/hurdle_development_scores.csv"}
+    report_names = required | {"reports/hurdle_audit_training.log" if candidate else "reports/hurdle_training.log"}
     with tempfile.TemporaryDirectory(prefix="hurdle-import-", dir=stage_root) as temp:
         staging = Path(temp)
         with tarfile.open(archive_path, "r:gz") as archive:
@@ -61,8 +65,8 @@ def import_results(archive_path, workspace):
         actual = {p.relative_to(root).as_posix() for p in root.rglob("*") if p.is_file()}
         if actual != declared | {"manifest.json"}:
             raise ValueError("Unmanifested research artifact")
-        if not (staging / "reports/hurdle_development_scores.csv").is_file():
-            raise ValueError("Completed development score report required")
+        if not all((staging / name).is_file() for name in required):
+            raise ValueError("Complete score reports and declared forecasts required")
         files = [p for p in staging.rglob("*") if p.is_file()]
         for path in files:
             destination = workspace / path.relative_to(staging)
@@ -75,13 +79,15 @@ def import_results(archive_path, workspace):
                 shutil.copyfile(path, destination)
     evidence = {"archive_sha256": sha256(archive_path), "verified_artifact_files": len(declared),
                 "copied_or_identical_files": len(files), "frozen_artifacts_touched": False,
-                "scope": "Archive integrity only; run summarize_hurdle_research for temporal, metric and prediction checks"}
-    (workspace / "reports/hurdle_import_evidence.json").write_text(json.dumps(evidence, indent=2))
+                "scope": "Archive integrity only; run " + ("summarize_hurdle_candidate" if candidate else "summarize_hurdle_research") + " for temporal, metric and prediction checks"}
+    evidence_name = "hurdle_candidate_import_evidence.json" if candidate else "hurdle_import_evidence.json"
+    (workspace / "reports" / evidence_name).write_text(json.dumps(evidence, indent=2))
     return evidence
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
+    parser.add_argument("--kind", choices=["development", "candidate"], default="development")
     args = parser.parse_args()
-    print(json.dumps(import_results(args.archive, Path.cwd()), indent=2))
+    print(json.dumps(import_results(args.archive, Path.cwd(), args.kind), indent=2))

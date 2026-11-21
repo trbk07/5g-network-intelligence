@@ -26,3 +26,21 @@ through target hour 503, then inspect reused validation 504–671. Keep a matche
 direct L1 control. No calibration, fitted thresholds, validation early stopping,
 final holdout replay or production promotion is permitted. This adds 18 hosted
 component fits, not a new hyperparameter search or fresh independent test.
+
+Hosted candidate audit: private Kaggle
+`truongbaokien/5g-network-intelligence-zero-inflated-audit`, version 1.
+Its output archive is `hurdle_candidate_results.tar.gz`. After completion:
+
+```powershell
+python -m scripts.import_hurdle_results .cache/hurdle-candidate-results/hurdle_candidate_results.tar.gz --kind candidate
+python -m scripts.summarize_hurdle_candidate
+```
+
+The summarizer checks component round counts against the two development
+metadata files, checkpoint hashes, original validation targets, every expected
+origin and the full beam axis. It reconstructs MAE/WAPE and zero false-positive
+rate, then verifies 72 history-only predictions. It compares both candidate
+cases with original C1 and the earlier improved ensemble. Those reference
+forecasts are saved validation outputs; no final holdout is opened. A positive
+result against the matched L1 control alone is insufficient to establish an
+advance over the best existing research candidate.
