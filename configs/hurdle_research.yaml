@@ -1,0 +1,18 @@
+protocol: hurdle-development-v1
+horizons: [1, 6, 24]
+folds:
+  - {name: inner1, fit_end: 335, stop_end: 383, score_end: 443}
+  - {name: inner2, fit_end: 395, stop_end: 443, score_end: 503}
+conditional_quantiles: [0.05, 0.1, 0.25, 0.5]
+max_rounds: 800
+patience: 60
+stride: 1
+seed: 17
+threads: 4
+params: {num_leaves: 63, learning_rate: 0.035, min_data_in_leaf: 100, lambda_l2: 0.5}
+threshold: fixed_mixture_median_not_tuned
+probability_calibration: none
+inputs: original_40_causal_features
+reused_validation_504_671: forbidden_in_this_experiment
+original_final_holdout: forbidden
+production_change: forbidden
