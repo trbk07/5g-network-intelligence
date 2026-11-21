@@ -39,6 +39,7 @@ Names for the current extension:
 - 12_transfer_results_and_error_analysis.ipynb
 - 13_zero_inflated_forecasting.ipynb
 - 14_zero_inflated_candidate_audit.ipynb
+- 15_probability_calibration_study.ipynb
 
 Historical execution notebooks remain attached to their original job versions;
 renaming or restyling must not silently trigger repeated fitting or erase run

@@ -1,0 +1,17 @@
+protocol: hurdle-affine-logit-development-v1
+method: fixed_L2_logistic_regression_on_classifier_logit
+C: 1.0
+solver: lbfgs
+max_iter: 200
+tol: 0.000001
+epsilon: 0.000001
+seed: 17
+base_checkpoints: artifacts/hurdle_research
+calibration_population: each_development_fold_stopping_targets_only
+scoring_population: each_development_fold_scoring_targets_only
+base_model_retraining: false
+quantile_retraining: false
+selection_on_validation_504_671: forbidden
+original_final_holdout: forbidden
+production_change: forbidden
+limitation: calibration_window_also_selected_base_component_rounds_so_scoring_window_must_remain_separate

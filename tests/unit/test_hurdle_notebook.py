@@ -8,8 +8,12 @@ from pathlib import Path
 import pytest
 
 
-@pytest.mark.parametrize("name", ["13_zero_inflated_forecasting.ipynb", "14_zero_inflated_candidate_audit.ipynb"])
-def test_hurdle_review_is_readable_and_does_not_train(name, tmp_path, monkeypatch):
+@pytest.mark.parametrize("name,flag", [
+    ("13_zero_inflated_forecasting.ipynb", "RUN_TRAINING"),
+    ("14_zero_inflated_candidate_audit.ipynb", "RUN_TRAINING"),
+    ("15_probability_calibration_study.ipynb", "RUN_CALIBRATION"),
+])
+def test_hurdle_review_is_readable_and_does_not_train(name, flag, tmp_path, monkeypatch):
     root = Path(__file__).resolve().parents[2]
     notebook = json.loads((root / "notebooks" / name).read_text(encoding="utf-8"))
     code = ["".join(c["source"]) for c in notebook["cells"] if c["cell_type"] == "code"]
@@ -19,5 +23,5 @@ def test_hurdle_review_is_readable_and_does_not_train(name, tmp_path, monkeypatc
     with contextlib.redirect_stdout(io.StringIO()):
         for cell in code:
             exec(compile(cell, "hurdle_review", "exec"), scope)
-    assert scope["RUN_TRAINING"] is False
+    assert scope[flag] is False
     assert not list(tmp_path.rglob("*"))
