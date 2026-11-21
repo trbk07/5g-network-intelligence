@@ -2,6 +2,8 @@ datasets:
   gotsf:
     role: original_target_domain
     source: https://huggingface.co/datasets/netop/gotsf-ds
+    aliases: [https://huggingface.co/datasets/netop/Beam-Level-Traffic-Timeseries-Dataset]
+    alias_policy: same_source_not_additional_independent_dataset
     license: MIT
     sampling: hourly_beam_level
     status: frozen_production_and_development_research
@@ -11,7 +13,8 @@ datasets:
     source: https://zenodo.org/records/17815388
     license: CC-BY-4.0
     sampling: 15_minute_sector_level
-    status: audited_NR_training_prefix_prepared
+    status: hosted_transfer_ablation_complete_negative_transfer_at_all_tested_weights
+    evidence: reports/transfer_ablation_decision.md
     safeguards: complete_hour_aggregation_continuous_segments_source_balancing
   zenodo_pm_02:
     role: quarantined_candidate
@@ -23,7 +26,8 @@ datasets:
     role: additional_multiband_candidate
     source: https://zenodo.org/records/17815388
     license: CC-BY-4.0
-    status: downloaded_checksum_verified_NR_key_audit_passed
+    status: hosted_NR_ablation_complete_small_exploratory_gains_no_promotion
+    evidence: reports/multisource_pilot_analysis.md
     nr_entity_counts: {NR_2100: 749, NR_3500: 294}
     max_continuous_days: 83
   oai_kpm:
