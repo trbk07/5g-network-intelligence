@@ -5,6 +5,9 @@
 A reproducible 5G beam-level KPI forecasting and historical capacity-risk monitoring
 system using LightGBM, GRU, FastAPI, Streamlit, and Docker.
 
+Code: [MIT license](LICENSE), copyright 2026 Truong Bao Kien. Dataset attribution
+and its MIT declaration remain in [the pinned dataset card](dataset_card.md).
+
 **Problem:** beam-level usage changes make future load hard to inspect from raw
 KPI tables. This project forecasts usage at +1/+6/+24 hours and shows historical
 P90/P95 exceedance scenarios through an explicitly offline replay dashboard.

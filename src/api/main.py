@@ -31,7 +31,7 @@ def create_app(predictor_factory=None):
 
     app = FastAPI(
         title="5G Network Intelligence",
-        version="0.2.0",
+        version="1.0.0",
         lifespan=lifespan,
         description="Historical offline replay. No training or live telemetry in requests.",
     )

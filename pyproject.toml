@@ -4,7 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "5g-network-intelligence"
-version = "0.2.0"
+version = "1.0.0"
+license = "MIT"
 description = "A reproducible 5G beam-level KPI forecasting and historical capacity-risk monitoring system using LightGBM, GRU, FastAPI, Streamlit, and Docker."
 requires-python = ">=3.12"
 dependencies = ["numpy>=2,<3", "pandas>=2.2,<4", "PyYAML>=6,<7", "huggingface-hub>=0.27,<2", "matplotlib>=3.9,<4"]
