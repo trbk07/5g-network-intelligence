@@ -55,3 +55,26 @@ for the machine-readable objective and guard policy.
 
 See the external manifests and audits in reports/. No new model quality or
 external test score is claimed from acquisition/structural evidence alone.
+
+## Multi-source strategy
+
+There is no fixed small limit on dataset count. `configs/dataset_registry.yaml`
+tracks separate sources and partitions, including rejected/gated candidates,
+without counting multiple bands as independent networks. Prioritize measured
+original-domain gains over raw data volume. Compare each new source individually,
+then source-balanced combinations, against a target-only control. Keep native
+test sets and source identities isolated. No score from an easier external task
+can substitute for original 1/6/24-hour beam forecasting quality.
+
+The first pilot uses target-history relative-shape features with exogenous
+columns missing for both domains. It compares external weight ratios
+0/0.1/0.5/1.0. Only original hours through 503 select rounds; fixed refit then
+audits reused validation 504-671. External chronological future data and the
+original final holdout remain unused. Scaling invariance and future-perturbation
+tests pass locally without fitting.
+
+The initial external training fraction of 60% yielded no continuous segment
+long enough for the required 168-hour history plus targets. It was changed to
+80% based only on timestamp/coverage structure, before model scores, retaining
+the final 20% for future independent evaluation. This structural revision is
+explicit, not a performance-driven change to a test split.

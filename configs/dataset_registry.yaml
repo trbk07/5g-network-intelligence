@@ -1,0 +1,51 @@
+datasets:
+  gotsf:
+    role: original_target_domain
+    source: https://huggingface.co/datasets/netop/gotsf-ds
+    license: MIT
+    sampling: hourly_beam_level
+    status: frozen_production_and_development_research
+    final_holdout_tuning: forbidden
+  zenodo_pm_01:
+    role: external_relative_shape_transfer_pilot
+    source: https://zenodo.org/records/17815388
+    license: CC-BY-4.0
+    sampling: 15_minute_sector_level
+    status: audited_NR_training_prefix_prepared
+    safeguards: complete_hour_aggregation_continuous_segments_source_balancing
+  zenodo_pm_02:
+    role: quarantined_candidate
+    source: https://zenodo.org/records/17815388
+    license: CC-BY-4.0
+    status: downloaded_conflicting_natural_keys
+    blocker: timestamp_site_sector_not_unique_after_exact_row_dedup
+  zenodo_pm_03:
+    role: additional_multiband_candidate
+    source: https://zenodo.org/records/17815388
+    license: CC-BY-4.0
+    status: acquisition_started_audit_pending
+  oai_kpm:
+    role: rejected_direct_transfer_candidate
+    source: https://github.com/CTTCADAPTRU/OAI-KPM-dataset
+    license: CC0-1.0
+    status: downloaded_and_audited
+    blocker: short_single_UE_series_schema_duration_mismatch
+  verge_real_5g:
+    role: unavailable_candidate
+    source: https://github.com/VERGE-PROJECT/Real-5G-Network-Dataset
+    status: metadata_only_data_not_shared_due_sensitivity
+    training_allowed: false
+  netop_energy:
+    role: gated_candidate
+    source: https://huggingface.co/datasets/netop/5G-Network-Energy-Consumption
+    license: MIT_per_card
+    status: access_conditions_not_yet_satisfied
+    training_allowed: false
+    caveat: only_eight_days_and_normalized_cell_load_not_original_beam_target
+policy:
+  dataset_count_limit: null
+  selection_criterion: measured_target_domain_improvement_and_valid_generalization
+  do_not_count_partitions_as_independent_networks_without_evidence: true
+  ablations: source_individual_then_balanced_multi_source_then_target_only_control
+  no_duplicate_source_leakage: true
+  no_licensing_or_authentication_bypass: true
