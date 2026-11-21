@@ -10,6 +10,11 @@ from src.data.io import sha256
 from src.utils.config import load_config
 
 
+def entity_identity(entity):
+    """Pandas group keys may be NumPy scalars on cloud; persist portable JSON types."""
+    return [str(entity[0]), int(entity[1])]
+
+
 def prepare():
     cfg = load_config("configs/transfer_research.yaml")
     root = Path("data/external/zenodo") / cfg["external_record"]
@@ -50,7 +55,7 @@ def prepare():
             segments.append(
                 {
                     "name": name,
-                    "entity": list(entity),
+                    "entity": entity_identity(entity),
                     "hours": len(block),
                     "start": str(block.index[0]),
                     "end": str(block.index[-1]),
