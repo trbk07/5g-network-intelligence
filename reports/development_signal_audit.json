@@ -1,0 +1,6 @@
+{
+  "scope": "descriptive fit segment 0-503 only; no fitting, no holdout",
+  "zero_fraction": 0.2411975033068783,
+  "between_beam_share_of_target_sum_squares": 0.5264766031902658,
+  "warning": "Association is not forecasting skill, causation or an irreducible-error bound. Beam means are diagnostic only."
+}
