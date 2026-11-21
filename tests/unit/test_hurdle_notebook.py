@@ -5,10 +5,13 @@ import io
 import json
 from pathlib import Path
 
+import pytest
 
-def test_hurdle_review_is_readable_and_does_not_train(tmp_path, monkeypatch):
+
+@pytest.mark.parametrize("name", ["13_zero_inflated_forecasting.ipynb", "14_zero_inflated_candidate_audit.ipynb"])
+def test_hurdle_review_is_readable_and_does_not_train(name, tmp_path, monkeypatch):
     root = Path(__file__).resolve().parents[2]
-    notebook = json.loads((root / "notebooks/13_zero_inflated_forecasting.ipynb").read_text(encoding="utf-8"))
+    notebook = json.loads((root / "notebooks" / name).read_text(encoding="utf-8"))
     code = ["".join(c["source"]) for c in notebook["cells"] if c["cell_type"] == "code"]
     assert all("base64" not in c and "%%writefile" not in c for c in code)
     monkeypatch.chdir(tmp_path)

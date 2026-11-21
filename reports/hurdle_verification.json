@@ -1,0 +1,8 @@
+{
+  "artifact_files_verified": 48,
+  "history_only_beam_predictions_checked": 72,
+  "maximum_parity_error": 0.0,
+  "reused_validation_used": false,
+  "holdout_used": false,
+  "claim_scope": "exploratory development folds only, no generalization or promotion claim"
+}
