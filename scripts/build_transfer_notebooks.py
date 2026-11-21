@@ -54,9 +54,10 @@ def context(add):
         "code",
         "from pathlib import Path\nimport json\nimport pandas as pd\nimport numpy as np\nfrom IPython.display import display\n\n"
         "# Find report folders in the repo and attached Kaggle outputs.\n"
-        "REPORT_DIRS = [Path('reports')]\n"
+        "REPORT_DIRS = [Path('reports'), Path('../reports')]  # Repo root or notebooks/ working directory.\n"
         "if Path('/kaggle/input').exists():\n"
         "    REPORT_DIRS += sorted({p.parent for p in Path('/kaggle/input').rglob('*validation.csv')})\n\n"
+        "    REPORT_DIRS += sorted({p.parent for p in Path('/kaggle/input').rglob('*manifest.json')})\n\n"
         "def report_path(filename):\n"
         "    for folder in REPORT_DIRS:\n        candidate = folder / filename\n        if candidate.exists():\n            return candidate\n"
         "    return None\n",
@@ -247,7 +248,17 @@ def results_book():
         )
     add(
         "markdown",
-        "## Research conclusion\n\nReport negative transfer, small gains and horizons that regress. Do not promote from reused validation. Original production artifacts and final holdout remain unchanged. A new unseen chronological evaluation requires a separately frozen protocol.\n",
+        "## Representation-matched comparison\n\nPositive gain means lower MAE than target-only under the same preprocessing. Day blocks describe consistency; overlapping forecast targets prevent treating them as independent trials.\n",
+    )
+    add(
+        "code",
+        "path = report_path('transfer_ablation_comparison.csv')\n"
+        "if path:\n    display(pd.read_csv(path))\n"
+        "else:\n    print('Comparison not attached; no transfer benefit is assumed.')\n",
+    )
+    add(
+        "markdown",
+        "## Research conclusion\n\nThe completed pilot found negative transfer from NR1800 at all tested weights; the balanced pool also regressed at all horizons. NR3500 gains were only 0.005%, 0.051% and 0.206% relative MAE at 1/6/24h versus target-only. These exploratory gains do not establish generalization. WAPE remains about 41–45%, above the 10% target.\n\nCheckpoint hashes and 81 history-only CPU/cloud comparisons passed with zero difference. Separate cloud jobs reproduced both shared cases exactly. Do not promote from reused validation. Original production artifacts and final holdout remain unchanged. A new unseen chronological evaluation requires a separately frozen protocol.\n",
     )
     return save("12_transfer_results_and_error_analysis.ipynb", cells)
 

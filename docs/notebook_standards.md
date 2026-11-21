@@ -4,6 +4,12 @@ Notebook names describe the research question or task, not temporary run state.
 Use a numbered snake_case filename and a corresponding descriptive title. Keep
 run IDs, commits and versions in metadata/provenance cells.
 
+Use `NN_research_task.ipynb` for filenames and
+`5G Network Intelligence — Research Task` for the first heading. The hosted
+Kaggle/Colab display title must describe the same task. Avoid vague names such as
+`final`, `new`, `test2`, `best_model` or `notebook_v3`; keep execution versions
+in provenance instead. Use UTF-8 for titles, Markdown and comments.
+
 The reader-facing order is: research question, hypothesis, protocol and metric,
 configuration, source/provenance, temporal split, preprocessing, model/loss,
 training controls, evaluation, error analysis, conclusions and limitations.

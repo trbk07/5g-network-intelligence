@@ -1,0 +1,15 @@
+{
+  "research_only": true,
+  "holdout_used": false,
+  "parity_checks": 45,
+  "parity_max_abs_error": 0.0,
+  "validation_wape_below_10pct_by_model": {
+    "balanced_pool": false,
+    "pm01_nr1800": false,
+    "pm03_nr2100": false,
+    "pm03_nr3500": false,
+    "target_only": false
+  },
+  "claim_scope": "reused validation only, no final target achievement claim",
+  "artifact_files_verified": 30
+}

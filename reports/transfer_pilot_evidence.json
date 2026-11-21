@@ -1,0 +1,15 @@
+{
+  "research_only": true,
+  "holdout_used": false,
+  "parity_checks": 36,
+  "parity_max_abs_error": 0.0,
+  "validation_wape_below_10pct_by_model": {
+    "original_c1": false,
+    "transfer_0": false,
+    "transfer_0.1": false,
+    "transfer_0.5": false,
+    "transfer_1": false
+  },
+  "claim_scope": "reused validation only, no final target achievement claim",
+  "artifact_files_verified": 24
+}
