@@ -17,7 +17,8 @@ Scientific, application and clean-clone checks below have direct saved evidence.
 | Model improvement | 53 search fits, fixed ensemble refit, reused-validation audit | Research candidate verified; no unseen-data promotion claim |
 | External transfer extension | transfer_pilot_evidence.json, multisource_pilot_evidence.json, transfer_ablation_decision.md | 54 artifact files verified, 81 parity checks passed; negative NR1800/pool transfer; NR3500 gains <=0.207% are exploratory |
 | Research notebook presentation | notebook_standards.md; notebooks 09–13; transfer_review_execution_evidence.json | Hosted review loaded both complete report tables; reader Run All performs no fitting |
-| Zero-inflated forecasting extension | hurdle_research_protocol.md, configs/hurdle_research.yaml | Cloud job v1 confirmed running; scores and checkpoint verification pending; no improvement claim |
+| Zero-inflated forecasting extension | hurdle_development_analysis.md, hurdle_verification.json | Cloud v1 complete: 48 files verified, 72 history-only parity predictions exact; MAE gains 0.065–0.460% on exploratory development folds |
+| Zero-inflated candidate refit | notebook 14, finalize_hurdle_candidate.py | Separate fixed-round hosted audit submitted; reused-validation results pending, no production promotion |
 | T8.1 clean clone / artifact I/O / routing | clean_clone_qa.json; dedicated artifact/E2E tests | PASS at checked snapshot; final source recheck before release |
 | T8.2 latency / RSS / image size | inference_benchmark.json/.md | Measured and inspected; no production SLA claim |
 | T8.3 generated experiment report | scripts/build_report.py, experiment_report.md | Generated from CSV; figure inspected |

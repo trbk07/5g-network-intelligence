@@ -84,9 +84,17 @@ def main():
     add("markdown", "## Saved evaluation and limitations\n\nMAE uses original units; WAPE is a ratio "
         "on the full observed scoring population. Report every fold/horizon and zero false-positive rate. "
         "A lower zero false-positive rate alone does not prove improvement. No probability calibration or unseen-test claim.\n")
-    add("code", "path = Path('reports/hurdle_development_scores.csv')\n"
-        "if path.exists():\n    import pandas as pd\n    from IPython.display import display\n"
+    add("code", "paths = [Path('reports/hurdle_development_scores.csv'), Path('../reports/hurdle_development_scores.csv')]\n"
+        "if Path('/kaggle/input').is_dir():\n    paths += list(Path('/kaggle/input').rglob('hurdle_development_scores.csv'))\n"
+        "path = next((p for p in paths if p.exists()), None)\n"
+        "if path:\n    import pandas as pd\n    from IPython.display import display\n"
         "    display(pd.read_csv(path))\nelse:\n    print('No completed scores attached.')\n")
+    add("markdown", "## Completed development finding\n\nThe original hosted v1 run reduced MAE "
+        "by 0.065–0.460% in all six fold/horizon comparisons. WAPE remains 40.45–46.98%, "
+        "above the 10% target. Forty-eight artifact files were verified and 72 history-only "
+        "beam predictions matched cloud output exactly. These small exploratory gains do not "
+        "prove generalization or justify a production replacement. See the saved verification "
+        "reports and notebook 14 for the separately defined fixed-refit audit.\n")
     notebook = {"cells": cells, "metadata": {"kernelspec": {"name": "python3", "language": "python", "display_name": "Python 3"}},
                 "nbformat": 4, "nbformat_minor": 5}
     name = "13_zero_inflated_forecasting.ipynb"

@@ -26,7 +26,9 @@ Hosted execution: private Kaggle
 Source dependency: completed multisource worker output plus a private MIT
 dataset containing only the new trainer, inference helper, configuration and
 license. The source notebook is explicit training; the repository reader copy
-defaults to RUN_TRAINING=False. Metrics are pending; no gain is claimed.
+defaults to RUN_TRAINING=False. The completed run and its small exploratory gains
+are recorded in `hurdle_development_analysis.md`; independent checkpoint and
+history-only inference verification passed. No generalization gain is claimed.
 
 Report every fold and horizon: MAE (original units), WAPE (ratio), full observed
 population count and zero false-positive rate. The last metric alone cannot
