@@ -15,6 +15,25 @@ def entity_identity(entity):
     return [str(entity[0]), int(entity[1])]
 
 
+def complete_hour_means(group):
+    """Vectorized exact-coverage check; no interpolation or incomplete-hour rescaling."""
+    group = group.copy()
+    group["_hour"] = group.Timestamp.dt.floor("h")
+    group["_valid_offset"] = (
+        (group.Timestamp - group["_hour"]).dt.total_seconds().isin([0, 900, 1800, 2700])
+    )
+    hourly = group.groupby("_hour").agg(
+        mean=("5G RB utilization", "mean"),
+        count=("5G RB utilization", "count"),
+        rows=("Timestamp", "size"),
+        valid_offsets=("_valid_offset", "sum"),
+    )
+    return hourly.loc[
+        (hourly["count"] == 4) & (hourly["rows"] == 4) & (hourly["valid_offsets"] == 4),
+        ["mean", "count"],
+    ]
+
+
 def prepare(config=None, slug="transfer"):
     cfg = config or load_config("configs/transfer_research.yaml")
     root = Path("data/external/zenodo") / cfg["external_record"]
@@ -33,16 +52,7 @@ def prepare(config=None, slug="transfer"):
     arrays = {}
     for entity, group in prefix.groupby(["Base station", "Sector"]):
         group = group.sort_values("Timestamp")
-        hour = group.Timestamp.dt.floor("h")
-        hourly = group.groupby(hour)["5G RB utilization"].agg(["mean", "count"])
-        # Exact source timing and finite count are both needed; partial hours are not rescaled.
-        times_per_hour = group.groupby(hour).Timestamp.apply(
-            lambda s: sorted((s - s.dt.floor("h")).dt.total_seconds().tolist())
-        )
-        valid = (hourly["count"] == 4) & times_per_hour.apply(
-            lambda offsets: offsets == [0, 900, 1800, 2700]
-        )
-        hourly = hourly.loc[valid]
+        hourly = complete_hour_means(group)
         blocks = hourly.index.to_series().diff().dt.total_seconds().ne(3600).cumsum()
         for _, block in hourly.groupby(blocks):
             if len(block) < 193:  # 168 observed hours plus at least 24h target coverage.
