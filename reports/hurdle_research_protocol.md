@@ -33,6 +33,21 @@ population count and zero false-positive rate. The last metric alone cannot
 justify selecting the model. Checkpoints, predictions and logs remain in Kaggle
 Output, including a partial archive if the trainer fails.
 
+After the job completes, download `hurdle_results.tar.gz` and run:
+
+```powershell
+python -m scripts.import_hurdle_results .cache/hurdle-results/hurdle_results.tar.gz
+python -m scripts.summarize_hurdle_research
+```
+
+The importer accepts only `artifacts/hurdle_research/` and the two named hurdle
+reports. It validates archive paths, member types, manifest coverage and hashes
+before installation. Archived production artifacts and configs are excluded;
+different existing research files cause failure rather than replacement. The
+summarizer separately checks temporal coverage, recomputes metrics and compares
+history-only inference against saved cloud forecasts. Archive checks alone are
+not evidence of model quality or successful completion of the experiment.
+
 Implementation reference: [official LightGBM parameters](https://lightgbm.readthedocs.io/en/stable/Parameters.html)
 for binary and quantile objectives. The mixture interpretation is a project
 derivation, not a claim made by the library documentation.
