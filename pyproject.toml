@@ -11,7 +11,7 @@ requires-python = ">=3.12"
 dependencies = ["numpy>=2,<3", "pandas>=2.2,<4", "PyYAML>=6,<7", "huggingface-hub>=0.27,<2", "matplotlib>=3.9,<4"]
 
 [project.optional-dependencies]
-dev = ["pytest>=8,<10", "ruff>=0.9,<1"]
+dev = ["pytest>=8,<10", "ruff>=0.9,<1", "ipython>=9,<10"]
 ml = ["lightgbm>=4.6,<5", "scikit-learn>=1.6,<2"]
 neural = ["torch>=2.6,<3"]
 app = ["fastapi>=0.115,<1", "uvicorn>=0.34,<1", "streamlit>=1.67,<2", "plotly>=6,<7", "httpx>=0.28,<1"]

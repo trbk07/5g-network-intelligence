@@ -15,3 +15,8 @@
 - Updated Week 5 contract: LightGBM has 40 causal inputs; GRU has phase4 and
   global per-KPI preprocessing (A:1, B:4). Beam summaries may support sampling and
   diagnostics only. Week 5 prepares a candidate; no final freeze or holdout evaluation.
+- Reader-facing research notebooks follow docs/notebook_standards.md: descriptive
+  filenames/titles, hypotheses and temporal protocol, one business purpose per
+  cell, useful comments, explicit metrics/units, negative results and limitations.
+  Do not dump all source files into their main reading flow. Historical execution
+  snapshots remain immutable; presentation updates must not trigger repeat fitting.
