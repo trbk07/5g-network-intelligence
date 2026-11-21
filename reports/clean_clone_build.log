@@ -4,85 +4,95 @@
 #1 reading from stdin 1.04kB done
 #1 DONE 0.0s
 
-#2 [api internal] load build definition from Dockerfile.api
-#2 transferring dockerfile: 786B done
+#2 [dashboard internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 739B 0.0s done
 #2 DONE 0.0s
 
-#3 [dashboard internal] load build definition from Dockerfile.dashboard
-#3 transferring dockerfile: 739B done
+#3 [api internal] load build definition from Dockerfile.api
+#3 transferring dockerfile: 786B 0.0s done
 #3 DONE 0.0s
 
 #4 [api internal] load metadata for docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
-#4 DONE 0.0s
+#4 ...
 
-#5 [api internal] load .dockerignore
-#5 transferring context: 196B done
+#5 [auth] library/python:pull token for registry-1.docker.io
 #5 DONE 0.0s
 
-#6 [api 1/6] FROM docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
-#6 resolve docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b 0.0s done
+#4 [api internal] load metadata for docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+#4 DONE 2.4s
+
+#6 [dashboard internal] load .dockerignore
+#6 transferring context: 196B 0.0s done
 #6 DONE 0.0s
 
-#7 [dashboard internal] load build context
-#7 transferring context: 12.34kB 0.0s done
+#7 [dashboard 1/6] FROM docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+#7 resolve docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b 0.0s done
 #7 DONE 0.0s
 
-#8 [dashboard 5/6] COPY app ./app
-#8 CACHED
+#8 [dashboard internal] load build context
+#8 transferring context: 12.34kB 0.0s done
+#8 DONE 0.1s
 
-#9 [dashboard 3/6] COPY requirements-dashboard.lock.txt .
+#9 [dashboard 5/6] COPY app ./app
 #9 CACHED
 
-#10 [dashboard 4/6] RUN pip install --no-cache-dir -r requirements-dashboard.lock.txt && useradd --uid 10001 --create-home appuser
+#10 [dashboard 2/6] WORKDIR /app
 #10 CACHED
 
-#11 [dashboard 6/6] COPY .streamlit ./.streamlit
+#11 [dashboard 3/6] COPY requirements-dashboard.lock.txt .
 #11 CACHED
 
-#12 [api internal] load build context
-#12 transferring context: 124.53kB 0.1s done
-#12 DONE 0.1s
+#12 [dashboard 4/6] RUN pip install --no-cache-dir -r requirements-dashboard.lock.txt && useradd --uid 10001 --create-home appuser
+#12 CACHED
 
-#13 [api 2/6] WORKDIR /app
+#13 [dashboard 6/6] COPY .streamlit ./.streamlit
 #13 CACHED
 
-#14 [api 3/6] RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 && rm -rf /var/lib/apt/lists/*
-#14 CACHED
+#14 [dashboard] exporting to image
+#14 exporting layers done
+#14 exporting manifest sha256:6286adb6f3b8b59aafb3a05177127d9f98c3ec4e3578ee467345ed05da7a113a done
+#14 exporting config sha256:f11bf5f0f924c72173ab65808ec5318e39aa7cde2e7f4c6dc0652133bb698ced done
+#14 exporting attestation manifest sha256:bd4d52586b1dc81b6f8fe6c74f60f58d1d9ef0cc0150f43db200f3036fda4af0
+#14 exporting attestation manifest sha256:bd4d52586b1dc81b6f8fe6c74f60f58d1d9ef0cc0150f43db200f3036fda4af0 0.0s done
+#14 exporting manifest list sha256:66ed3c048931a0d70f46c4e521d23304f21d5e225e32b5aa83e97cb466b8e7b9 0.0s done
+#14 naming to docker.io/library/5g-network-intelligence-dashboard:week7 done
+#14 unpacking to docker.io/library/5g-network-intelligence-dashboard:week7 done
+#14 DONE 0.1s
 
-#15 [api 4/6] COPY requirements-api.lock.txt .
-#15 CACHED
+#15 [api internal] load build context
+#15 transferring context: 124.53kB 0.2s done
+#15 DONE 0.2s
 
-#16 [api 5/6] RUN pip install --no-cache-dir -r requirements-api.lock.txt && useradd --uid 10001 --create-home appuser
+#10 [api 2/6] WORKDIR /app
+#10 CACHED
+
+#16 [api 3/6] RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 && rm -rf /var/lib/apt/lists/*
 #16 CACHED
 
-#17 [api 6/6] COPY src ./src
-#17 DONE 0.0s
+#17 [api 4/6] COPY requirements-api.lock.txt .
+#17 CACHED
 
-#18 [dashboard] exporting to image
-#18 exporting layers done
-#18 exporting manifest sha256:6286adb6f3b8b59aafb3a05177127d9f98c3ec4e3578ee467345ed05da7a113a done
-#18 exporting config sha256:f11bf5f0f924c72173ab65808ec5318e39aa7cde2e7f4c6dc0652133bb698ced done
-#18 exporting attestation manifest sha256:d0f3c8b76f3ff8ed6096251e5a5753b5218cf11f97bd31664b8727ffb3ced286 0.0s done
-#18 exporting manifest list sha256:d257120982de65b53d4d12775ff3d2f5d73807c59e4e66006fe78ffb44edc2fd 0.0s done
-#18 naming to docker.io/library/5g-network-intelligence-dashboard:week7 done
-#18 unpacking to docker.io/library/5g-network-intelligence-dashboard:week7 done
-#18 DONE 0.1s
+#18 [api 5/6] RUN pip install --no-cache-dir -r requirements-api.lock.txt && useradd --uid 10001 --create-home appuser
+#18 CACHED
 
-#19 [api] exporting to image
-#19 exporting layers 0.1s done
-#19 exporting manifest sha256:b94f3364d5e5c4b3ea0624880b40e90ad90676a03bb0bd29f612d2cab1f31144 0.0s done
-#19 exporting config sha256:ef10108991c9fc5419e775718e44a5376246a9f4947e585b5ddc295503635779 0.0s done
-#19 exporting attestation manifest sha256:ae7d5cd8ce63b8ffe18b12302b739a1029b1b8fdcac75c7b0634960c6bfdf0f6 0.0s done
-#19 exporting manifest list sha256:65770599635569be369d123f5462b602a1f9a0b0ffb05286aac1589bdf7be9bc done
-#19 naming to docker.io/library/5g-network-intelligence-api:week7 done
-#19 unpacking to docker.io/library/5g-network-intelligence-api:week7 0.0s done
-#19 DONE 0.2s
+#19 [api 6/6] COPY src ./src
+#19 DONE 0.0s
 
 #20 [dashboard] resolving provenance for metadata file
 #20 DONE 0.0s
 
-#21 [api] resolving provenance for metadata file
-#21 DONE 0.0s
+#21 [api] exporting to image
+#21 exporting layers 0.1s done
+#21 exporting manifest sha256:e54e3a970a2cfa49c5a9ae09f6a44cb11a3f8b3b5a520a86406316f483728c7c done
+#21 exporting config sha256:c81c1511ac4d8649c4bc4571da25ccfc8bff63d7c588332b9997a65c8227ea54 done
+#21 exporting attestation manifest sha256:a42109ff37e29b414a2d54ebbf250b23f8e9e3c52e0024355613b516a4ea91fd done
+#21 exporting manifest list sha256:b005ed95b093c88cf33eccefc8d778bdf4c7c7e2d7b542dc0302b16942274a0b done
+#21 naming to docker.io/library/5g-network-intelligence-api:week7 done
+#21 unpacking to docker.io/library/5g-network-intelligence-api:week7 0.0s done
+#21 DONE 0.1s
+
+#22 [api] resolving provenance for metadata file
+#22 DONE 0.0s
  Image 5g-network-intelligence-api:week7 Built 
  Image 5g-network-intelligence-dashboard:week7 Built 
  Network fiveg-cleanqa_default Creating 

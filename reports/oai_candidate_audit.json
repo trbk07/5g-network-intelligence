@@ -1,0 +1,39 @@
+{
+  "source_revision": "328ab90c9faabbba6a036255ac503683c227fa34",
+  "license": "CC0-1.0 per upstream LICENSE",
+  "sheets": {
+    "KPM Metrics": {
+      "rows_including_header": 1139,
+      "columns": 11
+    },
+    "iperf3 traffic": {
+      "rows_including_header": 841,
+      "columns": 5
+    },
+    "KPM vs iperf3": {
+      "rows_including_header": 1,
+      "columns": 1
+    }
+  },
+  "kpm_headers": [
+    "Register",
+    "UE.Id",
+    "Latency",
+    "RRU.PrbTotDl",
+    "RRU.PrbTotUl",
+    "DRB.PdcpSduVolumeDL",
+    "DRB.PdcpSduVolumeUL",
+    "DRB.RlcSduDelayDl",
+    "DRB.UEThpDl",
+    "DRB.UEThpUl",
+    null
+  ],
+  "kpm_records": 1138,
+  "distinct_ues": 1,
+  "latency_column_observation": "Values resemble epoch microseconds with approximately one-second increments; do not relabel as latency or timestamp without schema confirmation",
+  "span_if_microsecond_time_seconds": 1136.99875,
+  "median_step_if_microseconds_seconds": 1.0,
+  "hourly_beam_training_eligible": false,
+  "decision": "Reject direct merge/pretraining for current hourly beam forecasting pending corrected source/schema; short single-UE record contradicts five-week README claim",
+  "training_performed": false
+}

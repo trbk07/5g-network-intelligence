@@ -1,0 +1,62 @@
+{
+  "record": "17815388",
+  "doi": "10.5281/zenodo.17815388",
+  "license": "CC-BY-4.0",
+  "creators": [
+    {
+      "name": "Lehoczk\u00fd, Peter",
+      "affiliation": "Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava",
+      "orcid": "0000-0001-7301-0582"
+    },
+    {
+      "name": "Turcs\u00e1ny, Mat\u00fa\u0161",
+      "affiliation": "Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava"
+    },
+    {
+      "name": "Kraj\u010dovi\u010dov\u00e1, Laura",
+      "affiliation": "Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava"
+    },
+    {
+      "name": "Zatroch, Filip",
+      "affiliation": "Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava"
+    },
+    {
+      "name": "Kajan, Marcel",
+      "affiliation": "Ericsson Slovakia"
+    },
+    {
+      "name": "Galinski, Marek",
+      "affiliation": "Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava",
+      "orcid": "0000-0001-6622-526X"
+    }
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 2312,
+      "sha256": "d42dc2aaf065dbd18f15bd2d997978430e7da4517801743c3ce1506d4d0d72f1",
+      "upstream_checksum": "md5:092277c2bb7bd59a6635185456f3f406",
+      "url": "https://zenodo.org/api/records/17815388/files/README.md/content"
+    },
+    {
+      "path": "Dataset_01.zip",
+      "bytes": 8333223,
+      "sha256": "e54a08b7df91526a02b3c214cd54bb42e0ddd938fe4d00e4e91ce44fc6c7abae",
+      "upstream_checksum": "md5:cba4e8c2887c0d9382c6a63736fe5ad5",
+      "url": "https://zenodo.org/api/records/17815388/files/Dataset_01.zip/content"
+    },
+    {
+      "path": "Dataset_02.zip",
+      "bytes": 49441996,
+      "sha256": "1fbc32965308d0a202720e7cc89b6414d4c7fde4de8540920ee11a597e6e2c06",
+      "upstream_checksum": "md5:7d9c1c019e5d18bf318b4e4ad9393d91",
+      "url": "https://zenodo.org/api/records/17815388/files/Dataset_02.zip/content"
+    }
+  ],
+  "training_performed": false,
+  "status": "acquired_for_compatibility_and_temporal_audit_only",
+  "sampling_claim": "15-minute commercial sector counters, not original beam series",
+  "not_downloaded": [
+    "Dataset_03.zip (larger partition; inspect smaller partitions first)"
+  ]
+}

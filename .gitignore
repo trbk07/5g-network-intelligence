@@ -11,6 +11,7 @@ __pycache__/
 *.egg-info/
 data/raw/
 data/processed/
+data/external/
 artifacts/
 demo_assets/*
 !demo_assets/README.md

@@ -1,0 +1,16 @@
+[
+  {
+    "file": "Dataset_01/Baseband_02/Dataset_01_NR_1800.csv",
+    "raw_rows": 151026,
+    "exact_duplicate_rows": 0,
+    "conflicting_keys_after_exact_dedup": 0,
+    "rows_after_exact_dedup": 151026
+  },
+  {
+    "file": "Dataset_02/Baseband_02/Dataset_02_NR_2100.csv",
+    "raw_rows": 1800920,
+    "exact_duplicate_rows": 0,
+    "conflicting_keys_after_exact_dedup": 722137,
+    "rows_after_exact_dedup": 1800920
+  }
+]

@@ -1,7 +1,8 @@
 # Project completion audit
 
-The active goal covers all required gates in `plan5G.md`. This checklist remains
-open because final publication and the owner's code-license choice are pending.
+The active goal covers all required gates in `plan5G.md` plus the owner's later
+dataset/model-quality research extension. MIT v1.0.0 is published; the additional
+WAPE research remains active and is not claimed complete.
 Scientific, application and clean-clone checks below have direct saved evidence.
 
 | Gate / requirement | Current evidence | Status / remaining work |
@@ -19,7 +20,7 @@ Scientific, application and clean-clone checks below have direct saved evidence.
 | T8.3 generated experiment report | scripts/build_report.py, experiment_report.md | Generated from CSV; figure inspected |
 | T8.4 first-screen README / cards / architecture / limits | README and dedicated model_card/architecture/limitations docs | Present and reviewed |
 | T8.5 real screenshots / 90-150s video / portfolio / interview | docs/screenshots, 120s video, portfolio summary, 12 Q&A | Completed and visual frames inspected |
-| T8.6 v1.0.0 release / assets / attribution / QA | release_qa.md, release_draft_evidence.json, release_evidence_audit.json | Draft assets downloaded and installed; local links/checksums PASS; license choice and publication/tag pending |
+| T8.6 v1.0.0 release / assets / attribution / QA | release_qa.md, published_release_evidence.json, release_evidence_audit.json | Published MIT release/tag; published package download/install PASS; private access required |
 
 Training and calibration remain cloud-only. Final holdout is not reused for
 tuning or new model selection. Local inference/verification is permitted.
@@ -30,6 +31,6 @@ Latest read-only evidence audit passed 96 checks (release_evidence_audit.json).
 The pinned demo archive can be installed directly without original raw data;
 checksum-denial and archive-traversal rejection tests passed. A separate target
 directory installation loaded the expected frozen champion and 24 beams.
-The GitHub draft asset has also been downloaded, checksum-verified and installed
-into a fresh directory. Final release/license and the published tag/download path
-remain open; a draft is not represented as a completed release.
+The published GitHub asset has also been downloaded, checksum-verified and
+installed into a fresh directory. Further dataset/WAPE research is separate
+open work and is not represented as a completed quality improvement.

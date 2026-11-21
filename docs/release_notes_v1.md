@@ -28,8 +28,9 @@ docker compose up --build -d --wait
 ```
 
 Open http://127.0.0.1:8501 or http://127.0.0.1:8000/docs on the same machine.
-The release download link will be added only after an actual GitHub Release
-exists and its assets have been downloaded and verified.
+Download from the actual [v1.0.0 release](https://github.com/trbk07/5g-network-intelligence/releases/tag/v1.0.0).
+Repository access is required because the repository remains private. The
+published asset has been downloaded, checksum-verified and installed separately.
 
 Known limits: a single internal holdout, uncertain physical usage units, weak
 P90 recall (about 10-16%), high strict actual-zero FP rate and no predictive

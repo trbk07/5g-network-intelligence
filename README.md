@@ -8,6 +8,12 @@ system using LightGBM, GRU, FastAPI, Streamlit, and Docker.
 Code: [MIT license](LICENSE), copyright 2026 Truong Bao Kien. Dataset attribution
 and its MIT declaration remain in [the pinned dataset card](dataset_card.md).
 
+**Release:** [v1.0.0](https://github.com/trbk07/5g-network-intelligence/releases/tag/v1.0.0)
+includes the verified demo package and champion manifest. The repository remains
+private; release assets require repository access. Download the package, then run
+`python -m scripts.fetch_demo_assets --demo-archive PATH_TO_5g-demo-assets.tar.gz`
+and `docker compose up --build -d --wait`.
+
 **Problem:** beam-level usage changes make future load hard to inspect from raw
 KPI tables. This project forecasts usage at +1/+6/+24 hours and shows historical
 P90/P95 exceedance scenarios through an explicitly offline replay dashboard.

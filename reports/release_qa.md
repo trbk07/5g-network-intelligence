@@ -1,6 +1,8 @@
-# Release QA - in progress
+# Release QA - v1.0.0
 
-Release v1.0.0 has not yet been declared ready. Outstanding items are explicit.
+Release v1.0.0 is published in the private repository at source c976d6c.
+The MIT license was explicitly selected by the owner. Further WAPE research is
+separate from this frozen portfolio release.
 
 | Requirement | Evidence | Result |
 | --- | --- | --- |
@@ -20,9 +22,9 @@ Release v1.0.0 has not yet been declared ready. Outstanding items are explicit.
 | Portfolio / interview preparation | portfolio_summary.md, interview_questions.md | Present, 12 Q&A; no invented production claims |
 | Real screenshots and 90-150s video | capture_demo.py, docs/screenshots, demo_walkthrough.webm | PASS: actual 120s video; frames at 35s/80s and API screenshot inspected |
 | Safe test suite / lint | release_nontraining_tests.log; Ruff | PASS: 103 passed, 1 smoke skipped, 5 fitting tests deselected; real HTTP parity separately rerun |
-| Dataset attribution and code license | dataset_card.md names dataset MIT/citation | Code license awaits owner choice |
-| Release download + checksum cold start | pinned draft asset downloaded from GitHub and installed in a new directory; checksum/traversal tests | Draft download/install PASS; published release path remains pending |
-| v1.0.0 tag and GitHub Release | Private draft created with assets; no v1.0.0 tag yet | Publication pending owner code-license choice |
+| Dataset attribution and code license | LICENSE; dataset_card.md | PASS: owner-selected MIT code license; original dataset attribution retained |
+| Release download + checksum cold start | published v1.0.0 asset downloaded and installed in a fresh directory | PASS: exact pinned checksum and expected model/24-beam identity |
+| v1.0.0 tag and GitHub Release | annotated v1.0.0 tag at c976d6c; GitHub release isDraft=false | PASS, private repository visibility preserved |
 
 The clean-clone test used independently downloaded GitHub source plus an
 explicit asset archive, not hidden local source or training data. It shut down

@@ -1,0 +1,19 @@
+objective: pooled_wape
+definition: sum(abs(prediction-actual))/sum(abs(actual))
+target_strictly_below: 0.10
+horizons: [1, 6, 24]
+required_scope: each horizon on the full eligible beam population
+missingness: common finite actual/prediction pairs with explicit coverage
+zero_denominator: undefined_with_flag
+original_holdout: closed_for_tuning_and_new_selection
+production_champion: preserved
+training_runtime: hosted_colab_or_kaggle_only
+external_data_policy:
+  audit_before_training: true
+  pin_revision_and_checksums: true
+  no_automatic_cross_domain_concatenation: true
+  verify_target_units_and_sampling: true
+  duplicates_grouped_across_splits: true
+  independent_chronological_test_required: true
+  preprocessing_fit_on_training_only: true
+success_claim: requires frozen unseen-test protocol, WAPE below 0.10 at every declared horizon, coverage and baselines reported
