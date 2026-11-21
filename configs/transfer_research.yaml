@@ -1,0 +1,23 @@
+schema: causal40-relative-target-transfer-v1
+external_record: '17815388'
+external_file: Dataset_01_NR_1800.csv
+external_sha256: 56e9f080ae1ad265333d6151877bc268f3fcde378d80d9f692a7ef43b8bab3a3
+external_training_fraction: 0.80
+external_future_data_use: forbidden_for_training_or_selection_in_this_pilot
+original_round_selection: {fit_end: 419, stop_end: 503}
+original_final_fit_end: 503
+original_audit_end: 671
+horizons: [1, 6, 24]
+external_weight_ratios: [0.0, 0.1, 0.5, 1.0]
+stride: 1
+seed: 17
+threads: 4
+max_rounds: 1200
+patience: 80
+params: {objective: regression_l1, num_leaves: 63, learning_rate: 0.035, min_data_in_leaf: 100, lambda_l2: 0.5}
+scale_floor: 0.000001
+external_aggregation: mean_of_exactly_four_15_minute_observations_per_utc_hour
+feature_policy: target_columns_0_to_22_scaled_by_observed_168h_mean; phase_columns_23_24_retained; exogenous_25_to_39_missing_for_both_domains
+production_change_allowed: false
+holdout_use_allowed: false
+interpretation: Cross-domain transfer pilot; external sectors are not original beams and their outcomes cannot establish original-network success.
