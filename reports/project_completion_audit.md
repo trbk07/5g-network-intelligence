@@ -13,8 +13,11 @@ Scientific, application and clean-clone checks below have direct saved evidence.
 | G4 GRU A/B phase4 | four W5 runs / ablation; release model recheck; CPU initialized-state fixture | Schema/provenance and optional CPU routing PASS; no local fitting |
 | G5 common mask / CI / atlas | model_quality_gate, model_analysis, error_atlas; generated experiment_report | Reconciled into generated report with limitations |
 | G6 freeze / once-only holdout / risk | pre-holdout tag, completion hashes, risk reports | Frozen evidence verified during improvement; preserve unchanged |
-| G7 API / dashboard / Compose / parity | clean_clone_qa.json, 60 parity comparisons | Fresh remote clone + assets + Docker PASS at ec9372e runtime snapshot |
+| G7 API / dashboard / Compose / parity | clean_clone_qa.json, 60 parity comparisons | Fresh remote clone + assets + Docker PASS at release commit c976d6c; this is not a clean-clone test of later research commits |
 | Model improvement | 53 search fits, fixed ensemble refit, reused-validation audit | Research candidate verified; no unseen-data promotion claim |
+| External transfer extension | transfer_pilot_evidence.json, multisource_pilot_evidence.json, transfer_ablation_decision.md | 54 artifact files verified, 81 parity checks passed; negative NR1800/pool transfer; NR3500 gains <=0.207% are exploratory |
+| Research notebook presentation | notebook_standards.md; notebooks 09–13; transfer_review_execution_evidence.json | Hosted review loaded both complete report tables; reader Run All performs no fitting |
+| Zero-inflated forecasting extension | hurdle_research_protocol.md, configs/hurdle_research.yaml | Cloud job v1 confirmed running; scores and checkpoint verification pending; no improvement claim |
 | T8.1 clean clone / artifact I/O / routing | clean_clone_qa.json; dedicated artifact/E2E tests | PASS at checked snapshot; final source recheck before release |
 | T8.2 latency / RSS / image size | inference_benchmark.json/.md | Measured and inspected; no production SLA claim |
 | T8.3 generated experiment report | scripts/build_report.py, experiment_report.md | Generated from CSV; figure inspected |
