@@ -70,6 +70,21 @@ def main():
         "if path:\n    import pandas as pd\n    from IPython.display import display\n"
         "    frame = pd.read_csv(path)\n    display(frame.loc[frame.load_tier == 'All', ['model', 'horizon', 'mae', 'wape', 'n_valid']])\n"
         "else:\n    print('No candidate audit scores available yet.')\n")
+    add("markdown", "## Independent verification and earlier research reference\n\n"
+        "Lower MAE than the matched control is insufficient: compare with the previous improved ensemble. "
+        "Verification reports are generated after downloading checkpoints, not fabricated from a successful job status.\n")
+    add("code", "for filename in ('hurdle_candidate_comparison.csv', 'hurdle_candidate_cluster_intervals.csv', 'hurdle_candidate_verification.json'):\n"
+        "    candidates = [Path('reports')/filename, Path('../reports')/filename]\n"
+        "    path = next((p for p in candidates if p.exists()), None)\n"
+        "    if path:\n        from IPython.display import display\n        print(filename)\n"
+        "        if path.suffix == '.json':\n            import json\n            display(json.loads(path.read_text()))\n"
+        "        else:\n            import pandas as pd\n            display(pd.read_csv(path))\n"
+        "    else:\n        print(f'{filename}: independent report not attached')\n")
+    add("markdown", "## Completed v1 audit finding\n\nMixture-median MAE was 0.227494 / 0.251004 / 0.249159 "
+        "at 1/6/24h; WAPE was 40.98% / 44.52% / 44.94%. All three point MAEs improved over the earlier ensemble, "
+        "but the exploratory base-station bootstrap interval at 24h crosses zero. Zero false-positive rates "
+        "are worse than the earlier ensemble. Twenty-one artifact files and 72 history-only predictions were verified. "
+        "These results do not prove generalization or absence of overfitting. No production promotion; the 10% WAPE target remains unmet.\n")
     notebook = {"cells": cells, "metadata": {"kernelspec": {"name": "python3", "language": "python", "display_name": "Python 3"}},
                 "nbformat": 4, "nbformat_minor": 5}
     name = "14_zero_inflated_candidate_audit.ipynb"

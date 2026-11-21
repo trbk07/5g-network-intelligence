@@ -1,0 +1,9 @@
+{
+  "history_only_parity_checks": 72,
+  "parity_max_error": 0.0,
+  "all_metrics_reconstructed": true,
+  "round_policy_verified": true,
+  "holdout_used": false,
+  "production_promoted": false,
+  "claim_scope": "reused validation audit only; no unseen-test or overfitting guarantee"
+}

@@ -10,6 +10,8 @@ from scripts.finalize_hurdle_candidate import component_rounds
 from scripts.run_risk import risk_records
 from scripts.summarize_hurdle_research import score_rows
 from src.data.io import sha256
+from src.data.schema import parse_beam_id
+from src.evaluation.bootstrap import paired_cluster_ci, paired_multihorizon_ci
 from src.evaluation.origins import evaluation_origins
 from src.evaluation.validation import validation_inputs
 from src.models.hurdle_forecaster import HurdleForecaster
@@ -27,7 +29,10 @@ def main():
         "original_c1": (risk_records(reports / "forecasts/lightgbm_val.npz"), "lightgbm_c1"),
         "improved_ensemble": (risk_records(reports / "forecasts/improvement_audit.npz"), "improved_ensemble"),
     }
-    rows, parity = [], []
+    rows, parity, intervals = [], [], []
+    paired = {name: [] for name in ("original_c1", "improved_ensemble", "matched_direct_l1")}
+    scales = []
+    clusters = np.array([parse_beam_id(beam)[0] for beam in panel.beam_ids])
     if set(replay) != {1, 6, 24}:
         raise ValueError("All declared horizons required")
     for h, group in replay.items():
@@ -66,6 +71,20 @@ def main():
             if record["beam_ids"] != panel.beam_ids:
                 raise ValueError("Reference population differs")
             rows.extend(score_rows(actual, {name: record["predicted"]}, "reused_validation", h))
+        target_prediction = group["hurdle_median"]["predicted"]
+        mask = np.isfinite(actual)
+        base_prediction = references["original_c1"][0][h]["lightgbm_c1"]["predicted"]
+        scales.append(float(np.abs(base_prediction[mask] - actual[mask]).mean()))
+        comparisons = {name: reference[h][key]["predicted"] for name, (reference, key) in references.items()}
+        comparisons["matched_direct_l1"] = group["hurdle_direct_l1"]["predicted"]
+        for name, prediction in comparisons.items():
+            pair = (actual, target_prediction, prediction, mask)
+            paired[name].append(pair)
+            intervals.append({"reference": name, "horizon": h, "unit": "original_MAE_difference",
+                              **paired_cluster_ci(actual, target_prediction, prediction, clusters, mask)})
+    for name, pairs in paired.items():
+        intervals.append({"reference": name, "horizon": "mean_normalized", "unit": "C1_MAE_normalized_difference",
+                          **paired_multihorizon_ci(pairs, clusters, scales)})
     frame = pd.DataFrame(rows)
     csv = pd.read_csv(reports / "hurdle_candidate_validation.csv")
     declared = csv.loc[csv.load_tier == "All"].set_index(["model", "horizon"])
@@ -75,6 +94,7 @@ def main():
                                   check_dtype=False, atol=1e-12, rtol=1e-12)
     frame.to_csv(reports / "hurdle_candidate_comparison.csv", index=False)
     pd.DataFrame(parity).to_csv(reports / "hurdle_candidate_cpu_parity.csv", index=False)
+    pd.DataFrame(intervals).to_csv(reports / "hurdle_candidate_cluster_intervals.csv", index=False)
     evidence = {"history_only_parity_checks": len(parity), "parity_max_error": max(r["absolute_error"] for r in parity),
                 "all_metrics_reconstructed": True, "round_policy_verified": True,
                 "holdout_used": False, "production_promoted": False,
@@ -85,8 +105,13 @@ def main():
         "MAE is in original usage units and WAPE is a ratio.\n\n```csv\n" + frame.to_csv(index=False) + "```\n\n"
         "The matched direct L1 case tests the hurdle strategy; the earlier improved ensemble tests whether this candidate advances the best research result. "
         "Reused validation cannot establish performance on an independent future week. "
+        "Paired 95% intervals resample the 30 base-station clusters while retaining all observed origins; "
+        "they describe spatial variability conditional on this week, not uncertainty across future weeks. "
+        "They are exploratory, unadjusted for repeated model search and do not prove no overfitting. "
+        "Despite lower pooled MAE, zero false-positive rate is worse than the earlier improved ensemble. "
         "No production promotion, final holdout replay or probability calibration occurred.\n", encoding="utf-8")
     print(frame[["model", "horizon", "mae", "wape", "n_valid"]].to_string(index=False))
+    print(pd.DataFrame(intervals)[["reference", "horizon", "difference", "lower", "upper"]].to_string(index=False))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,33 @@
+Saved h1 active fixed rounds=306
+Saved h1 direct fixed rounds=324
+Saved h1 q0.05 fixed rounds=362
+Saved h1 q0.1 fixed rounds=539
+Saved h1 q0.25 fixed rounds=787
+Saved h1 q0.5 fixed rounds=797
+           model  horizon      mae     wape
+hurdle_direct_l1        1 0.228382 0.411392
+   hurdle_median        1 0.227494 0.409794
+Saved h6 active fixed rounds=360
+Saved h6 direct fixed rounds=324
+Saved h6 q0.05 fixed rounds=555
+Saved h6 q0.1 fixed rounds=512
+Saved h6 q0.25 fixed rounds=506
+Saved h6 q0.5 fixed rounds=498
+           model  horizon      mae     wape
+hurdle_direct_l1        1 0.228382 0.411392
+   hurdle_median        1 0.227494 0.409794
+hurdle_direct_l1        6 0.251661 0.446375
+   hurdle_median        6 0.251004 0.445209
+Saved h24 active fixed rounds=229
+Saved h24 direct fixed rounds=300
+Saved h24 q0.05 fixed rounds=473
+Saved h24 q0.1 fixed rounds=437
+Saved h24 q0.25 fixed rounds=349
+Saved h24 q0.5 fixed rounds=358
+           model  horizon      mae     wape
+hurdle_direct_l1        1 0.228382 0.411392
+   hurdle_median        1 0.227494 0.409794
+hurdle_direct_l1        6 0.251661 0.446375
+   hurdle_median        6 0.251004 0.445209
+hurdle_direct_l1       24 0.249713 0.450383
+   hurdle_median       24 0.249159 0.449384
