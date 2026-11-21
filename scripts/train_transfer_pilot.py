@@ -26,9 +26,9 @@ def original_arrays(panel, end, h, stride):
     return x, y, scale
 
 
-def external_arrays(h):
-    preparation = json.loads(Path("reports/transfer_preparation.json").read_text())
-    source = Path("data/processed/transfer_training.npz")
+def external_arrays(h, preparation_path="reports/transfer_preparation.json", cap=None):
+    preparation = json.loads(Path(preparation_path).read_text())
+    source = Path(preparation.get("processed_path", "data/processed/transfer_training.npz"))
     if sha256(source) != preparation["processed_sha256"]:
         raise ValueError("External prepared-source checksum mismatch")
     xs, ys, scales = [], [], []
@@ -44,7 +44,11 @@ def external_arrays(h):
             xs.append(x)
             ys.append(values[origins + h, :, 0].reshape(-1))
             scales.append(s)
-    return np.concatenate(xs), np.concatenate(ys), np.concatenate(scales)
+    result = (np.concatenate(xs), np.concatenate(ys), np.concatenate(scales))
+    if cap and len(result[1]) > cap:
+        indices = np.sort(np.random.default_rng(17).choice(len(result[1]), cap, replace=False))
+        result = tuple(a[indices] for a in result)
+    return result
 
 
 def fit(x, y, scale, external, ratio, params, rounds, stop=None):
@@ -53,11 +57,12 @@ def fit(x, y, scale, external, ratio, params, rounds, stop=None):
     x, y, scale = x[valid], y[valid], scale[valid]
     weights = scale.copy()
     if ratio > 0:
-        ex, ey, es = external
+        ex, ey, es = external[:3]
         ev = np.isfinite(ey)
         ex, ey, es = ex[ev], ey[ev], es[ev]
         # Total external influence is controlled independently of target physical units.
-        ew = es / es.sum() * weights.sum() * ratio
+        base = external[3][ev] if len(external) == 4 else es
+        ew = base / base.sum() * weights.sum() * ratio
         x = np.concatenate([x, ex])
         y = np.concatenate([y / scale, ey / es])
         weights = np.concatenate([weights, ew])

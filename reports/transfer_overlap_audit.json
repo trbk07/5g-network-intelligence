@@ -1,0 +1,27 @@
+{
+  "pooled_training_permitted": true,
+  "external_test_claim_permitted": false,
+  "source_preparation_sha256": "9f2a74d66220426c94f88f08ca5fd33bb640abbe46c9bbed0a94e2f639b8d2a0",
+  "pairs": [
+    {
+      "left": "pm01_nr1800",
+      "right": "pm03_nr2100",
+      "overlapping_training_intervals_same_pseudonym": 0,
+      "left_training_intervals_after_right_cutoff_same_pseudonym": 0
+    },
+    {
+      "left": "pm01_nr1800",
+      "right": "pm03_nr3500",
+      "overlapping_training_intervals_same_pseudonym": 0,
+      "left_training_intervals_after_right_cutoff_same_pseudonym": 0
+    },
+    {
+      "left": "pm03_nr2100",
+      "right": "pm03_nr3500",
+      "overlapping_training_intervals_same_pseudonym": 605,
+      "left_training_intervals_after_right_cutoff_same_pseudonym": 0
+    }
+  ],
+  "interpretation": "Overlapping bands may represent correlated training events; balance domains and do not claim independent networks or evaluate separately reserved external tests from this pooled model.",
+  "original_network_calendar_identity": "Unverified; no original holdout outcomes are opened and no fresh-test claim is made."
+}

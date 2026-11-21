@@ -1,0 +1,9 @@
+external_ratio: 0.5
+source_row_cap: 150000
+source_cases: [target_only, pm01_nr1800, pm03_nr2100, pm03_nr3500, balanced_pool]
+objective: original_network_original_unit_mae_and_wape
+selection: fixed_stopping_through_503_then_reused_validation_audit
+external_validation_scoring: forbidden_in_this_pilot
+independence_claim: none_for_correlated_bands_or_reused_validation
+original_final_holdout: closed
+seed: 17

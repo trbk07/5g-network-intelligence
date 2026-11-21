@@ -20,3 +20,13 @@ def test_units_and_future_do_not_change_relative_shape():
     c, cscale = relative_features(changed, np.array([180]), 6)
     np.testing.assert_array_equal(a, c)
     np.testing.assert_array_equal(scale, cscale)
+
+
+def test_fixed_source_balancing_does_not_follow_dataset_size():
+    from scripts.train_multisource_pilot import balanced_pool
+
+    small = (np.zeros((2, 40)), np.ones(2), np.array([1.0, 2.0]))
+    large = (np.zeros((20, 40)), np.ones(20), np.arange(1, 21, dtype=float))
+    _, _, _, weights = balanced_pool({"small": small, "large": large})
+    assert np.isclose(weights[:2].sum(), 0.5)
+    assert np.isclose(weights[2:].sum(), 0.5)
