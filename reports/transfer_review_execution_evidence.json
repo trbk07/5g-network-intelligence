@@ -1,0 +1,12 @@
+{
+  "transfer_pilot": {
+    "metrics_loaded": true,
+    "verification_loaded": true,
+    "all_population_rows": 15
+  },
+  "multisource_pilot": {
+    "metrics_loaded": true,
+    "verification_loaded": true,
+    "all_population_rows": 15
+  }
+}
