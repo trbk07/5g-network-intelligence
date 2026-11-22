@@ -10,7 +10,7 @@ import pytest
 from scripts.import_hurdle_results import import_results
 
 
-def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibration=False):
+def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibration=False, temporal_linear=False):
     model = b"fixture checkpoint bytes, not a trained model"
     files = {
         "artifacts/hurdle_research/inner1/h1/direct.txt": model,
@@ -30,6 +30,10 @@ def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibrati
     if calibration:
         files = {name.replace("artifacts/hurdle_research/", "artifacts/hurdle_calibration/")
                  .replace("reports/hurdle_development_scores.csv", "reports/hurdle_calibration_development.csv"): value
+                 for name, value in files.items()}
+    if temporal_linear:
+        files = {name.replace("artifacts/hurdle_research/", "artifacts/temporal_linear/")
+                 .replace("reports/hurdle_development_scores.csv", "reports/temporal_linear_development.csv"): value
                  for name, value in files.items()}
     with tarfile.open(path, "w:gz") as archive:
         for name, content in files.items():
@@ -95,5 +99,15 @@ def test_calibration_intake_keeps_development_models_separate(tmp_path):
     import_results(archive, tmp_path, kind="calibration")
     assert (tmp_path / "reports/hurdle_calibration_import_evidence.json").exists()
     assert (tmp_path / "reports/hurdle_calibration_development.csv").exists()
+    assert not (tmp_path / "artifacts/hurdle_research").exists()
+    assert not (tmp_path / "artifacts/champion").exists()
+
+
+def test_temporal_intake_does_not_touch_hurdle_or_champion(tmp_path):
+    archive = tmp_path / "temporal.tar.gz"
+    archive_fixture(archive, temporal_linear=True)
+    import_results(archive, tmp_path, kind="temporal_linear")
+    assert (tmp_path / "reports/temporal_linear_development.csv").exists()
+    assert (tmp_path / "reports/temporal_linear_import_evidence.json").exists()
     assert not (tmp_path / "artifacts/hurdle_research").exists()
     assert not (tmp_path / "artifacts/champion").exists()

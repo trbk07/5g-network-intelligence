@@ -87,6 +87,13 @@ def main():
         "path = next((p for p in paths if p.exists()),None)\n"
         "if path:\n    import pandas as pd\n    from IPython.display import display\n    display(pd.read_csv(path))\n"
         "else:\n    print('No completed scores attached; no improvement is assumed.')\n")
+    add("markdown", "## Completed v1 result and decision\n\nBoth A and B regressed against the saved "
+        "hurdle development forecasts in all twelve comparisons. MAE was 1.30–4.71% higher. "
+        "All runs stopped under the declared patience rule, not a runtime budget failure. "
+        "Thirty-two artifact files were verified; 72 history-only CPU/GPU predictions agreed "
+        "within 1e-5 original units (maximum difference 1.20e-7). Reject this configuration as a "
+        "standalone candidate; retain every negative result. No reused-validation or holdout audit "
+        "is justified by these results.\n")
     notebook = {"cells":cells,"metadata":{"kernelspec":{"name":"python3","language":"python","display_name":"Python 3"}},"nbformat":4,"nbformat_minor":5}
     name = "16_temporal_linear_forecasting.ipynb"
     Path("notebooks",name).write_text(json.dumps(notebook,indent=2),encoding="utf-8")

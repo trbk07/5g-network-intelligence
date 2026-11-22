@@ -36,3 +36,11 @@ Reader notebook `16_temporal_linear_forecasting.ipynb` defaults to no training.
 Only the separately enabled hosted worker may fit. Local checks use initialized
 forward passes without backward, optimizer steps or fitting. No claim is made
 that the initialization or inference checks establish a trained model's quality.
+
+Completed v1: `temporal_linear_analysis.md` records the negative result and
+independent verification. To reproduce intake and verification without fitting:
+
+```powershell
+python -m scripts.import_hurdle_results .cache/temporal-linear-results/temporal_linear_results.tar.gz --kind temporal_linear
+python -m scripts.summarize_temporal_linear
+```

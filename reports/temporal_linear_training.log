@@ -1,0 +1,48 @@
+{"epoch": 0, "train_l1_scaled": 0.2555358314468486, "val_l1_scaled": 0.25523715522554186, "seconds": 2.1289103469999873, "best_epoch": 0, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 111196672}
+{"epoch": 1, "train_l1_scaled": 0.25398631083554235, "val_l1_scaled": 0.25498793318536545, "seconds": 1.3254047629999945, "best_epoch": 1, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 111196672}
+{"epoch": 2, "train_l1_scaled": 0.25389230991688727, "val_l1_scaled": 0.2554437227116691, "seconds": 1.331704885999983, "best_epoch": 1, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 111196672}
+{"epoch": 3, "train_l1_scaled": 0.2541192257587024, "val_l1_scaled": 0.2543233502308528, "seconds": 1.3669890429999896, "best_epoch": 3, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 111196672}
+{"epoch": 4, "train_l1_scaled": 0.25404327999129606, "val_l1_scaled": 0.2556347955862681, "seconds": 1.337324711000008, "best_epoch": 3, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 111196672}
+{"epoch": 5, "train_l1_scaled": 0.25406930613791806, "val_l1_scaled": 0.25473204640547437, "seconds": 1.343773715999987, "best_epoch": 3, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 111196672}
+{"epoch": 6, "train_l1_scaled": 0.25397791034873873, "val_l1_scaled": 0.25456155598163605, "seconds": 1.3325293030000012, "best_epoch": 3, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 111196672}
+{"epoch": 7, "train_l1_scaled": 0.253994198836586, "val_l1_scaled": 0.2556197725137075, "seconds": 1.2921461680000164, "best_epoch": 3, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 111196672}
+{"epoch": 8, "train_l1_scaled": 0.253934679424169, "val_l1_scaled": 0.25483129896057977, "seconds": 1.2853201259999878, "best_epoch": 3, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 111196672}
+  fold variant  horizon      mae     wape  zero_fp_rate  n_valid
+inner1       A        1 0.238390 0.438579      0.903395   172800
+inner1       A        6 0.263911 0.465454      0.913303   158400
+inner1       A       24 0.252072 0.483347      0.933800   106560
+{"epoch": 0, "train_l1_scaled": 0.25646673358263183, "val_l1_scaled": 0.25646287480990093, "seconds": 1.3308453590000227, "best_epoch": 0, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 189359104}
+{"epoch": 1, "train_l1_scaled": 0.25381099232311904, "val_l1_scaled": 0.2546251697540283, "seconds": 1.3332376940000188, "best_epoch": 1, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 189359104}
+{"epoch": 2, "train_l1_scaled": 0.2541539901791861, "val_l1_scaled": 0.2598815810018116, "seconds": 1.3702909999999804, "best_epoch": 1, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 189359104}
+{"epoch": 3, "train_l1_scaled": 0.25395506651465466, "val_l1_scaled": 0.25496980052524143, "seconds": 1.3400429019999933, "best_epoch": 1, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 189359104}
+{"epoch": 4, "train_l1_scaled": 0.2537682851726525, "val_l1_scaled": 0.2599128102461497, "seconds": 1.3284967910000205, "best_epoch": 1, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 189359104}
+{"epoch": 5, "train_l1_scaled": 0.25418051455669477, "val_l1_scaled": 0.2560170393122567, "seconds": 1.3177183990000003, "best_epoch": 1, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 189359104}
+{"epoch": 6, "train_l1_scaled": 0.25381282846818026, "val_l1_scaled": 0.2564589858982298, "seconds": 1.2893529430000115, "best_epoch": 1, "train_valid_targets": 1252800, "validation_valid_targets": 216000, "peak_vram_bytes": 189359104}
+  fold variant  horizon      mae     wape  zero_fp_rate  n_valid
+inner1       B        1 0.239605 0.440815      0.903395   172800
+inner1       B        6 0.263638 0.464973      0.920827   158400
+inner1       B       24 0.253129 0.485374      0.911490   106560
+{"epoch": 0, "train_l1_scaled": 0.25091298425262215, "val_l1_scaled": 0.2596674575673209, "seconds": 1.8568886529999986, "best_epoch": 0, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 1, "train_l1_scaled": 0.2497709095639588, "val_l1_scaled": 0.2600046053727468, "seconds": 1.8200663229999918, "best_epoch": 0, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 2, "train_l1_scaled": 0.24986924244620937, "val_l1_scaled": 0.25918585917684767, "seconds": 1.7900710240000137, "best_epoch": 2, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 3, "train_l1_scaled": 0.2497419683380825, "val_l1_scaled": 0.2598296606010861, "seconds": 1.7701176619999899, "best_epoch": 2, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 4, "train_l1_scaled": 0.24985240545699267, "val_l1_scaled": 0.2597128943734699, "seconds": 1.8120479420000208, "best_epoch": 2, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 5, "train_l1_scaled": 0.24988572334370962, "val_l1_scaled": 0.259588925242424, "seconds": 1.8658694180000168, "best_epoch": 2, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 6, "train_l1_scaled": 0.24982904372984155, "val_l1_scaled": 0.26040801588694257, "seconds": 1.8250546790000044, "best_epoch": 2, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 7, "train_l1_scaled": 0.24990930540451836, "val_l1_scaled": 0.26002675845887924, "seconds": 1.8387978289999865, "best_epoch": 2, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+  fold variant  horizon      mae     wape  zero_fp_rate  n_valid
+inner2       A        1 0.245909 0.417200      0.884310   172800
+inner2       A        6 0.258373 0.445591      0.941372   158400
+inner2       A       24 0.266909 0.436922      0.971543   106560
+{"epoch": 0, "train_l1_scaled": 0.25151299403773414, "val_l1_scaled": 0.2601781067053477, "seconds": 1.839630083000003, "best_epoch": 0, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 1, "train_l1_scaled": 0.24986440648715993, "val_l1_scaled": 0.2593867531352573, "seconds": 1.835248557, "best_epoch": 1, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 2, "train_l1_scaled": 0.24957234858820432, "val_l1_scaled": 0.25933622745672863, "seconds": 1.8542625319999786, "best_epoch": 2, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 3, "train_l1_scaled": 0.2501005202887181, "val_l1_scaled": 0.2596758079926173, "seconds": 1.8089399630000003, "best_epoch": 2, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 4, "train_l1_scaled": 0.24977775027919913, "val_l1_scaled": 0.2607413485315111, "seconds": 1.7761772620000045, "best_epoch": 2, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 5, "train_l1_scaled": 0.24941352600166145, "val_l1_scaled": 0.2619231003655328, "seconds": 1.8040930370000012, "best_epoch": 2, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 6, "train_l1_scaled": 0.24989733245799212, "val_l1_scaled": 0.26069619405269623, "seconds": 1.7970198090000054, "best_epoch": 2, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+{"epoch": 7, "train_l1_scaled": 0.24977620230134587, "val_l1_scaled": 0.26506020918157364, "seconds": 1.7876485729999843, "best_epoch": 2, "train_valid_targets": 1771200, "validation_valid_targets": 216000, "peak_vram_bytes": 235797504}
+  fold variant  horizon      mae     wape  zero_fp_rate  n_valid
+inner2       B        1 0.244441 0.414708      0.922109   172800
+inner2       B        6 0.259950 0.448311      0.924115   158400
+inner2       B       24 0.269454 0.441089      0.900009   106560
