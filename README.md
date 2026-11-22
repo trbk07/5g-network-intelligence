@@ -64,9 +64,20 @@ and [the report-only notebook](notebooks/08_model_improvement_review.ipynb).
 This is an independently loadable research candidate; fresh unseen chronological
 data is required before promotion. The frozen dashboard champion remains intact.
 
-Week 1 implements dataset ingestion, provenance, panel construction, descriptive audit,
-and chronological split preparation. Models and application components are scheduled
-for subsequent weeks in [the execution plan](plan5G.md).
+Later transfer, hurdle, calibration and temporal-linear studies are reconciled in
+the [common-population research comparison](reports/research_validation_comparison.md).
+Hurdle improves the earlier ensemble's point MAE, while some transfer cases have
+lower point MAE at individual horizons; there is no verified single winner across
+every horizon and criterion. Calibration and standalone temporal-linear results
+were negative. A fixed 80/20 blend passed development confirmation and its separate
+GPU validation audit is queued. WAPE remains roughly 41–45%, above the research
+target of 10%; none of these repeated-validation results establishes performance
+on unseen future data or replaces the frozen production model.
+
+The repository contains dataset ingestion, provenance, panel construction,
+forecasting, historical-risk replay and application components described in
+[the execution plan](plan5G.md). Original release evidence and later exploratory
+model-quality work remain separately documented.
 
 Week 2 adds chronological origins, metrics with coverage flags, a history-only
 evaluator, three baselines and leakage canaries. Run the validation benchmark:
