@@ -13,6 +13,7 @@ import pytest
     ("14_zero_inflated_candidate_audit.ipynb", "RUN_TRAINING"),
     ("15_probability_calibration_study.ipynb", "RUN_CALIBRATION"),
     ("16_temporal_linear_forecasting.ipynb", "RUN_TRAINING"),
+    ("17_development_forecast_blending.ipynb", "RUN_SELECTION"),
 ])
 def test_hurdle_review_is_readable_and_does_not_train(name, flag, tmp_path, monkeypatch):
     root = Path(__file__).resolve().parents[2]

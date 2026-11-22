@@ -1,0 +1,14 @@
+protocol: development-linear-hurdle-blend-v1
+selection_fold: inner1
+confirmation_fold: inner2
+horizons: [1, 6, 24]
+variants: [A, B]
+linear_weight_grid: [0.0, 0.05, 0.1, 0.2]
+selection_metric: original_unit_MAE
+tie_policy: smaller_weight_then_A_before_B
+confirmation_rule: no_horizon_regresses_and_at_least_one_strictly_improves_with_nonzero_weight
+post_confirmation_weight_changes: forbidden
+base_model_retraining: false
+validation_504_671: forbidden
+original_final_holdout: forbidden
+production_change: forbidden

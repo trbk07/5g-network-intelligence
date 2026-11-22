@@ -41,6 +41,7 @@ Names for the current extension:
 - 14_zero_inflated_candidate_audit.ipynb
 - 15_probability_calibration_study.ipynb
 - 16_temporal_linear_forecasting.ipynb
+- 17_development_forecast_blending.ipynb
 
 Historical execution notebooks remain attached to their original job versions;
 renaming or restyling must not silently trigger repeated fitting or erase run
