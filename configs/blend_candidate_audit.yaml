@@ -1,0 +1,12 @@
+protocol: fixed-hurdle-linear-validation-audit-v1
+fit_end: 503
+audit_end: 671
+horizons: [1, 6, 24]
+epoch_policy: rounded_median_of_two_development_best_epoch_plus_one
+selection_sha256: a2a586bee68fe7797b9f21313acee5c6e930ec67c8071a06ac8f61b925e6fd07
+hurdle_replay_sha256: ec7bc06e9c6d205276436328f64117ce3b7c0fc994f08dcca907a44893e41dc2
+early_stopping: forbidden
+coefficient_changes: forbidden
+hurdle_retraining: forbidden
+original_final_holdout: forbidden
+production_change: forbidden
