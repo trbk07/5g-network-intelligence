@@ -82,6 +82,12 @@ def main():
         "    path=next((p for p in paths if p.exists()),None)\n"
         "    if path:\n        import pandas as pd\n        from IPython.display import display\n        print(name)\n        display(pd.read_csv(path))\n"
         "    else:\n        print(f'{name}: no completed result attached')\n")
+    add("markdown", "## Completed v1 confirmation\n\nInner1 selected 20% B for 1/6h and 20% A "
+        "for 24h. Applied unchanged to inner2, MAE decreased 0.318% / 0.556% / 0.216% "
+        "versus hurdle, passing the predefined development screen. Five artifact files and all "
+        "437,760 confirmation forecasts were independently verified. The chosen weight is at the "
+        "grid boundary; do not expand it after seeing confirmation. Reused development evidence "
+        "does not establish generalization. A separate fixed-refit audit needs its own frozen procedure.\n")
     notebook={"cells":cells,"metadata":{"kernelspec":{"name":"python3","language":"python","display_name":"Python 3"}},"nbformat":4,"nbformat_minor":5}
     name="17_development_forecast_blending.ipynb"
     Path("notebooks",name).write_text(json.dumps(notebook,indent=2),encoding="utf-8")

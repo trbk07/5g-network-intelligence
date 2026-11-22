@@ -10,7 +10,7 @@ import pytest
 from scripts.import_hurdle_results import import_results
 
 
-def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibration=False, temporal_linear=False):
+def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibration=False, temporal_linear=False, blend=False):
     model = b"fixture checkpoint bytes, not a trained model"
     files = {
         "artifacts/hurdle_research/inner1/h1/direct.txt": model,
@@ -35,6 +35,11 @@ def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibrati
         files = {name.replace("artifacts/hurdle_research/", "artifacts/temporal_linear/")
                  .replace("reports/hurdle_development_scores.csv", "reports/temporal_linear_development.csv"): value
                  for name, value in files.items()}
+    if blend:
+        files = {name.replace("artifacts/hurdle_research/", "artifacts/development_blend/")
+                 .replace("reports/hurdle_development_scores.csv", "reports/development_blend_selection_grid.csv"): value
+                 for name, value in files.items()}
+        files["reports/development_blend_confirmation.csv"] = b"test confirmation table\n"
     with tarfile.open(path, "w:gz") as archive:
         for name, content in files.items():
             info = tarfile.TarInfo(name)
@@ -109,5 +114,15 @@ def test_temporal_intake_does_not_touch_hurdle_or_champion(tmp_path):
     import_results(archive, tmp_path, kind="temporal_linear")
     assert (tmp_path / "reports/temporal_linear_development.csv").exists()
     assert (tmp_path / "reports/temporal_linear_import_evidence.json").exists()
+    assert not (tmp_path / "artifacts/hurdle_research").exists()
+    assert not (tmp_path / "artifacts/champion").exists()
+
+
+def test_blend_intake_keeps_base_model_roots_untouched(tmp_path):
+    archive = tmp_path / "blend.tar.gz"
+    archive_fixture(archive, blend=True)
+    import_results(archive, tmp_path, kind="development_blend")
+    assert (tmp_path / "reports/development_blend_confirmation.csv").exists()
+    assert (tmp_path / "reports/development_blend_import_evidence.json").exists()
     assert not (tmp_path / "artifacts/hurdle_research").exists()
     assert not (tmp_path / "artifacts/champion").exists()

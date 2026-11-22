@@ -1,0 +1,19 @@
+{
+  "1": {
+    "variant": "B",
+    "linear_weight": 0.2
+  },
+  "6": {
+    "variant": "B",
+    "linear_weight": 0.2
+  },
+  "24": {
+    "variant": "A",
+    "linear_weight": 0.2
+  }
+}
+  fold  horizon variant  linear_weight      mae     wape  n_valid  hurdle_mae  relative_mae_gain_pct
+inner2        1       B            0.2 0.237667 0.403216   172800    0.238425               0.317872
+inner2        6       B            0.2 0.253643 0.437433   158400    0.255061               0.555985
+inner2       24       A            0.2 0.259847 0.425362   106560    0.260410               0.216257
+Passes fixed development confirmation: True
