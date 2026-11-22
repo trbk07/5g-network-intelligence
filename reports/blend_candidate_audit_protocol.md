@@ -27,3 +27,18 @@ Hosted implementation: `scripts/finalize_blend_candidate.py`. Reader notebook:
 run in a separately enabled private Kaggle worker, saving epoch checkpoints,
 optimizer/RNG states and logs to Kaggle Output. Local checks exercise arithmetic
 on epoch metadata and review execution only; no local neural fitting occurs.
+
+Once the hosted job completes, download its archive and verify without fitting:
+
+```powershell
+python -m scripts.import_hurdle_results .cache/blend-candidate-results/blend_candidate_results.tar.gz --kind blend_candidate
+python -m scripts.summarize_blend_candidate
+```
+
+Intake is restricted to the new research directory and named reports/forecast
+file. Verification checks the pinned selection/replay, original stopping metadata,
+fixed last-epoch identity, global preprocessing cutoff, all origins and beams,
+complete blend arithmetic, reconstructed metrics and history-only component
+predictions. Hurdle CPU parity uses 1e-8 tolerance; neural/blend CPU/GPU parity
+uses 1e-5 in original units to account for float32 operations. These software
+checks do not establish a quality gain or authorize promotion.

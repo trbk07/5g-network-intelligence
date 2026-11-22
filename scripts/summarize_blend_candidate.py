@@ -1,0 +1,95 @@
+"""Independent fixed-epoch, forecast, metric and CPU/GPU audit; no fitting."""
+
+import json
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+from scripts.finalize_blend_candidate import fixed_epochs
+from scripts.run_risk import risk_records
+from scripts.summarize_hurdle_research import score_rows
+from src.data.io import sha256
+from src.evaluation.origins import evaluation_origins
+from src.evaluation.validation import validation_inputs
+from src.models.blend_research_forecaster import BlendResearchForecaster
+from src.models.forecast_blend import blend_forecasts
+from src.utils.config import load_config
+
+
+def main():
+    cfg=load_config("configs/blend_candidate_audit.yaml")
+    base=load_config("configs/temporal_linear.yaml")
+    root=Path("artifacts/blend_candidate")
+    model=BlendResearchForecaster(root,"artifacts/hurdle_candidate")
+    if model.protocol!=cfg:
+        raise ValueError("Fixed audit protocol differs")
+    if sha256(Path("reports/forecasts/hurdle_candidate_val.npz"))!=cfg["hurdle_replay_sha256"]:
+        raise ValueError("Reference hurdle replay differs")
+    source=Path("artifacts/temporal_linear")
+    for name,digest in json.loads((source/"manifest.json").read_text())["files"].items():
+        if sha256(source/name)!=digest:
+            raise ValueError("Original stopping metadata/checkpoint checksum differs")
+    for variant,meta in model.metadata.items():
+        development=[json.loads((source/fold["name"]/variant/"meta.json").read_text()) for fold in base["folds"]]
+        if (meta["base_protocol"]!=base or meta["identity"]["epochs"]!=fixed_epochs(development)
+                or meta["development_manifest_sha256"]!=sha256(source/"manifest.json")):
+            raise ValueError("Fixed epochs differ from original development stopping counts")
+    panel,_=validation_inputs(load_config("configs/data.yaml"))
+    replay=risk_records(Path("reports/forecasts/blend_candidate_val.npz"))
+    hurdle=risk_records(Path("reports/forecasts/hurdle_candidate_val.npz"))
+    ensemble=risk_records(Path("reports/forecasts/improvement_audit.npz"))
+    if set(replay)!={1,6,24}:
+        raise ValueError("All declared horizons required")
+    rows,parity=[],[]
+    expected={"selected_linear","hurdle_median","hurdle_linear_blend"}
+    for h,group in replay.items():
+        if set(group)!=expected:
+            raise ValueError("Every component and blend replay required")
+        origins=evaluation_origins(503,671,h)
+        actual=panel.values[origins+h,:,0]
+        for name,record in group.items():
+            np.testing.assert_array_equal(record["actual"],actual)
+            np.testing.assert_array_equal(record["origins"],origins)
+            if record["beam_ids"]!=panel.beam_ids:
+                raise ValueError("Full original beam axis required")
+            rows.extend(score_rows(actual,{name:record["predicted"]},"reused_validation",h))
+        np.testing.assert_array_equal(group["hurdle_median"]["predicted"],hurdle[h]["hurdle_median"]["predicted"])
+        coefficient=model.selection["choices"][str(h)]["linear_weight"]
+        expected_prediction=blend_forecasts(group["hurdle_median"]["predicted"],group["selected_linear"]["predicted"],coefficient)
+        np.testing.assert_array_equal(group["hurdle_linear_blend"]["predicted"],expected_prediction)
+        earlier=ensemble[h]["improved_ensemble"]
+        np.testing.assert_array_equal(earlier["actual"],actual)
+        np.testing.assert_array_equal(earlier["origins"],origins)
+        if earlier["beam_ids"]!=panel.beam_ids:
+            raise ValueError("Earlier ensemble beam population differs")
+        rows.extend(score_rows(actual,{"earlier_ensemble":earlier["predicted"]},"reused_validation",h))
+        for origin in (503,551,599):
+            index=int(np.flatnonzero(origins==origin)[0])
+            beams=np.array([0,len(panel.beam_ids)//2,len(panel.beam_ids)-1])
+            predictions=model.predict_components(panel.values[origin-167:origin+1,beams,:],origin,h)
+            for name,predicted in predictions.items():
+                saved=group[name]["predicted"][index,beams]
+                tolerance=1e-8 if name=="hurdle_median" else 1e-5
+                np.testing.assert_allclose(predicted,saved,atol=tolerance,rtol=0)
+                parity.append({"horizon":h,"origin":origin,"model":name,"beams_checked":len(beams),
+                               "tolerance":tolerance,"max_error":float(np.max(np.abs(predicted-saved)))})
+    frame=pd.DataFrame(rows)
+    declared=pd.read_csv("reports/blend_candidate_validation.csv")
+    declared=declared[declared.load_tier=="All"].set_index(["model","horizon"])
+    reconstructed=frame[frame.model.isin(expected)].set_index(["model","horizon"])
+    columns=["mae","wape","n_valid","zero_fp_rate"]
+    pd.testing.assert_frame_equal(reconstructed[columns].sort_index(),declared[columns].sort_index(),check_dtype=False,atol=1e-12,rtol=1e-12)
+    frame.to_csv("reports/blend_candidate_comparison.csv",index=False)
+    pd.DataFrame(parity).to_csv("reports/blend_candidate_cpu_parity.csv",index=False)
+    Path("reports/blend_candidate_verification.json").write_text(json.dumps({
+        "fixed_epochs_verified":True,"selection_hash_verified":True,"hurdle_replay_hash_verified":True,
+        "full_blend_replay_arithmetic_verified":True,"all_metrics_reconstructed":True,
+        "history_only_beam_predictions_checked":sum(p["beams_checked"] for p in parity),
+        "max_parity_error":max(p["max_error"] for p in parity),"holdout_used":False,"production_promoted":False,
+        "claim_scope":"reused-validation audit only, no generalization or no-overfitting guarantee"},indent=2))
+    print(frame[["model","horizon","mae","wape","n_valid","zero_fp_rate"]].to_string(index=False))
+
+
+if __name__=="__main__":
+    main()

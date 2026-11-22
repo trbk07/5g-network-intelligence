@@ -10,7 +10,7 @@ import pytest
 from scripts.import_hurdle_results import import_results
 
 
-def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibration=False, temporal_linear=False, blend=False):
+def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibration=False, temporal_linear=False, blend=False, blend_candidate=False):
     model = b"fixture checkpoint bytes, not a trained model"
     files = {
         "artifacts/hurdle_research/inner1/h1/direct.txt": model,
@@ -40,6 +40,11 @@ def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibrati
                  .replace("reports/hurdle_development_scores.csv", "reports/development_blend_selection_grid.csv"): value
                  for name, value in files.items()}
         files["reports/development_blend_confirmation.csv"] = b"test confirmation table\n"
+    if blend_candidate:
+        files = {name.replace("artifacts/hurdle_research/", "artifacts/blend_candidate/")
+                 .replace("reports/hurdle_development_scores.csv", "reports/blend_candidate_validation.csv"): value
+                 for name, value in files.items()}
+        files["reports/forecasts/blend_candidate_val.npz"] = b"test forecast fixture\n"
     with tarfile.open(path, "w:gz") as archive:
         for name, content in files.items():
             info = tarfile.TarInfo(name)
@@ -124,5 +129,15 @@ def test_blend_intake_keeps_base_model_roots_untouched(tmp_path):
     import_results(archive, tmp_path, kind="development_blend")
     assert (tmp_path / "reports/development_blend_confirmation.csv").exists()
     assert (tmp_path / "reports/development_blend_import_evidence.json").exists()
+    assert not (tmp_path / "artifacts/hurdle_research").exists()
+    assert not (tmp_path / "artifacts/champion").exists()
+
+
+def test_fixed_blend_intake_preserves_original_source_roots(tmp_path):
+    archive = tmp_path / "fixed-blend.tar.gz"
+    archive_fixture(archive, blend_candidate=True)
+    import_results(archive, tmp_path, kind="blend_candidate")
+    assert (tmp_path / "reports/forecasts/blend_candidate_val.npz").exists()
+    assert (tmp_path / "reports/blend_candidate_import_evidence.json").exists()
     assert not (tmp_path / "artifacts/hurdle_research").exists()
     assert not (tmp_path / "artifacts/champion").exists()
