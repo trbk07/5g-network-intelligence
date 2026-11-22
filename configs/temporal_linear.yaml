@@ -1,0 +1,22 @@
+protocol: temporal-linear-development-v1
+variants: [A, B]
+seed: 17
+horizons: [1, 6, 24]
+folds:
+  - {name: inner1, fit_end: 335, stop_end: 383, score_end: 443}
+  - {name: inner2, fit_end: 395, stop_end: 443, score_end: 503}
+learning_rate: 0.001
+weight_decay: 0.01  # Shared trainer's AdamW default, fixed rather than tuned.
+batch_size: 1024
+max_epochs: 30
+early_stopping_patience: 5
+gradient_clip: 1.0
+training_stride: 1
+beam_population: all_original_beams
+preprocessing: global_per_KPI_fit_prefix_only_with_missing_masks
+initialization: causal_target_seasonal_mean_7d
+phase_inputs: 4
+normalization: subtract_last_observed_imputed_scaled_value_per_physical_KPI
+validation_504_671: forbidden_in_this_experiment
+original_final_holdout: forbidden
+production_change: forbidden
