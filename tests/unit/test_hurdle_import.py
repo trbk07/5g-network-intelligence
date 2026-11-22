@@ -10,7 +10,7 @@ import pytest
 from scripts.import_hurdle_results import import_results
 
 
-def archive_fixture(path, extra=None, bad_hash=False, candidate=False):
+def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibration=False):
     model = b"fixture checkpoint bytes, not a trained model"
     files = {
         "artifacts/hurdle_research/inner1/h1/direct.txt": model,
@@ -27,6 +27,10 @@ def archive_fixture(path, extra=None, bad_hash=False, candidate=False):
                  .replace("reports/hurdle_development_scores.csv", "reports/hurdle_candidate_validation.csv"): value
                  for name, value in files.items()}
         files["reports/forecasts/hurdle_candidate_val.npz"] = b"test forecast bytes, not a model"
+    if calibration:
+        files = {name.replace("artifacts/hurdle_research/", "artifacts/hurdle_calibration/")
+                 .replace("reports/hurdle_development_scores.csv", "reports/hurdle_calibration_development.csv"): value
+                 for name, value in files.items()}
     with tarfile.open(path, "w:gz") as archive:
         for name, content in files.items():
             info = tarfile.TarInfo(name)
@@ -81,5 +85,15 @@ def test_candidate_import_requires_separate_allowlist_and_evidence(tmp_path):
     assert evidence["verified_artifact_files"] == 1
     assert (tmp_path / "reports/forecasts/hurdle_candidate_val.npz").exists()
     assert (tmp_path / "reports/hurdle_candidate_import_evidence.json").exists()
+    assert not (tmp_path / "artifacts/hurdle_research").exists()
+    assert not (tmp_path / "artifacts/champion").exists()
+
+
+def test_calibration_intake_keeps_development_models_separate(tmp_path):
+    archive = tmp_path / "calibration.tar.gz"
+    archive_fixture(archive, calibration=True)
+    import_results(archive, tmp_path, kind="calibration")
+    assert (tmp_path / "reports/hurdle_calibration_import_evidence.json").exists()
+    assert (tmp_path / "reports/hurdle_calibration_development.csv").exists()
     assert not (tmp_path / "artifacts/hurdle_research").exists()
     assert not (tmp_path / "artifacts/champion").exists()

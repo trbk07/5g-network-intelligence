@@ -83,6 +83,12 @@ def main():
         "path = next((p for p in paths if p.exists()),None)\n"
         "if path:\n    import pandas as pd\n    from IPython.display import display\n    display(pd.read_csv(path))\n"
         "else:\n    print('No completed calibration scores attached.')\n")
+    add("markdown", "## Completed v1 finding and decision\n\nThe correction worsened MAE at all three "
+        "horizons in inner1 (relative changes −0.0058% to −0.0477%) and improved inner2 only "
+        "slightly (+0.00075% to +0.01038%). Zero false-positive rates declined but remain 96.55–98.66%. "
+        "Do not add this correction to the candidate or tune it against reused validation. "
+        "All scoring probabilities, forecasts and metrics were independently reconstructed from saved "
+        "checkpoints and coefficients. No production change; the 10% WAPE target remains unmet.\n")
     notebook = {"cells": cells,"metadata":{"kernelspec":{"name":"python3","language":"python","display_name":"Python 3"}},"nbformat":4,"nbformat_minor":5}
     name = "15_probability_calibration_study.ipynb"
     Path("notebooks",name).write_text(json.dumps(notebook,indent=2),encoding="utf-8")

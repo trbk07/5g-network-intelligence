@@ -23,12 +23,16 @@ def import_results(archive_path, workspace, kind="development"):
     archive_path = Path(archive_path).resolve()
     stage_root = workspace / ".cache"
     stage_root.mkdir(exist_ok=True)
-    if kind not in ("development", "candidate"):
+    if kind not in ("development", "candidate", "calibration"):
         raise ValueError("Unknown hurdle archive kind")
     candidate = kind == "candidate"
     prefix = PurePosixPath("artifacts/hurdle_candidate" if candidate else "artifacts/hurdle_research")
     required = {"reports/hurdle_candidate_validation.csv", "reports/forecasts/hurdle_candidate_val.npz"} if candidate else {"reports/hurdle_development_scores.csv"}
     report_names = required | {"reports/hurdle_audit_training.log" if candidate else "reports/hurdle_training.log"}
+    if kind == "calibration":
+        prefix = PurePosixPath("artifacts/hurdle_calibration")
+        required = {"reports/hurdle_calibration_development.csv"}
+        report_names = required | {"reports/hurdle_calibration.log"}
     with tempfile.TemporaryDirectory(prefix="hurdle-import-", dir=stage_root) as temp:
         staging = Path(temp)
         with tarfile.open(archive_path, "r:gz") as archive:
@@ -79,8 +83,10 @@ def import_results(archive_path, workspace, kind="development"):
                 shutil.copyfile(path, destination)
     evidence = {"archive_sha256": sha256(archive_path), "verified_artifact_files": len(declared),
                 "copied_or_identical_files": len(files), "frozen_artifacts_touched": False,
-                "scope": "Archive integrity only; run " + ("summarize_hurdle_candidate" if candidate else "summarize_hurdle_research") + " for temporal, metric and prediction checks"}
+                "scope": "Archive integrity only; temporal, metric and prediction verification still required"}
     evidence_name = "hurdle_candidate_import_evidence.json" if candidate else "hurdle_import_evidence.json"
+    if kind == "calibration":
+        evidence_name = "hurdle_calibration_import_evidence.json"
     (workspace / "reports" / evidence_name).write_text(json.dumps(evidence, indent=2))
     return evidence
 
@@ -88,6 +94,6 @@ def import_results(archive_path, workspace, kind="development"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
-    parser.add_argument("--kind", choices=["development", "candidate"], default="development")
+    parser.add_argument("--kind", choices=["development", "candidate", "calibration"], default="development")
     args = parser.parse_args()
     print(json.dumps(import_results(args.archive, Path.cwd(), args.kind), indent=2))

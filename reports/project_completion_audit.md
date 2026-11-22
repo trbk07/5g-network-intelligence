@@ -19,6 +19,7 @@ Scientific, application and clean-clone checks below have direct saved evidence.
 | Research notebook presentation | notebook_standards.md; notebooks 09–13; transfer_review_execution_evidence.json | Hosted review loaded both complete report tables; reader Run All performs no fitting |
 | Zero-inflated forecasting extension | hurdle_development_analysis.md, hurdle_verification.json | Cloud v1 complete: 48 files verified, 72 history-only parity predictions exact; MAE gains 0.065–0.460% on exploratory development folds |
 | Zero-inflated candidate refit | hurdle_candidate_analysis.md, hurdle_candidate_verification.json, hurdle_candidate_cluster_intervals.csv | Hosted v1 complete; 21 files and 72 parity predictions verified; MAE 0.227494/0.251004/0.249159, small gains vs earlier ensemble; 24h spatial interval crosses zero; no promotion |
+| Probability calibration study | hurdle_calibration_analysis.md, hurdle_calibration_verification.json | Hosted six-calibrator study complete; all forecasts/metrics reconstructed; mixed negative result, correction rejected; validation and holdout excluded |
 | T8.1 clean clone / artifact I/O / routing | clean_clone_qa.json; dedicated artifact/E2E tests | PASS at checked snapshot; final source recheck before release |
 | T8.2 latency / RSS / image size | inference_benchmark.json/.md | Measured and inspected; no production SLA claim |
 | T8.3 generated experiment report | scripts/build_report.py, experiment_report.md | Generated from CSV; figure inspected |

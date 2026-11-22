@@ -1,0 +1,9 @@
+{
+  "artifact_files_verified": 12,
+  "predictions_recomputed": 1751040,
+  "max_prediction_error": 1.7763568394002505e-15,
+  "all_metrics_reconstructed": true,
+  "validation_504_671_used": false,
+  "holdout_used": false,
+  "claim_scope": "reused development folds only; no generalization or production-promotion claim"
+}
