@@ -1,0 +1,12 @@
+protocol: hurdle-positive-quantile-resolution-v1
+source_manifest_sha256: 593d524646ed96e1b2c2d62eb67892f8698c7b23d08dff6a7420b3bbd918efb0
+retained_quantiles: [0.05, 0.1, 0.25, 0.5]
+additional_quantiles: [0.15, 0.2, 0.3, 0.35, 0.4, 0.45]
+classifier_retraining: false
+old_quantile_retraining: false
+threshold_tuning: forbidden
+input_contract: original_40_causal_features
+validation_504_671: forbidden
+original_final_holdout: forbidden
+production_change: forbidden
+claim_scope: one_seed_reused_development_only

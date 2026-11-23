@@ -17,6 +17,7 @@ import pytest
     ("18_fixed_blend_candidate_audit.ipynb", "RUN_TRAINING"),
     ("19_pretrained_zero_shot_forecasting.ipynb", "RUN_INFERENCE"),
     ("20_temporal_residual_mlp.ipynb", "RUN_TRAINING"),
+    ("21_positive_quantile_resolution.ipynb", "RUN_TRAINING"),
 ])
 def test_hurdle_review_is_readable_and_does_not_train(name, flag, tmp_path, monkeypatch):
     root = Path(__file__).resolve().parents[2]
