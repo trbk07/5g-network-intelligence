@@ -1,0 +1,9 @@
+{
+  "scope": "fixed forecasts on reused development windows only",
+  "rows": 30,
+  "model_fit_or_coefficient_selection": false,
+  "error_components_reconcile": true,
+  "validation_or_holdout_used": false,
+  "units": "original target units; fractions in [0,1]",
+  "warning": "Target-conditioned groups are diagnostic only; unavailable as inference-time routing labels"
+}
