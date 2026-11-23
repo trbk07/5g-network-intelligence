@@ -89,13 +89,13 @@ def main():
         "title":"5G Network Intelligence Nested Risk Probability","code_file":name,"language":"python","kernel_type":"notebook",
         "is_private":True,"enable_gpu":False,"enable_internet":False,
         "kernel_sources":["truongbaokien/5g-network-intelligence-risk-probability"],
-        "dataset_sources":["truongbaokien/5g-network-intelligence-nested-risk-probability-source"],"competition_sources":[]},indent=2))
+        "dataset_sources":["truongbaokien/5g-network-intelligence-nested-risk-source"],"competition_sources":[]},indent=2))
     package=Path(".cache/kaggle-nested-risk-probability-source")
     package.mkdir(parents=True,exist_ok=True)
     for path in ("scripts/train_nested_risk_probability.py","src/risk/nested_probability.py","src/risk/probability_metrics.py","configs/nested_risk_probability.yaml","configs/risk.yaml","LICENSE"):
         shutil.copyfile(path,package/Path(path).name)
-    (package/"dataset-metadata.json").write_text(json.dumps({"id":"truongbaokien/5g-network-intelligence-nested-risk-probability-source",
-        "title":"5G Network Intelligence Nested Risk Probability Source","licenses":[{"name":"MIT"}]},indent=2))
+    (package/"dataset-metadata.json").write_text(json.dumps({"id":"truongbaokien/5g-network-intelligence-nested-risk-source",
+        "title":"5G Network Intelligence Nested Risk Source","licenses":[{"name":"MIT"}]},indent=2))
 
 
 if __name__ == "__main__":
