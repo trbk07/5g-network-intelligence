@@ -1,0 +1,42 @@
+{
+  "repo": "VERGE-PROJECT/OAI_RAN_KPM_dataset",
+  "revision": "c7939ae2884e07c62b6909b797b6fa9e07496b18",
+  "files": [
+    {
+      "path": "20250321_11.17.57_KPM_vs_iper3_1000ms_05_weeks.xlsx",
+      "bytes": 156026,
+      "sha256": "d570d8c0567b7ec85fd5e3ca865d1cc109dc741583b01d3ee4f1ff964892d30c",
+      "source_url": "https://raw.githubusercontent.com/VERGE-PROJECT/OAI_RAN_KPM_dataset/c7939ae2884e07c62b6909b797b6fa9e07496b18/20250321_11.17.57_KPM_vs_iper3_1000ms_05_weeks.xlsx"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10175,
+      "sha256": "e86a59ce5a979d76d0c875a20b618b7bd9dc36199ca0ea8638298a47e2049901",
+      "source_url": "https://raw.githubusercontent.com/VERGE-PROJECT/OAI_RAN_KPM_dataset/c7939ae2884e07c62b6909b797b6fa9e07496b18/README.md"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "source_url": "https://raw.githubusercontent.com/VERGE-PROJECT/OAI_RAN_KPM_dataset/c7939ae2884e07c62b6909b797b6fa9e07496b18/LICENSE"
+    }
+  ],
+  "byte_identical_prior_files": [
+    {
+      "path": "20250321_11.17.57_KPM_vs_iper3_1000ms_05_weeks.xlsx",
+      "bytes": 156026,
+      "sha256": "d570d8c0567b7ec85fd5e3ca865d1cc109dc741583b01d3ee4f1ff964892d30c",
+      "source_url": "https://raw.githubusercontent.com/VERGE-PROJECT/OAI_RAN_KPM_dataset/c7939ae2884e07c62b6909b797b6fa9e07496b18/20250321_11.17.57_KPM_vs_iper3_1000ms_05_weeks.xlsx",
+      "prior_path": "20250321_11.17.57_KPM_vs_iper3_1000ms_05_weeks(2).xlsx"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10175,
+      "sha256": "e86a59ce5a979d76d0c875a20b618b7bd9dc36199ca0ea8638298a47e2049901",
+      "source_url": "https://raw.githubusercontent.com/VERGE-PROJECT/OAI_RAN_KPM_dataset/c7939ae2884e07c62b6909b797b6fa9e07496b18/README.md",
+      "prior_path": "README.md"
+    }
+  ],
+  "license_per_repository": "GPL-3.0; kept separate from MIT project; no redistribution or training in this audit",
+  "training_performed": false
+}

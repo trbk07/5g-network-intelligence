@@ -48,6 +48,29 @@ datasets:
     status: access_conditions_not_yet_satisfied
     training_allowed: false
     caveat: only_eight_days_and_normalized_cell_load_not_original_beam_target
+  verge_oai_kpm:
+    role: duplicate_source_rejected_for_additional_data
+    source: https://github.com/VERGE-PROJECT/OAI_RAN_KPM_dataset
+    revision: c7939ae2884e07c62b6909b797b6fa9e07496b18
+    license: GPL-3.0_per_repository
+    status: downloaded_workbook_and_README_byte_identical_to_prior_oai_candidate
+    evidence: reports/verge_oai_candidate_manifest.json
+    independent_network_or_sample_count_increment: 0
+    training_allowed: false
+    caveat: different_repository_license_does_not_establish_independent_data_or_change_prior_source_attribution
+  glasgow_2025:
+    role: rejected_direct_hourly_PRB_transfer_candidate
+    source: https://zenodo.org/records/20465872
+    license: CC-BY-4.0_per_record
+    status: publisher_metadata_review_only
+    blocker: 720_speed_tests_over_three_days_not_continuous_hourly_beam_PRB
+    training_allowed: false
+  stardust_cellular:
+    role: unverified_candidate
+    source: https://www.5g-stardust.eu/wp-content/uploads/2024/09/5G-STARDUST-D4.1-v1.0.F_bis.pdf
+    status: public_deliverable_review_only
+    blocker: dataset_download_and_reuse_license_not_verified
+    training_allowed: false
 pretrained_models:
   chronos_bolt_base:
     source: https://huggingface.co/amazon/chronos-bolt-base
