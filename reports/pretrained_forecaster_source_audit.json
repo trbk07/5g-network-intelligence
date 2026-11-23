@@ -1,0 +1,127 @@
+{
+  "model_id": "amazon/chronos-bolt-base",
+  "revision": "5d9f166d69f47aef3401367a7b842e78fe97b121",
+  "license": "apache-2.0",
+  "gated": false,
+  "metadata_files": {
+    "README.md": {
+      "sha256": "6b0a3a94a6eb64c6cb6ecef796d89591a0f099ede877717d7b0ce59f39e4ce59"
+    },
+    "config.json": {
+      "sha256": "46f7e7e695569f67b06178faa4f236c281392945aa2d1bdf844442e57155530b"
+    }
+  },
+  "weights": [
+    {
+      "name": "model.safetensors",
+      "size_bytes": 821203576,
+      "sha256": "31f875483a3215bc6880a0837ea608a13ce55f88ad90538c3cdd0b29aeb60b36"
+    }
+  ],
+  "weights_downloaded_locally": false,
+  "model_license_evidence": "author-declared apache-2.0 card metadata at pinned revision",
+  "separate_model_license_file_present": false,
+  "model_config": {
+    "_name_or_path": "autogluon/chronos-bolt-base",
+    "architectures": [
+      "ChronosBoltModelForForecasting"
+    ],
+    "chronos_config": {
+      "context_length": 2048,
+      "input_patch_size": 16,
+      "input_patch_stride": 16,
+      "prediction_length": 64,
+      "quantiles": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9
+      ],
+      "use_reg_token": true
+    },
+    "chronos_pipeline_class": "ChronosBoltPipeline",
+    "classifier_dropout": 0.0,
+    "d_ff": 3072,
+    "d_kv": 64,
+    "d_model": 768,
+    "decoder_start_token_id": 0,
+    "dense_act_fn": "relu",
+    "dropout_rate": 0.1,
+    "eos_token_id": 1,
+    "feed_forward_proj": "relu",
+    "initializer_factor": 0.05,
+    "is_encoder_decoder": true,
+    "is_gated_act": false,
+    "layer_norm_epsilon": 1e-06,
+    "model_type": "t5",
+    "n_positions": 512,
+    "num_decoder_layers": 12,
+    "num_heads": 12,
+    "num_layers": 12,
+    "pad_token_id": 0,
+    "reg_token_id": 1,
+    "relative_attention_max_distance": 128,
+    "relative_attention_num_buckets": 32,
+    "torch_dtype": "float32",
+    "transformers_version": "4.46.1",
+    "use_cache": true,
+    "vocab_size": 2
+  },
+  "library": "chronos-forecasting",
+  "library_version": "2.3.2",
+  "library_requires_python": ">=3.10",
+  "library_requires_dist": [
+    "accelerate<2,>=1.1.0",
+    "einops<1,>=0.7.0",
+    "numpy<3,>=1.21",
+    "pandas<4,>=2.0",
+    "torch<3,>=2.2",
+    "transformers<6,>=4.41",
+    "datasets<5,>=3.0; extra == \"dev\"",
+    "fev<1,>=0.8.0; extra == \"dev\"",
+    "gluonts[pro]~=0.16; extra == \"dev\"",
+    "joblib; extra == \"dev\"",
+    "rich; extra == \"dev\"",
+    "tensorboard; extra == \"dev\"",
+    "typer; extra == \"dev\"",
+    "typer-config; extra == \"dev\"",
+    "boto3<2,>=1.10; extra == \"extras\"",
+    "fev<1,>=0.8.0; extra == \"extras\"",
+    "pandas[pyarrow]<4,>=2.0; extra == \"extras\"",
+    "peft<1,>=0.18.1; extra == \"extras\"",
+    "boto3<2,>=1.10; extra == \"test\"",
+    "fev<1,>=0.8.0; extra == \"test\"",
+    "peft<1,>=0.18.1; extra == \"test\"",
+    "pytest~=8.0; extra == \"test\"",
+    "mypy~=1.9; extra == \"typecheck\""
+  ],
+  "library_distribution": {
+    "filename": "chronos_forecasting-2.3.2-py3-none-any.whl",
+    "sha256": "0f0d9a1972f252d6cf584b9fa749bd1b389b3c1cf05a889c4130cb10652c2117",
+    "url": "https://files.pythonhosted.org/packages/6a/c9/c9e1363d55ac569e9b09b98d66b342ada5530a26624f45ea7e2f9e4131a9/chronos_forecasting-2.3.2-py3-none-any.whl"
+  },
+  "library_license_sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+  "transformers_version_pin": "4.57.6",
+  "oldest_visible_model_commit": {
+    "revision": "083dedcc4658bae426028d1bb6cbb940bcde10b9",
+    "created_at": "2024-11-13T13:07:57+00:00"
+  },
+  "oldest_visible_target_dataset_commit": {
+    "revision": "3a7e1346e597f16abd7e867ea8af7f021780c88a",
+    "created_at": "2025-04-22T14:23:02+00:00"
+  },
+  "earliest_visible_matching_weights_commit": {
+    "revision": "083dedcc4658bae426028d1bb6cbb940bcde10b9",
+    "created_at": "2024-11-13T13:07:57+00:00"
+  },
+  "pretraining_overlap_status": "not_proven_absent; visible publication dates and model card are not a complete corpus audit",
+  "eligible_scope": "exploratory development-only zero-shot inference; no unseen-test or no-leakage certification",
+  "fine_tuning_allowed_by_this_audit": false,
+  "holdout_use_allowed": false,
+  "production_promotion_allowed": false
+}

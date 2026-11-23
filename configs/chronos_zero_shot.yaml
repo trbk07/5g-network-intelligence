@@ -1,0 +1,25 @@
+protocol: chronos-bolt-development-zero-shot-v1
+model_id: amazon/chronos-bolt-base
+revision: 5d9f166d69f47aef3401367a7b842e78fe97b121
+weights_sha256: 31f875483a3215bc6880a0837ea608a13ce55f88ad90538c3cdd0b29aeb60b36
+chronos_version: 2.3.2
+transformers_version: 4.57.6
+context_length: 168
+prediction_length: 24
+horizons: [1, 6, 24]
+quantile: 0.5
+batch_size: 256
+dtype: float32
+seed: 17
+folds:
+  - {name: inner1, history_boundary: 383, score_end: 443}
+  - {name: inner2, history_boundary: 443, score_end: 503}
+missing_inputs: preserve_NaN_with_native_model_mask
+zeros: observed_values_not_missing
+postprocessing: clip_negative_median_forecasts_to_zero
+fine_tuning: forbidden
+coefficient_selection: forbidden
+validation_504_671: forbidden
+original_final_holdout: forbidden
+pretraining_overlap: not_certified_absent
+production_promotion: forbidden

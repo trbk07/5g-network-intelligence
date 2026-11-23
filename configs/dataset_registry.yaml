@@ -48,6 +48,16 @@ datasets:
     status: access_conditions_not_yet_satisfied
     training_allowed: false
     caveat: only_eight_days_and_normalized_cell_load_not_original_beam_target
+pretrained_models:
+  chronos_bolt_base:
+    source: https://huggingface.co/amazon/chronos-bolt-base
+    revision: 5d9f166d69f47aef3401367a7b842e78fe97b121
+    license: Apache-2.0_per_pinned_author_card
+    role: exploratory_development_zero_shot_reference
+    pretraining_corpus_overlap: not_certified_absent
+    corpus_count_or_independence_claim: none
+    fine_tuning: forbidden_in_this_study
+    production_promotion: forbidden_in_this_study
 policy:
   dataset_count_limit: null
   selection_criterion: measured_target_domain_improvement_and_valid_generalization
