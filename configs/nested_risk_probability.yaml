@@ -1,0 +1,15 @@
+protocol: nested-historical-exceedance-probability-v1
+source_manifest_sha256: 561eeb3f9c8c438cf752ef52dfd2e14e77bf31b1659c140e2bf16cdaabb47db6
+base_protocol: configs/risk_probability.yaml
+warning_classifier: reuse_unchanged
+critical_classifier: conditional_on_observed_warning_labels_in_fit_and_stopping_only
+combination: probability_product_chain_rule
+threshold_refitting: forbidden
+class_reweighting: forbidden
+probability_calibration: none
+decision_threshold: 0.5
+threshold_selection: forbidden
+validation_504_671: forbidden
+original_final_holdout: forbidden
+production_change: forbidden
+claim_scope: one_seed_reused_development_probability_study_not_MAE_improvement
