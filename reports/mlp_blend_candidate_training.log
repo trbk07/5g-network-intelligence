@@ -1,0 +1,20 @@
+{"variant": "B", "epoch": 0, "train_l1_scaled": 0.24603547640184498, "n_targets": 2704320, "seconds": 4.358168324000019}
+{"variant": "B", "epoch": 1, "train_l1_scaled": 0.24225953963681404, "n_targets": 2704320, "seconds": 3.4701319240000146}
+{"variant": "B", "epoch": 2, "train_l1_scaled": 0.24120440336038848, "n_targets": 2704320, "seconds": 3.3897989209999935}
+{"variant": "B", "epoch": 3, "train_l1_scaled": 0.24067139966525125, "n_targets": 2704320, "seconds": 3.3839424120000103}
+{"variant": "B", "epoch": 4, "train_l1_scaled": 0.24024343588672126, "n_targets": 2704320, "seconds": 3.453966621999996}
+{"variant": "B", "epoch": 5, "train_l1_scaled": 0.23988381066261388, "n_targets": 2704320, "seconds": 3.4232567020000033}
+{"variant": "B", "epoch": 6, "train_l1_scaled": 0.23967293451705807, "n_targets": 2704320, "seconds": 3.432482464000003}
+{"variant": "B", "epoch": 7, "train_l1_scaled": 0.2392826824375277, "n_targets": 2704320, "seconds": 3.497315704999977}
+{"variant": "B", "epoch": 8, "train_l1_scaled": 0.2392406851709164, "n_targets": 2704320, "seconds": 3.4570128799999793}
+{"variant": "B", "epoch": 9, "train_l1_scaled": 0.23902315402712263, "n_targets": 2704320, "seconds": 3.4471032049999906}
+           model  horizon      mae     wape
+    selected_mlp        1 0.231562 0.417122
+   hurdle_median        1 0.227494 0.409794
+hurdle_mlp_blend        1 0.226480 0.407966
+    selected_mlp        6 0.252924 0.448616
+   hurdle_median        6 0.251004 0.445209
+hurdle_mlp_blend        6 0.249664 0.442832
+    selected_mlp       24 0.253106 0.456503
+   hurdle_median       24 0.249159 0.449384
+hurdle_mlp_blend       24 0.248324 0.447879

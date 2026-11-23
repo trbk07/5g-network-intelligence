@@ -14,6 +14,11 @@ from src.models.temporal_linear import TemporalLinear
 
 
 class BlendResearchForecaster:
+    component = "linear"
+
+    def build_model(self, variant, metadata):
+        return TemporalLinear(1 if variant=="A" else 4)
+
     def __init__(self, root, hurdle_root):
         root=Path(root)
         for name,digest in json.loads((root/"manifest.json").read_text())["files"].items():
@@ -32,7 +37,7 @@ class BlendResearchForecaster:
             directory=root/variant
             meta=json.loads((directory/"meta.json").read_text())
             identity=meta["identity"]
-            if (identity["fit_end"]!=503 or identity["architecture"]!="temporal-linear-refit-v1"
+            if (identity["fit_end"]!=503 or identity["architecture"]!=f"temporal-{self.component}-refit-v1"
                     or identity["variant"]!=variant or meta["audit_protocol"]!=self.protocol or meta["holdout_used"]):
                 raise ValueError("Fixed linear refit provenance differs")
             preprocessor=GRUPreprocessor.load(directory/"preprocessor.npz")
@@ -41,7 +46,7 @@ class BlendResearchForecaster:
             state=torch.load(directory/"last.pt",map_location="cpu",weights_only=True)
             if state["identity"]!=identity or state["epoch"]+1!=identity["epochs"]:
                 raise ValueError("Last checkpoint does not match specified fixed epoch")
-            model=TemporalLinear(1 if variant=="A" else 4).eval()
+            model=self.build_model(variant,meta).eval()
             model.load_state_dict(state["model"],strict=True)
             self.models[variant],self.preprocessors[variant],self.metadata[variant]=model,preprocessor,meta
 
@@ -60,8 +65,8 @@ class BlendResearchForecaster:
             value=self.models[variant](torch.as_tensor(sequence),torch.as_tensor(phase))[:,(1,6,24).index(horizon)].numpy()
         linear=np.maximum(0,value*preprocessor.scale[0]+preprocessor.mean[0])
         hurdle=self.hurdle.predict_at(history,origin,horizon)
-        return {"selected_linear":linear,"hurdle_median":hurdle,
-                "hurdle_linear_blend":blend_forecasts(hurdle,linear,choice["linear_weight"])}
+        return {f"selected_{self.component}":linear,"hurdle_median":hurdle,
+                f"hurdle_{self.component}_blend":blend_forecasts(hurdle,linear,choice[f"{self.component}_weight"])}
 
     def predict_at(self, history, origin, horizon):
-        return self.predict_components(history,origin,horizon)["hurdle_linear_blend"]
+        return self.predict_components(history,origin,horizon)[f"hurdle_{self.component}_blend"]

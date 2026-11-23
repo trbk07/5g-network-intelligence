@@ -27,6 +27,9 @@ Validation 504–671 has been reused repeatedly. These are exploratory point est
 | fixed_blend / selected_linear | 0.233254 | 0.262158 | 0.256821 | 42.02% | 46.50% | 46.32% |
 | fixed_blend / hurdle_median | 0.227494 | 0.251004 | 0.249159 | 40.98% | 44.52% | 44.94% |
 | fixed_blend / hurdle_linear_blend | 0.226834 | 0.250427 | 0.249162 | 40.86% | 44.42% | 44.94% |
+| fixed_mlp_blend / selected_mlp | 0.231562 | 0.252924 | 0.253106 | 41.71% | 44.86% | 45.65% |
+| fixed_mlp_blend / hurdle_median | 0.227494 | 0.251004 | 0.249159 | 40.98% | 44.52% | 44.94% |
+| fixed_mlp_blend / hurdle_mlp_blend | 0.226480 | 0.249664 | 0.248324 | 40.80% | 44.28% | 44.79% |
 
 Interpretation:
 
@@ -34,7 +37,8 @@ Interpretation:
 - The NR3500 source case has lower 6h and 24h point MAE than hurdle, while hurdle has lower 1h MAE. The 24h difference is tiny and reused validation does not justify a new horizon-wise selector.
 - The target-only relative-shape control also has lower 6h point MAE than hurdle. Compare source cases with their matched control; extra dataset volume alone is not evidence of benefit.
 - Identical controls/shared source cases in separate jobs are replications, not independent datasets or new evidence of generalization.
-- The fixed neural blend passed development confirmation and its audit replay is independently verified. It lowers hurdle point MAE at 1h/6h but slightly regresses at 24h; NR3500 remains lower at 6h/24h. Do not derive a new horizon selector from these reused-validation comparisons.
+- The earlier fixed Linear blend passed development confirmation and its audit replay is independently verified. It lowers hurdle point MAE at 1h/6h but slightly regresses at 24h; NR3500 is lower than that earlier Linear blend at 6h/24h. Do not derive a new horizon selector from these reused-validation comparisons.
+- The later fixed MLP-B/hurdle blend lowers point MAE at all three horizons relative to the earlier Linear blend and all other cases in this table. Its 20% coefficient and ten-epoch refit were fixed before this audit. These are reused-validation point estimates, not independent-test superiority or a production promotion.
 - WAPE below 10% remains unmet. Production remains the frozen release; these research cases are not deployment replacements.
 
-Evidence: [transfer decision](transfer_ablation_decision.md), [hurdle audit](hurdle_candidate_analysis.md), [calibration rejection](hurdle_calibration_analysis.md), [linear rejection](temporal_linear_analysis.md), [fixed blend confirmation](development_blend_analysis.md), [fixed blend audit](blend_candidate_analysis.md).
+Evidence: [transfer decision](transfer_ablation_decision.md), [hurdle audit](hurdle_candidate_analysis.md), [calibration rejection](hurdle_calibration_analysis.md), [linear rejection](temporal_linear_analysis.md), [fixed blend confirmation](development_blend_analysis.md), [fixed blend audit](blend_candidate_analysis.md), [fixed MLP blend audit](mlp_blend_candidate_analysis.md).

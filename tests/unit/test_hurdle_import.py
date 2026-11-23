@@ -173,12 +173,21 @@ def test_blend_intake_keeps_base_model_roots_untouched(tmp_path):
     assert not (tmp_path / "artifacts/champion").exists()
 
 
-def test_fixed_blend_intake_preserves_original_source_roots(tmp_path):
+@pytest.mark.parametrize("kind", ["blend_candidate", "mlp_blend_candidate"])
+def test_fixed_blend_intake_preserves_original_source_roots(tmp_path, kind):
     archive = tmp_path / "fixed-blend.tar.gz"
     archive_fixture(archive, blend_candidate=True)
-    import_results(archive, tmp_path, kind="blend_candidate")
-    assert (tmp_path / "reports/forecasts/blend_candidate_val.npz").exists()
-    assert (tmp_path / "reports/blend_candidate_import_evidence.json").exists()
+    if kind == "mlp_blend_candidate":
+        with tarfile.open(archive,"r:gz") as source:
+            entries=[(m.name.replace("blend_candidate",kind),source.extractfile(m).read()) for m in source.getmembers()]
+        with tarfile.open(archive,"w:gz") as output:
+            for name,content in entries:
+                member=tarfile.TarInfo(name)
+                member.size=len(content)
+                output.addfile(member,io.BytesIO(content))
+    import_results(archive, tmp_path, kind=kind)
+    assert (tmp_path / f"reports/forecasts/{kind}_val.npz").exists()
+    assert (tmp_path / f"reports/{kind}_import_evidence.json").exists()
     assert not (tmp_path / "artifacts/hurdle_research").exists()
     assert not (tmp_path / "artifacts/champion").exists()
 

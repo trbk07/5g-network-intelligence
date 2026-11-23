@@ -56,3 +56,12 @@ fixed_blend,hurdle_linear_blend,6,0.2504269670429612,0.44418582094474496,469440,
 fixed_blend,selected_linear,24,0.25682093649506615,0.4632037546923948,417600,2880,145,blend_candidate_val.npz
 fixed_blend,hurdle_median,24,0.24915891305144788,0.4493844840516878,417600,2880,145,blend_candidate_val.npz
 fixed_blend,hurdle_linear_blend,24,0.24916175838714968,0.44938961591592913,417600,2880,145,blend_candidate_val.npz
+fixed_mlp_blend,selected_mlp,1,0.23156242041339056,0.41712169766320506,483840,2880,168,mlp_blend_candidate_val.npz
+fixed_mlp_blend,hurdle_median,1,0.22749424736518842,0.4097935515623637,483840,2880,168,mlp_blend_candidate_val.npz
+fixed_mlp_blend,hurdle_mlp_blend,1,0.22647997000297768,0.4079664973517909,483840,2880,168,mlp_blend_candidate_val.npz
+fixed_mlp_blend,selected_mlp,6,0.2529244892384369,0.4486157110633071,469440,2880,163,mlp_blend_candidate_val.npz
+fixed_mlp_blend,hurdle_median,6,0.2510038800026856,0.4452090995463058,469440,2880,163,mlp_blend_candidate_val.npz
+fixed_mlp_blend,hurdle_mlp_blend,6,0.24966380483649234,0.4428321894441238,469440,2880,163,mlp_blend_candidate_val.npz
+fixed_mlp_blend,selected_mlp,24,0.25310561151758715,0.45650277266593997,417600,2880,145,mlp_blend_candidate_val.npz
+fixed_mlp_blend,hurdle_median,24,0.24915891305144788,0.4493844840516878,417600,2880,145,mlp_blend_candidate_val.npz
+fixed_mlp_blend,hurdle_mlp_blend,24,0.24832433099621914,0.44787922693808685,417600,2880,145,mlp_blend_candidate_val.npz

@@ -64,17 +64,18 @@ and [the report-only notebook](notebooks/08_model_improvement_review.ipynb).
 This is an independently loadable research candidate; fresh unseen chronological
 data is required before promotion. The frozen dashboard champion remains intact.
 
-Later transfer, hurdle, calibration and temporal-linear studies are reconciled in
-the [common-population research comparison](reports/research_validation_comparison.md).
-Hurdle improves the earlier ensemble's point MAE, while some transfer cases have
-lower point MAE at individual horizons; there is no verified single winner across
-every horizon and criterion. Calibration and standalone temporal-linear results
-were negative. A fixed 80/20 blend passed development confirmation; its verified
-GPU validation audit improves hurdle MAE at 1h/6h but slightly regresses at 24h
-and worsens zero false-positive rates. See the [audit and trade-offs](reports/blend_candidate_analysis.md).
-WAPE remains roughly 41–45%, above the research
-target of 10%; none of these repeated-validation results establishes performance
-on unseen future data or replaces the frozen production model.
+Later transfer, hurdle and neural studies are reconciled in the
+[common-population research comparison](reports/research_validation_comparison.md).
+The latest fixed 80/20 hurdle/MLP-B blend has validation MAE
+**0.226480 / 0.249664 / 0.248324** at 1/6/24h, lower point estimates than the
+prior Linear blend and other cases in that selected research table. Architecture,
+weights and the ten-epoch refit were fixed before this audit. See the
+[audit and trade-offs](reports/mlp_blend_candidate_analysis.md) and
+[review notebook](notebooks/23_fixed_mlp_blend_candidate_audit.ipynb).
+Zero false-positive rates worsen. WAPE remains **40.80% / 44.28% / 44.79%**,
+above the 10% research target. Repeated validation does not establish unseen
+future accuracy or absence of overfitting. The frozen production model remains
+unchanged; no original holdout was replayed for this research.
 
 The repository contains dataset ingestion, provenance, panel construction,
 forecasting, historical-risk replay and application components described in
