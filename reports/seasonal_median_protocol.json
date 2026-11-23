@@ -1,0 +1,10 @@
+{
+  "formula": "median of raw target at origin+h-24*d for d=1..7",
+  "history": 168,
+  "parameters_fitted_or_selected": false,
+  "scope": "read-only analytical inference",
+  "evaluation": "all original observed development targets; fail on missing forecasts",
+  "validation_or_holdout_used": false,
+  "production_promoted": false,
+  "claim_scope": "reused development reference; no unseen-generalization or error-floor claim"
+}
