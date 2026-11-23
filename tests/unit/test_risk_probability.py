@@ -4,7 +4,10 @@ import numpy as np
 import pytest
 
 from scripts.train_risk_probability import labels_for
+from scripts.summarize_risk_probability import verify_threshold_statistics
+from src.data.panel import Panel
 from src.risk.probability_metrics import probability_metrics
+from src.risk.thresholds import Thresholds
 
 
 def test_fold_threshold_labels_preserve_missing_and_excluded_beams():
@@ -35,3 +38,17 @@ def test_no_events_are_flagged_as_undefined_not_perfect():
 def test_invalid_observed_scores_fail(labels,p):
     with pytest.raises(ValueError):
         probability_metrics(labels,p)
+
+
+def test_saved_threshold_verification_ignores_future_and_rejects_changed_state():
+    # Analytical constant-prefix fixture, not a fitted threshold or model.
+    values=np.ones((250,1,4))
+    values[200:,:,0]=10000
+    panel=Panel(values,np.arange(250),("0_0_0",),{})
+    thresholds=Thresholds(np.array([1.]),np.array([1.]),np.array([True]),
+        np.array(["eligible"]),np.array([1.]),np.array([200]),panel.beam_ids,199)
+    policy={"quantiles":[.9,.95],"epsilon":1e-8,"min_observations":168,"min_active_ratio":.05}
+    verify_threshold_statistics(panel,thresholds,{"fit_end":199},policy)
+    thresholds.warning[0]=10000
+    with pytest.raises(AssertionError):
+        verify_threshold_statistics(panel,thresholds,{"fit_end":199},policy)
