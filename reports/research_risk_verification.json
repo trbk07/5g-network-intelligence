@@ -1,0 +1,20 @@
+{
+  "thresholds_sha256": "6794998429479a1838ea78932134e73d7417b78f7806c0fe35fa4d3532ed70c6",
+  "threshold_fit_end": 503,
+  "thresholds_refitted": false,
+  "policy_retuned": false,
+  "original_baseline_C1_rows_reproduced": true,
+  "confusion_counts_reconcile": true,
+  "rows": 42,
+  "forecast_sha256": {
+    "baselines_val.npz": "ad08f1c59b3a9d49a245e332ef6b5b64e40375bdd06c41e2f3c977bc5dce9da8",
+    "lightgbm_val.npz": "3a0bf9cc3ec5e4d0acf184840e6ced4e6332310785477f1576e733b83325383e",
+    "improvement_audit.npz": "e44c2699f32e6134bd3f4f9c385dd7b852c0412428042a329b8fa9df3cfd6f0c",
+    "hurdle_candidate_val.npz": "ec7bc06e9c6d205276436328f64117ce3b7c0fc994f08dcca907a44893e41dc2",
+    "blend_candidate_val.npz": "0c8390391d5cebbf3860fc9f58620a0988c2cf06785f13f218ef7ebccd2045d1",
+    "mlp_blend_candidate_val.npz": "fda0912d22f447644ec1c31bbe29be035893d5a1180f0e0ae78cc0a9e643b2d5"
+  },
+  "holdout_used": false,
+  "production_promoted": false,
+  "claim_scope": "historical P90/P95 exceedance on reused validation; no operational congestion or future-time guarantee"
+}

@@ -72,7 +72,8 @@ prior Linear blend and other cases in that selected research table. Architecture
 weights and the ten-epoch refit were fixed before this audit. See the
 [audit and trade-offs](reports/mlp_blend_candidate_analysis.md) and
 [review notebook](notebooks/23_fixed_mlp_blend_candidate_audit.ipynb).
-Zero false-positive rates worsen. WAPE remains **40.80% / 44.28% / 44.79%**,
+Zero false-positive rates worsen. The [fixed-threshold risk audit](reports/research_risk_analysis.md)
+shows higher recall/F1 than hurdle but many missed historical exceedances. WAPE remains **40.80% / 44.28% / 44.79%**,
 above the 10% research target. Repeated validation does not establish unseen
 future accuracy or absence of overfitting. The frozen production model remains
 unchanged; no original holdout was replayed for this research.
