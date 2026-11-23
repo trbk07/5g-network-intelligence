@@ -12,7 +12,7 @@ from src.data.io import sha256
 from src.evaluation.origins import evaluation_origins, train_origins
 from src.evaluation.validation import validation_inputs
 from src.features.lightgbm_features import FEATURE_NAMES, build_features
-from src.risk.probability_metrics import probability_metrics
+from src.risk.probability_metrics import probability_metrics, nested_probability_audit
 from src.risk.thresholds import Thresholds
 from src.utils.config import load_config
 
@@ -99,17 +99,29 @@ def main():
                         np.testing.assert_allclose(p,saved,atol=1e-10,rtol=0)
                         parity.append({"fold":fold["name"],"horizon":h,"threshold":level,"origin":origin,
                             "beams_checked":len(beams),"max_error":float(np.max(np.abs(p-saved)))})
+    coherence=[]
+    for fold in cfg["folds"]:
+        for h in cfg["horizons"]:
+            directory=root/fold["name"]/f"h{h}"
+            with np.load(directory/"warning_score.npz",allow_pickle=False) as warning, np.load(directory/"critical_score.npz",allow_pickle=False) as critical:
+                for key in ("actual","origins","beam_ids"):
+                    np.testing.assert_array_equal(warning[key],critical[key])
+                mask=np.isfinite(warning["labels"])&np.isfinite(critical["labels"])
+                coherence.append({"fold":fold["name"],"horizon":h,
+                    **nested_probability_audit(warning["predicted"],critical["predicted"],mask)})
     frame=pd.DataFrame(rows)
     declared=pd.read_csv("reports/risk_probability_development.csv",dtype={"flags":"string"}).fillna({"flags":""})
     pd.testing.assert_frame_equal(frame,declared[frame.columns],check_dtype=False,atol=1e-12,rtol=1e-12)
     prefix="reports/risk_probability"
     pd.DataFrame(comparisons).to_csv(prefix+"_comparison.csv",index=False)
     pd.DataFrame(parity).to_csv(prefix+"_cpu_parity.csv",index=False)
+    pd.DataFrame(coherence).to_csv(prefix+"_coherence.csv",index=False)
     Path(prefix+"_verification.json").write_text(json.dumps({"artifact_files_verified":len(files),
         "fold_fit_threshold_statistics_verified":True,"all_labels_axes_and_metrics_reconstructed":True,
         "all_classifiers_use_original_40_inputs":True,"history_only_predictions_checked":sum(p["beams_checked"] for p in parity),
         "max_parity_error":max(p["max_error"] for p in parity),"thresholds_refitted_or_changed_locally":False,
         "decision_threshold_selected":False,"validation_or_holdout_used":False,"production_promoted":False,
+        "nested_event_probability_audited":True,"probability_nesting_correction_applied":False,
         "claim_scope":"reused development probability study, not independent generalization or operational congestion"},indent=2))
     print(pd.DataFrame(comparisons).to_string(index=False))
 

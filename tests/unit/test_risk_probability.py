@@ -6,7 +6,7 @@ import pytest
 from scripts.train_risk_probability import labels_for
 from scripts.summarize_risk_probability import verify_threshold_statistics
 from src.data.panel import Panel
-from src.risk.probability_metrics import probability_metrics
+from src.risk.probability_metrics import probability_metrics, nested_probability_audit
 from src.risk.thresholds import Thresholds
 
 
@@ -52,3 +52,20 @@ def test_saved_threshold_verification_ignores_future_and_rejects_changed_state()
     thresholds.warning[0]=10000
     with pytest.raises(AssertionError):
         verify_threshold_statistics(panel,thresholds,{"fit_end":199},policy)
+
+
+def test_nested_event_violations_are_reported_without_correcting_forecasts():
+    warning=np.array([.2,.8,np.nan])
+    critical=np.array([.3,.5,np.nan])
+    result=nested_probability_audit(warning,critical,np.array([True,True,False]))
+    assert result["nesting_violations"]==1
+    assert result["nesting_violation_fraction"]==.5
+    assert result["maximum_probability_excess"]==pytest.approx(.1)
+    assert result["probabilities_corrected"] is False
+    np.testing.assert_array_equal(warning,[.2,.8,np.nan])
+    np.testing.assert_array_equal(critical,[.3,.5,np.nan])
+
+
+def test_invalid_nested_probabilities_are_not_silently_excluded():
+    with pytest.raises(ValueError):
+        nested_probability_audit([.2],[np.nan],np.array([True]))

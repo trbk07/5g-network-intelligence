@@ -4,6 +4,22 @@ import numpy as np
 from sklearn.metrics import average_precision_score
 
 
+def nested_probability_audit(warning, critical, mask):
+    """Describe P(Y>=P95)>P(Y>=P90) violations without correcting forecasts."""
+    warning,critical,mask=np.asarray(warning),np.asarray(critical),np.asarray(mask)
+    if warning.shape!=critical.shape or mask.shape!=warning.shape or mask.dtype!=bool:
+        raise ValueError("Aligned probability arrays and boolean observed mask required")
+    a,b=warning[mask],critical[mask]
+    if (not len(a) or not np.isfinite(a).all() or not np.isfinite(b).all()
+            or ((a<0)|(a>1)|(b<0)|(b>1)).any()):
+        raise ValueError("Observed probabilities must be finite and in [0,1]")
+    excess=np.maximum(0,b-a)
+    violations=excess>1e-12
+    return {"n_valid":len(a),"nesting_violations":int(violations.sum()),
+        "nesting_violation_fraction":float(violations.mean()),"maximum_probability_excess":float(excess.max()),
+        "tolerance":1e-12,"probabilities_corrected":False}
+
+
 def probability_metrics(labels, probability):
     labels,probability=np.asarray(labels),np.asarray(probability,dtype=float)
     if labels.ndim!=1 or labels.shape!=probability.shape:
