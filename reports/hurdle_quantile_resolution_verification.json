@@ -1,0 +1,11 @@
+{
+  "metrics_reconstructed": true,
+  "all_scoring_axes_verified": true,
+  "history_only_predictions_checked": 72,
+  "max_parity_error": 0.0,
+  "tolerance_original_units": 1e-08,
+  "validation_or_holdout_used": false,
+  "production_promoted": false,
+  "interval_scope": "95% paired BS-cluster spatial intervals conditional on these reused windows; not future-time uncertainty or adjusted for repeated search",
+  "claim_scope": "one-seed reused development evidence only"
+}
