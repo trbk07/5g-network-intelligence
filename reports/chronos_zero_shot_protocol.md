@@ -42,3 +42,17 @@ This benchmark is exploratory because development was reused. Validation
 original-unit MAE, WAPE ratio, coverage and zero false-positive rate. Compare with
 the saved hurdle development forecasts before further work. Publisher benchmark
 claims are not evidence that this checkpoint improves the original network.
+
+After a complete hosted run, intake and saved-output verification are:
+
+```powershell
+python -m scripts.import_hurdle_results .cache/chronos-zero-shot-results/chronos_zero_shot_results.tar.gz --kind chronos_zero_shot
+python -m scripts.summarize_chronos_zero_shot
+```
+
+Intake excludes the external checkpoint directory. Verification checks manifests,
+run identity, canonical panel hash, per-origin cache/score mapping, every target
+and beam, reconstructed metrics and matching hurdle comparison arrays. It does
+not execute the pretrained model independently, certify its training corpus or
+establish model-level CPU/GPU parity. Those limits are explicit in its evidence
+JSON; saved-output consistency must not be relabeled independent model execution.

@@ -10,7 +10,7 @@ import pytest
 from scripts.import_hurdle_results import import_results
 
 
-def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibration=False, temporal_linear=False, blend=False, blend_candidate=False):
+def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibration=False, temporal_linear=False, blend=False, blend_candidate=False, chronos=False):
     model = b"fixture checkpoint bytes, not a trained model"
     files = {
         "artifacts/hurdle_research/inner1/h1/direct.txt": model,
@@ -45,6 +45,10 @@ def archive_fixture(path, extra=None, bad_hash=False, candidate=False, calibrati
                  .replace("reports/hurdle_development_scores.csv", "reports/blend_candidate_validation.csv"): value
                  for name, value in files.items()}
         files["reports/forecasts/blend_candidate_val.npz"] = b"test forecast fixture\n"
+    if chronos:
+        files = {name.replace("artifacts/hurdle_research/", "artifacts/chronos_zero_shot/")
+                 .replace("reports/hurdle_development_scores.csv", "reports/chronos_zero_shot_development.csv"): value
+                 for name,value in files.items()}
     with tarfile.open(path, "w:gz") as archive:
         for name, content in files.items():
             info = tarfile.TarInfo(name)
@@ -141,3 +145,13 @@ def test_fixed_blend_intake_preserves_original_source_roots(tmp_path):
     assert (tmp_path / "reports/blend_candidate_import_evidence.json").exists()
     assert not (tmp_path / "artifacts/hurdle_research").exists()
     assert not (tmp_path / "artifacts/champion").exists()
+
+
+def test_zero_shot_intake_never_installs_model_weights(tmp_path):
+    archive=tmp_path/"zero-shot.tar.gz"
+    archive_fixture(archive,chronos=True,extra={"pretrained_checkpoint/model.safetensors":b"excluded checkpoint bytes"})
+    import_results(archive,tmp_path,kind="chronos_zero_shot")
+    assert (tmp_path/"reports/chronos_zero_shot_development.csv").exists()
+    assert (tmp_path/"reports/chronos_zero_shot_import_evidence.json").exists()
+    assert not (tmp_path/"pretrained_checkpoint").exists()
+    assert not (tmp_path/"artifacts/champion").exists()
