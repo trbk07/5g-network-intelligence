@@ -49,7 +49,7 @@ def main():
     for name,digest in files.items():
         if sha256(root/name)!=digest:
             raise ValueError("Probability artifact checksum differs")
-    rows,parity,comparisons=[],[],[]
+    rows,parity,comparisons,decisions=[],[],[],[]
     for fold in cfg["folds"]:
         if not 167<fold["fit_end"]<fold["stop_end"]<fold["score_end"]<=503:
             raise ValueError("Development-only chronology required")
@@ -90,6 +90,22 @@ def main():
                         "brier_skill_vs_fit_prior":1-pair[0]["brier"]/pair[1]["brier"],
                         "direct_AP":pair[0]["average_precision"],"scoring_base_rate":pair[0]["base_rate"],
                         "recall_at_0.5":pair[0]["recall"],"f1_at_0.5":pair[0]["f1"]})
+                    with np.load(Path("artifacts/hurdle_research")/fold["name"]/f"h{h}/score.npz",allow_pickle=False) as hurdle:
+                        for key,value in (("actual",actual),("origins",origins),("beam_ids",panel.beam_ids)):
+                            np.testing.assert_array_equal(hurdle[key],value)
+                        baseline_predictions={"hurdle_point_exceedance":hurdle["hurdle_median"].copy()}
+                    baseline_predictions.update(persistence=panel.values[origins,:,0].reshape(-1),
+                        seasonal_naive_24=panel.values[origins+h-24,:,0].reshape(-1))
+                    operating_points={"direct_probability_0.5":(score["predicted"]>=0.5).astype(float)}
+                    for name,prediction in baseline_predictions.items():
+                        if not np.isfinite(prediction[np.isfinite(labels)]).all():
+                            raise ValueError("Risk controls cannot drop observed eligible targets")
+                        operating_points[name]=(prediction.reshape(-1,len(cutoff))>=cutoff[None,:]).astype(float).reshape(-1)
+                    for name,prediction in operating_points.items():
+                        metrics=probability_metrics(labels,prediction)
+                        # Hard decisions are compared as decisions, not claimed to be calibrated probabilities.
+                        decisions.append({"fold":fold["name"],"horizon":h,"threshold":level,"model":name,
+                            **{k:metrics[k] for k in ("n_valid","positive_events","TP","FP","FN","TN","precision","recall","f1","flags")}})
                     beams=np.array([0,len(panel.beam_ids)//2,len(panel.beam_ids)-1])
                     for index in (0,len(origins)-1):
                         origin=int(origins[index])
@@ -116,6 +132,7 @@ def main():
     pd.DataFrame(comparisons).to_csv(prefix+"_comparison.csv",index=False)
     pd.DataFrame(parity).to_csv(prefix+"_cpu_parity.csv",index=False)
     pd.DataFrame(coherence).to_csv(prefix+"_coherence.csv",index=False)
+    pd.DataFrame(decisions).to_csv(prefix+"_operating_points.csv",index=False)
     Path(prefix+"_verification.json").write_text(json.dumps({"artifact_files_verified":len(files),
         "fold_fit_threshold_statistics_verified":True,"all_labels_axes_and_metrics_reconstructed":True,
         "all_classifiers_use_original_40_inputs":True,"history_only_predictions_checked":sum(p["beams_checked"] for p in parity),

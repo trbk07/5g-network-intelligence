@@ -1,0 +1,15 @@
+{
+  "artifact_files_verified": 38,
+  "fold_fit_threshold_statistics_verified": true,
+  "all_labels_axes_and_metrics_reconstructed": true,
+  "all_classifiers_use_original_40_inputs": true,
+  "history_only_predictions_checked": 72,
+  "max_parity_error": 0.0,
+  "thresholds_refitted_or_changed_locally": false,
+  "decision_threshold_selected": false,
+  "validation_or_holdout_used": false,
+  "production_promoted": false,
+  "nested_event_probability_audited": true,
+  "probability_nesting_correction_applied": false,
+  "claim_scope": "reused development probability study, not independent generalization or operational congestion"
+}
