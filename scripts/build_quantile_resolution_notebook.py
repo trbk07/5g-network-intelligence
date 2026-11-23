@@ -77,7 +77,7 @@ def main():
     stage.mkdir(parents=True,exist_ok=True)
     (stage/name).write_text(json.dumps(notebook,indent=2),encoding="utf-8")
     (stage/"kernel-metadata.json").write_text(json.dumps({"id":"truongbaokien/5g-network-intelligence-quantile-resolution",
-        "title":"5G Network Intelligence Positive Quantile Resolution","code_file":name,"language":"python","kernel_type":"notebook",
+        "title":"5G Network Intelligence Quantile Resolution","code_file":name,"language":"python","kernel_type":"notebook",
         "is_private":True,"enable_gpu":False,"enable_internet":False,"kernel_sources":["truongbaokien/5g-network-intelligence-zero-inflated-forecasting"],
         "dataset_sources":["truongbaokien/5g-network-intelligence-quantile-source"],"competition_sources":[]},indent=2))
     package=Path(".cache/kaggle-quantile-source")
