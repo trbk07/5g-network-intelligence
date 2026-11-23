@@ -12,6 +12,7 @@ def metadata(best,completed=9,exhausted=False):
 def test_zero_based_best_epochs_are_converted_before_rounding():
     assert fixed_epochs([metadata(3),metadata(2)])==4
     assert fixed_epochs([metadata(1),metadata(2)])==3
+    assert fixed_epochs([metadata(8,14),metadata(10,16)])==10
 
 
 @pytest.mark.parametrize("sources", [[],[metadata(1)], [metadata(-1),metadata(2)],

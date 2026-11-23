@@ -1,0 +1,16 @@
+protocol: fixed-hurdle-mlp-validation-audit-v1
+fit_end: 503
+audit_end: 671
+horizons: [1, 6, 24]
+epoch_policy: rounded_median_of_two_development_best_epoch_plus_one
+expected_selected_variants: [B]
+expected_fixed_epochs: {B: 10}
+selection_sha256: 283945dd2464f85e33bf095a70f1a34981158622ef573c76d95367a69d8f721e
+mlp_manifest_sha256: e9dd565ee26362c3ec2f79ff5061722df2a72c83ca3d434944c0f9042b115ba1
+hurdle_replay_sha256: ec7bc06e9c6d205276436328f64117ce3b7c0fc994f08dcca907a44893e41dc2
+early_stopping: forbidden
+coefficient_changes: forbidden
+hurdle_retraining: forbidden
+original_final_holdout: forbidden
+production_change: forbidden
+claim_scope: reused_validation_audit_not_independent_generalization

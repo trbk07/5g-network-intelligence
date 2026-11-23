@@ -80,34 +80,32 @@ def verify_manifest(root):
             raise ValueError("Source artifact checksum mismatch")
 
 
-def main():
+def run_audit(cfg, base, linear_root, blend_root, hurdle_replay, root, report_prefix,
+              component="linear", model_factory=None):
+    """Shared fixed-refit protocol; every architecture factory is explicit."""
     require_cloud_training()
     if not torch.cuda.is_available():
         raise RuntimeError("Hosted GPU is required for fixed neural refit")
-    parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--linear-root",type=Path,required=True)
-    parser.add_argument("--blend-root",type=Path,required=True)
-    parser.add_argument("--hurdle-replay",type=Path,required=True)
-    args=parser.parse_args()
-    cfg=load_config("configs/blend_candidate_audit.yaml")
+    if model_factory is None:
+        def model_factory(variant):
+            return TemporalLinear(1 if variant=="A" else 4)
     if cfg["fit_end"]!=503 or cfg["audit_end"]!=671 or cfg["horizons"]!=[1,6,24]:
         raise ValueError("Fixed original development/audit boundaries required")
-    base=load_config("configs/temporal_linear.yaml")
-    verify_manifest(args.linear_root)
-    verify_manifest(args.blend_root)
-    if (sha256(args.blend_root/"selection.json")!=cfg["selection_sha256"]
-            or sha256(args.hurdle_replay)!=cfg["hurdle_replay_sha256"]):
+    verify_manifest(linear_root)
+    verify_manifest(blend_root)
+    if (sha256(blend_root/"selection.json")!=cfg["selection_sha256"]
+            or sha256(hurdle_replay)!=cfg["hurdle_replay_sha256"]):
         raise ValueError("Pinned blend choices or saved hurdle replay differ")
-    decision=json.loads((args.blend_root/"decision.json").read_text())
+    decision=json.loads((blend_root/"decision.json").read_text())
     if not decision["passes_declared_development_confirmation"]:
         raise ValueError("Development confirmation must pass before this separate audit")
-    selection=json.loads((args.blend_root/"selection.json").read_text())
+    selection=json.loads((blend_root/"selection.json").read_text())
     panel,_=validation_inputs(load_config("configs/data.yaml"))
     fit_panel=replace(panel,values=panel.values[:cfg["fit_end"]+1],time=panel.time[:cfg["fit_end"]+1])
     os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG",":4096:8")
     torch.set_num_threads(2)
     torch.use_deterministic_algorithms(True)
-    root=Path("artifacts/blend_candidate")
+    root=Path(root)
     root.mkdir(parents=True,exist_ok=True)
     Path("reports").mkdir(exist_ok=True)
     models={}
@@ -115,7 +113,7 @@ def main():
     for variant in base["variants"]:
         if variant not in variants:
             continue
-        metadata=[json.loads((args.linear_root/fold["name"]/variant/"meta.json").read_text()) for fold in base["folds"]]
+        metadata=[json.loads((linear_root/fold["name"]/variant/"meta.json").read_text()) for fold in base["folds"]]
         for meta,fold in zip(metadata,base["folds"],strict=True):
             if meta["protocol"]!=base or meta["fold"]!=fold or meta["variant"]!=variant:
                 raise ValueError("Original neural development protocol differs")
@@ -129,17 +127,17 @@ def main():
         directory.mkdir(parents=True,exist_ok=True)
         if (directory/"last.pt").exists():
             raise ValueError("Refusing to overwrite existing fixed refit")
-        identity={"architecture":"temporal-linear-refit-v1","variant":variant,"fit_end":cfg["fit_end"],"epochs":epochs,"seed":base["seed"]}
+        identity={"architecture":f"temporal-{component}-refit-v1","variant":variant,"fit_end":cfg["fit_end"],"epochs":epochs,"seed":base["seed"]}
         preprocessor.save(directory/"preprocessor.npz")
-        model=train_fixed(TemporalLinear(1 if variant=="A" else 4),batches,base,epochs,directory,identity)
+        model=train_fixed(model_factory(variant),batches,base,epochs,directory,identity)
         (directory/"meta.json").write_text(json.dumps({"identity":identity,"base_protocol":base,"audit_protocol":cfg,
-            "source_commit":os.environ.get("SOURCE_GIT_COMMIT"),"development_manifest_sha256":sha256(args.linear_root/"manifest.json"),
+            "source_commit":os.environ.get("SOURCE_GIT_COMMIT"),"development_manifest_sha256":sha256(linear_root/"manifest.json"),
             "torch_version":str(torch.__version__),"gpu":torch.cuda.get_device_name(0),
             "holdout_used":False},indent=2))
         models[variant]=(model,preprocessor)
         del batches
     # Build audit forecasts only after every fixed refit is complete.
-    reference=risk_records(args.hurdle_replay)
+    reference=risk_records(hurdle_replay)
     tiers=assign_load_tiers(fit_panel.values[:,:,0])
     rows,records=[],[]
     for h in cfg["horizons"]:
@@ -152,18 +150,30 @@ def main():
         if panel.beam_ids!=saved["beam_ids"]:
             raise ValueError("Saved hurdle population differs")
         linear=linear.reshape(saved["actual"].shape)
-        mixture=blend_forecasts(saved["predicted"],linear,choice["linear_weight"])
-        for name,predicted in (("selected_linear",linear),("hurdle_median",saved["predicted"]),("hurdle_linear_blend",mixture)):
+        mixture=blend_forecasts(saved["predicted"],linear,choice[f"{component}_weight"])
+        for name,predicted in ((f"selected_{component}",linear),("hurdle_median",saved["predicted"]),(f"hurdle_{component}_blend",mixture)):
             record=ForecastRecord(name,h,origins,panel.beam_ids,saved["actual"].copy(),predicted)
             records.append(record)
             rows.extend(to_benchmark_rows(record,tiers))
-        pd.DataFrame(rows).to_csv("reports/blend_candidate_validation.csv",index=False)
-    save_forecasts(records,"reports/forecasts/blend_candidate_val.npz",{"research_only":True,"holdout_used":False})
+        pd.DataFrame(rows).to_csv(f"reports/{report_prefix}_validation.csv",index=False)
+    save_forecasts(records,f"reports/forecasts/{report_prefix}_val.npz",{"research_only":True,"holdout_used":False})
     (root/"selection.json").write_text(json.dumps(selection,indent=2))
     (root/"protocol.json").write_text(json.dumps(cfg,indent=2))
     files={p.relative_to(root).as_posix():sha256(p) for p in root.rglob("*") if p.is_file()}
     (root/"manifest.json").write_text(json.dumps({"files":files},indent=2))
     print(pd.DataFrame(rows).query("load_tier == 'All'")[["model","horizon","mae","wape"]].to_string(index=False),flush=True)
+
+
+
+def main():
+    require_cloud_training()
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--linear-root",type=Path,required=True)
+    parser.add_argument("--blend-root",type=Path,required=True)
+    parser.add_argument("--hurdle-replay",type=Path,required=True)
+    args=parser.parse_args()
+    run_audit(load_config("configs/blend_candidate_audit.yaml"),load_config("configs/temporal_linear.yaml"),
+              args.linear_root,args.blend_root,args.hurdle_replay,"artifacts/blend_candidate","blend_candidate")
 
 
 if __name__=="__main__":
