@@ -1,0 +1,25 @@
+{
+  "scope": "descriptive fit segment 0-503 only, residual times 168-503",
+  "residual": "target minus causal mean of target at same phase over previous seven days",
+  "same_cell": {
+    "attempted_pairs": 44640,
+    "finite_pairs": 44640,
+    "mean": 0.021716081372110518,
+    "median": 0.012478916873715506,
+    "p10": -0.07038298322250089,
+    "p90": 0.1178393021547014
+  },
+  "shuffled_group_control": {
+    "attempted_pairs": 44640,
+    "finite_pairs": 44640,
+    "mean": 0.0040455631073658075,
+    "median": 0.0016002445751056998,
+    "p10": -0.07840430190930031,
+    "p90": 0.08942282993781638
+  },
+  "n_cells": 90,
+  "group_size": 32,
+  "seed": 17,
+  "training_performed": false,
+  "interpretation": "simultaneous association is not future predictability, causation or an irreducible-error bound; no model inputs or test split changed"
+}

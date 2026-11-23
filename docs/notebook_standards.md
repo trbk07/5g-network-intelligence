@@ -44,6 +44,7 @@ Names for the current extension:
 - 17_development_forecast_blending.ipynb
 - 18_fixed_blend_candidate_audit.ipynb
 - 19_pretrained_zero_shot_forecasting.ipynb
+- 20_temporal_residual_mlp.ipynb
 
 Historical execution notebooks remain attached to their original job versions;
 renaming or restyling must not silently trigger repeated fitting or erase run
