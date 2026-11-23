@@ -54,6 +54,8 @@ pretrained_models:
     revision: 5d9f166d69f47aef3401367a7b842e78fe97b121
     license: Apache-2.0_per_pinned_author_card
     role: exploratory_development_zero_shot_reference
+    status: completed_mixed_result_no_validation_audit_or_promotion
+    evidence: reports/chronos_zero_shot_analysis.md
     pretraining_corpus_overlap: not_certified_absent
     corpus_count_or_independence_claim: none
     fine_tuning: forbidden_in_this_study

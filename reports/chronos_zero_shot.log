@@ -1,0 +1,135 @@
+
+Fetching 3 files:   0%|          | 0/3 [00:00<?, ?it/s]
+Fetching 3 files:  33%|███▎      | 1/3 [00:00<00:00,  7.09it/s]
+Fetching 3 files:  67%|██████▋   | 2/3 [00:00<00:00,  4.65it/s]
+Fetching 3 files: 100%|██████████| 3/3 [00:06<00:00,  2.82s/it]
+Fetching 3 files: 100%|██████████| 3/3 [00:06<00:00,  2.11s/it]
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+inner1 origin 1/60 completed in 3.69s
+inner1 origin 2/60 completed in 2.52s
+inner1 origin 3/60 completed in 2.57s
+inner1 origin 4/60 completed in 2.60s
+inner1 origin 5/60 completed in 2.64s
+inner1 origin 6/60 completed in 2.68s
+inner1 origin 7/60 completed in 2.70s
+inner1 origin 8/60 completed in 2.69s
+inner1 origin 9/60 completed in 2.72s
+inner1 origin 10/60 completed in 2.76s
+inner1 origin 11/60 completed in 2.81s
+inner1 origin 12/60 completed in 2.85s
+inner1 origin 13/60 completed in 2.83s
+inner1 origin 14/60 completed in 2.87s
+inner1 origin 15/60 completed in 2.91s
+inner1 origin 16/60 completed in 2.95s
+inner1 origin 17/60 completed in 3.01s
+inner1 origin 18/60 completed in 3.04s
+inner1 origin 19/60 completed in 3.09s
+inner1 origin 20/60 completed in 3.14s
+inner1 origin 21/60 completed in 3.17s
+inner1 origin 22/60 completed in 3.22s
+inner1 origin 23/60 completed in 3.28s
+inner1 origin 24/60 completed in 3.34s
+inner1 origin 25/60 completed in 3.38s
+inner1 origin 26/60 completed in 3.42s
+inner1 origin 27/60 completed in 3.47s
+inner1 origin 28/60 completed in 3.46s
+inner1 origin 29/60 completed in 3.41s
+inner1 origin 30/60 completed in 3.37s
+inner1 origin 31/60 completed in 3.33s
+inner1 origin 32/60 completed in 3.29s
+inner1 origin 33/60 completed in 3.27s
+inner1 origin 34/60 completed in 3.23s
+inner1 origin 35/60 completed in 3.19s
+inner1 origin 36/60 completed in 3.19s
+inner1 origin 37/60 completed in 3.17s
+inner1 origin 38/60 completed in 3.15s
+inner1 origin 39/60 completed in 3.15s
+inner1 origin 40/60 completed in 3.13s
+inner1 origin 41/60 completed in 3.15s
+inner1 origin 42/60 completed in 3.15s
+inner1 origin 43/60 completed in 3.15s
+inner1 origin 44/60 completed in 3.15s
+inner1 origin 45/60 completed in 3.16s
+inner1 origin 46/60 completed in 3.19s
+inner1 origin 47/60 completed in 3.18s
+inner1 origin 48/60 completed in 3.20s
+inner1 origin 49/60 completed in 3.23s
+inner1 origin 50/60 completed in 3.24s
+inner1 origin 51/60 completed in 3.25s
+inner1 origin 52/60 completed in 3.26s
+inner1 origin 53/60 completed in 3.27s
+inner1 origin 54/60 completed in 3.27s
+inner1 origin 55/60 completed in 3.29s
+inner1 origin 56/60 completed in 3.27s
+inner1 origin 57/60 completed in 3.26s
+inner1 origin 58/60 completed in 3.25s
+inner1 origin 59/60 completed in 3.25s
+inner1 origin 60/60 completed in 3.24s
+inner2 origin 1/60 completed in 3.21s
+inner2 origin 2/60 completed in 3.23s
+inner2 origin 3/60 completed in 3.22s
+inner2 origin 4/60 completed in 3.21s
+inner2 origin 5/60 completed in 3.21s
+inner2 origin 6/60 completed in 3.21s
+inner2 origin 7/60 completed in 3.19s
+inner2 origin 8/60 completed in 3.20s
+inner2 origin 9/60 completed in 3.20s
+inner2 origin 10/60 completed in 3.20s
+inner2 origin 11/60 completed in 3.19s
+inner2 origin 12/60 completed in 3.19s
+inner2 origin 13/60 completed in 3.19s
+inner2 origin 14/60 completed in 3.20s
+inner2 origin 15/60 completed in 3.18s
+inner2 origin 16/60 completed in 3.19s
+inner2 origin 17/60 completed in 3.21s
+inner2 origin 18/60 completed in 3.20s
+inner2 origin 19/60 completed in 3.21s
+inner2 origin 20/60 completed in 3.21s
+inner2 origin 21/60 completed in 3.21s
+inner2 origin 22/60 completed in 3.22s
+inner2 origin 23/60 completed in 3.22s
+inner2 origin 24/60 completed in 3.22s
+inner2 origin 25/60 completed in 3.23s
+inner2 origin 26/60 completed in 3.22s
+inner2 origin 27/60 completed in 3.22s
+inner2 origin 28/60 completed in 3.22s
+inner2 origin 29/60 completed in 3.21s
+inner2 origin 30/60 completed in 3.22s
+inner2 origin 31/60 completed in 3.23s
+inner2 origin 32/60 completed in 3.24s
+inner2 origin 33/60 completed in 3.23s
+inner2 origin 34/60 completed in 3.24s
+inner2 origin 35/60 completed in 3.24s
+inner2 origin 36/60 completed in 3.25s
+inner2 origin 37/60 completed in 3.24s
+inner2 origin 38/60 completed in 3.24s
+inner2 origin 39/60 completed in 3.25s
+inner2 origin 40/60 completed in 3.24s
+inner2 origin 41/60 completed in 3.24s
+inner2 origin 42/60 completed in 3.25s
+inner2 origin 43/60 completed in 3.25s
+inner2 origin 44/60 completed in 3.24s
+inner2 origin 45/60 completed in 3.24s
+inner2 origin 46/60 completed in 3.26s
+inner2 origin 47/60 completed in 3.25s
+inner2 origin 48/60 completed in 3.25s
+inner2 origin 49/60 completed in 3.25s
+inner2 origin 50/60 completed in 3.26s
+inner2 origin 51/60 completed in 3.24s
+inner2 origin 52/60 completed in 3.25s
+inner2 origin 53/60 completed in 3.25s
+inner2 origin 54/60 completed in 3.25s
+inner2 origin 55/60 completed in 3.25s
+inner2 origin 56/60 completed in 3.27s
+inner2 origin 57/60 completed in 3.24s
+inner2 origin 58/60 completed in 3.25s
+inner2 origin 59/60 completed in 3.24s
+inner2 origin 60/60 completed in 3.24s
+  fold  horizon                    model      mae     wape  zero_fp_rate  n_valid
+inner1        1 chronos_bolt_base_median 0.231555 0.426005      0.998130   172800
+inner1        6 chronos_bolt_base_median 0.257282 0.453762      0.999121   158400
+inner1       24 chronos_bolt_base_median 0.245517 0.470779      0.998884   106560
+inner2        1 chronos_bolt_base_median 0.238804 0.405145      0.998906   172800
+inner2        6 chronos_bolt_base_median 0.254339 0.438634      0.999331   158400
+inner2       24 chronos_bolt_base_median 0.263505 0.431350      0.999217   106560

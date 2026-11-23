@@ -1,0 +1,12 @@
+{
+  "artifact_files_verified": 127,
+  "score_predictions_checked_against_origin_cache": 875520,
+  "all_metrics_reconstructed": true,
+  "origins_targets_and_beams_match_hurdle": true,
+  "independent_pretrained_model_execution_verified": false,
+  "weights_downloaded_locally": false,
+  "pretraining_overlap_certified_absent": false,
+  "validation_504_671_used": false,
+  "holdout_used": false,
+  "claim_scope": "saved-output consistency on reused development only; no certified zero-shot generalization claim"
+}

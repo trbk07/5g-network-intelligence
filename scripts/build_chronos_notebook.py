@@ -88,6 +88,12 @@ def main():
         "path=next((p for p in paths if p.exists()),None)\n"
         "if path:\n    import pandas as pd\n    from IPython.display import display\n    display(pd.read_csv(path))\n"
         "else:\n    print('No completed zero-shot scores attached.')\n")
+    add("markdown", "## Completed v1 finding and decision\n\nThe checkpoint improved 6h development "
+        "MAE by 0.458% / 0.283% across the two folds, but 1h and 24h regressed in both. "
+        "WAPE remained 40.51–47.08%, and zero false-positive rates were 99.81–99.93%. "
+        "All 127 artifact files and mapping of 875,520 scored forecasts to their origin caches "
+        "were checked; this did not independently execute the external model or certify its corpus. "
+        "Do not promote this full-range standalone configuration or tune it on reused validation.\n")
     notebook={"cells":cells,"metadata":{"kernelspec":{"name":"python3","language":"python","display_name":"Python 3"}},"nbformat":4,"nbformat_minor":5}
     name="19_pretrained_zero_shot_forecasting.ipynb"
     Path("notebooks",name).write_text(json.dumps(notebook,indent=2),encoding="utf-8")
