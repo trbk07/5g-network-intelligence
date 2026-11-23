@@ -1,0 +1,12 @@
+{
+  "artifact_files_verified": 5,
+  "cloud_choice_consistency_checked": true,
+  "confirmation_predictions_recomputed": 437760,
+  "max_prediction_error": 0.0,
+  "all_confirmation_metrics_reconstructed": true,
+  "passes_declared_development_confirmation": true,
+  "weights_changed_locally": false,
+  "validation_504_671_used": false,
+  "holdout_used": false,
+  "claim_scope": "reused development confirmation only, no generalization or promotion claim"
+}

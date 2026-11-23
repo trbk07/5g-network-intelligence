@@ -67,6 +67,23 @@ def test_intake_is_allowlisted_and_idempotent(tmp_path):
     assert first["verified_artifact_files"] == 1
 
 
+def test_mlp_blend_import_requires_both_reports(tmp_path):
+    archive = tmp_path / "mlp-blend.tar.gz"
+    archive_fixture(archive, blend=True)
+    with tarfile.open(archive,"r:gz") as source:
+        entries=[(m.name.replace("development_blend","mlp_blend"),source.extractfile(m).read()) for m in source.getmembers()]
+    with tarfile.open(archive,"w:gz") as output:
+        for name,content in entries:
+            member=tarfile.TarInfo(name)
+            member.size=len(content)
+            output.addfile(member,io.BytesIO(content))
+    result=import_results(archive,tmp_path,"mlp_blend")
+    assert result["verified_artifact_files"]==1
+    assert (tmp_path/"reports/mlp_blend_confirmation.csv").is_file()
+    assert (tmp_path/"reports/mlp_blend_selection_grid.csv").is_file()
+    assert not (tmp_path/"artifacts/champion").exists()
+
+
 @pytest.mark.parametrize("kind,prefix", [("temporal_mlp", "temporal_mlp"), ("quantile_resolution", "hurdle_quantile_resolution")])
 def test_new_study_uses_its_own_allowlist(tmp_path, kind, prefix):
     archive = tmp_path / "mlp.tar.gz"
