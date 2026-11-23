@@ -67,21 +67,22 @@ def test_intake_is_allowlisted_and_idempotent(tmp_path):
     assert first["verified_artifact_files"] == 1
 
 
-def test_temporal_mlp_uses_its_own_allowlist(tmp_path):
+@pytest.mark.parametrize("kind,prefix", [("temporal_mlp", "temporal_mlp"), ("quantile_resolution", "hurdle_quantile_resolution")])
+def test_new_study_uses_its_own_allowlist(tmp_path, kind, prefix):
     archive = tmp_path / "mlp.tar.gz"
     archive_fixture(archive, temporal_linear=True)
     # Rewrite fixture paths only; these bytes never contain a fitted model.
     with tarfile.open(archive, "r:gz") as source:
-        entries = [(m.name.replace("temporal_linear", "temporal_mlp"), source.extractfile(m).read())
+        entries = [(m.name.replace("temporal_linear", prefix), source.extractfile(m).read())
                    for m in source.getmembers()]
     with tarfile.open(archive, "w:gz") as output:
         for name, content in entries:
             member = tarfile.TarInfo(name)
             member.size = len(content)
             output.addfile(member, io.BytesIO(content))
-    evidence = import_results(archive, tmp_path, "temporal_mlp")
+    evidence = import_results(archive, tmp_path, kind)
     assert evidence["verified_artifact_files"] == 1
-    assert (tmp_path / "reports/temporal_mlp_import_evidence.json").is_file()
+    assert (tmp_path / f"reports/{prefix}_import_evidence.json").is_file()
     assert not (tmp_path / "artifacts/champion").exists()
 
 

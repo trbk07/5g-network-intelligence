@@ -23,7 +23,7 @@ def import_results(archive_path, workspace, kind="development"):
     archive_path = Path(archive_path).resolve()
     stage_root = workspace / ".cache"
     stage_root.mkdir(exist_ok=True)
-    if kind not in ("development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "development_blend", "blend_candidate", "chronos_zero_shot"):
+    if kind not in ("development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "quantile_resolution", "development_blend", "blend_candidate", "chronos_zero_shot"):
         raise ValueError("Unknown hurdle archive kind")
     candidate = kind == "candidate"
     prefix = PurePosixPath("artifacts/hurdle_candidate" if candidate else "artifacts/hurdle_research")
@@ -41,6 +41,10 @@ def import_results(archive_path, workspace, kind="development"):
         prefix = PurePosixPath("artifacts/temporal_mlp")
         required = {"reports/temporal_mlp_development.csv"}
         report_names = required | {"reports/temporal_mlp_training.log"}
+    if kind == "quantile_resolution":
+        prefix = PurePosixPath("artifacts/hurdle_quantile_resolution")
+        required = {"reports/hurdle_quantile_resolution_development.csv"}
+        report_names = required | {"reports/hurdle_quantile_resolution_training.log"}
     if kind == "development_blend":
         prefix = PurePosixPath("artifacts/development_blend")
         required = {"reports/development_blend_selection_grid.csv", "reports/development_blend_confirmation.csv"}
@@ -111,6 +115,8 @@ def import_results(archive_path, workspace, kind="development"):
         evidence_name = "temporal_linear_import_evidence.json"
     if kind == "temporal_mlp":
         evidence_name = "temporal_mlp_import_evidence.json"
+    if kind == "quantile_resolution":
+        evidence_name = "hurdle_quantile_resolution_import_evidence.json"
     if kind == "development_blend":
         evidence_name = "development_blend_import_evidence.json"
     if kind == "blend_candidate":
@@ -124,6 +130,6 @@ def import_results(archive_path, workspace, kind="development"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
-    parser.add_argument("--kind", choices=["development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "development_blend", "blend_candidate", "chronos_zero_shot"], default="development")
+    parser.add_argument("--kind", choices=["development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "quantile_resolution", "development_blend", "blend_candidate", "chronos_zero_shot"], default="development")
     args = parser.parse_args()
     print(json.dumps(import_results(args.archive, Path.cwd(), args.kind), indent=2))
