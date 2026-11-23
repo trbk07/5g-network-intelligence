@@ -9,6 +9,8 @@ import pandas as pd
 
 from scripts.summarize_hurdle_research import score_rows
 from src.data.io import sha256
+from src.data.schema import parse_beam_id
+from src.evaluation.bootstrap import paired_cluster_ci
 from src.evaluation.origins import evaluation_origins
 from src.evaluation.validation import validation_inputs
 from src.features.lightgbm_features import build_features
@@ -29,7 +31,8 @@ def main():
                 raise ValueError("Artifact checksum mismatch")
     panel,_ = validation_inputs(load_config("configs/data.yaml"))
     levels = sorted(cfg["retained_quantiles"]+cfg["additional_quantiles"])
-    rows,parity,comparison = [],[],[]
+    rows,parity,comparison,intervals = [],[],[],[]
+    clusters = np.array([parse_beam_id(beam)[0] for beam in panel.beam_ids])
     for fold in base_cfg["folds"]:
         if fold["score_end"] > 503:
             raise ValueError("Development-only chronology required")
@@ -53,6 +56,11 @@ def main():
                 rows.extend(pair)
                 comparison.append({"fold":fold["name"],"horizon":h,"original_mae":pair[0]["mae"],"refined_mae":pair[1]["mae"],
                     "refined_wape":pair[1]["wape"],"relative_mae_gain_pct":100*(1-pair[1]["mae"]/pair[0]["mae"])})
+                shape = (len(origins),len(panel.beam_ids))
+                intervals.append({"fold":fold["name"],"horizon":h,
+                    "unit":"original_MAE_refined_minus_original",
+                    **paired_cluster_ci(actual.reshape(shape),score["refined"].reshape(shape),
+                        score["original"].reshape(shape),clusters,np.isfinite(actual).reshape(shape))})
                 beams = np.array([0,len(panel.beam_ids)//2,len(panel.beam_ids)-1])
                 for index in (0,len(origins)-1):
                     origin = int(origins[index])
@@ -71,9 +79,11 @@ def main():
     prefix = "reports/hurdle_quantile_resolution"
     pd.DataFrame(comparison).to_csv(prefix+"_comparison.csv",index=False)
     pd.DataFrame(parity).to_csv(prefix+"_cpu_parity.csv",index=False)
+    pd.DataFrame(intervals).to_csv(prefix+"_cluster_intervals.csv",index=False)
     Path(prefix+"_verification.json").write_text(json.dumps({"metrics_reconstructed":True,"all_scoring_axes_verified":True,
         "history_only_predictions_checked":sum(p["beams_checked"] for p in parity),"max_parity_error":max(p["max_error"] for p in parity),
         "tolerance_original_units":1e-8,"validation_or_holdout_used":False,"production_promoted":False,
+        "interval_scope":"95% paired BS-cluster spatial intervals conditional on these reused windows; not future-time uncertainty or adjusted for repeated search",
         "claim_scope":"one-seed reused development evidence only"},indent=2))
     print(pd.DataFrame(comparison).to_string(index=False))
 
