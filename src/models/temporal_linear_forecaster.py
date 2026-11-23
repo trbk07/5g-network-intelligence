@@ -14,6 +14,12 @@ from src.models.temporal_linear import TemporalLinear
 class TemporalLinearForecaster:
     """History-only inference; never registers this research model in production."""
 
+    protocol_name="temporal-linear-development-v1"
+    architecture_name="temporal-linear-v1"
+
+    def build_model(self,variant,metadata):
+        return TemporalLinear(1 if variant=="A" else 4)
+
     def __init__(self, root, fold_name, variant):
         root = Path(root)
         manifest = json.loads((root / "manifest.json").read_text())
@@ -26,19 +32,19 @@ class TemporalLinearForecaster:
         meta = json.loads((directory / "meta.json").read_text())
         if (meta["fold"]["name"] != fold_name or meta["variant"] != variant
                 or meta["holdout_used"] or meta["validation_504_671_used"]
-                or meta["protocol"]["protocol"] != "temporal-linear-development-v1"
+                or meta["protocol"]["protocol"] != self.protocol_name
                 or not 167 < meta["fold"]["fit_end"] < meta["fold"]["stop_end"] < meta["fold"]["score_end"] <= 503):
             raise ValueError("Unexpected research temporal contract")
         self.preprocessor = GRUPreprocessor.load(directory / "preprocessor.npz")
         if self.preprocessor.fit_end != meta["fold"]["fit_end"] or self.preprocessor.variant != variant:
             raise ValueError("Preprocessing was fitted on a different prefix")
         state = torch.load(directory / "best.pt", map_location="cpu", weights_only=True)
-        expected = {"architecture": "temporal-linear-v1", "fold": meta["fold"], "variant": variant}
+        expected = {"architecture": self.architecture_name, "fold": meta["fold"], "variant": variant}
         if (state["identity"]["run_identity"] != expected
                 or state["identity"]["seed"] != meta["protocol"]["seed"]
                 or state["best_epoch"] != meta["training"]["best_epoch"]):
             raise ValueError("Checkpoint provenance/epoch differs")
-        self.model = TemporalLinear(1 if variant == "A" else 4).eval()
+        self.model = self.build_model(variant,meta).eval()
         self.model.load_state_dict(state["model"], strict=True)
         self.metadata = meta
 
