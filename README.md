@@ -69,8 +69,10 @@ the [common-population research comparison](reports/research_validation_comparis
 Hurdle improves the earlier ensemble's point MAE, while some transfer cases have
 lower point MAE at individual horizons; there is no verified single winner across
 every horizon and criterion. Calibration and standalone temporal-linear results
-were negative. A fixed 80/20 blend passed development confirmation and its separate
-GPU validation audit is queued. WAPE remains roughly 41–45%, above the research
+were negative. A fixed 80/20 blend passed development confirmation; its verified
+GPU validation audit improves hurdle MAE at 1h/6h but slightly regresses at 24h
+and worsens zero false-positive rates. See the [audit and trade-offs](reports/blend_candidate_analysis.md).
+WAPE remains roughly 41–45%, above the research
 target of 10%; none of these repeated-validation results establishes performance
 on unseen future data or replaces the frozen production model.
 

@@ -22,6 +22,7 @@ Scientific, application and clean-clone checks below have direct saved evidence.
 | Probability calibration study | hurdle_calibration_analysis.md, hurdle_calibration_verification.json | Hosted six-calibrator study complete; all forecasts/metrics reconstructed; mixed negative result, correction rejected; validation and holdout excluded |
 | Temporal linear study | temporal_linear_analysis.md, temporal_linear_verification.json | Four hosted GPU fits complete; 32 files and 72 history-only CPU/GPU predictions verified; all 12 comparisons regress, standalone candidate rejected; validation and holdout excluded |
 | Fixed development blend | development_blend_analysis.md, development_blend_verification.json | Inner1-selected 20% linear weights improve all three inner2 MAEs; 437,760 fixed forecasts reconstructed; small reused-development gains only, no promotion |
+| Fixed blend validation audit | blend_candidate_analysis.md, blend_candidate_verification.json | Two fixed GPU refits complete; 10 files, full replay arithmetic and 81 history-only predictions verified; 1h/6h MAE improves, 24h slightly regresses and zero false-positive rates worsen; no promotion |
 | T8.1 clean clone / artifact I/O / routing | clean_clone_qa.json; dedicated artifact/E2E tests | PASS at checked snapshot; final source recheck before release |
 | T8.2 latency / RSS / image size | inference_benchmark.json/.md | Measured and inspected; no production SLA claim |
 | T8.3 generated experiment report | scripts/build_report.py, experiment_report.md | Generated from CSV; figure inspected |

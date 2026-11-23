@@ -1,0 +1,17 @@
+{"variant": "A", "epoch": 0, "train_l1_scaled": 0.24744001514720376, "n_targets": 2704320, "seconds": 3.6849968239999953}
+{"variant": "A", "epoch": 1, "train_l1_scaled": 0.24683175172245497, "n_targets": 2704320, "seconds": 2.6045947499999897}
+{"variant": "A", "epoch": 2, "train_l1_scaled": 0.24688207730042583, "n_targets": 2704320, "seconds": 2.647082360999974}
+{"variant": "A", "epoch": 3, "train_l1_scaled": 0.24676398542022976, "n_targets": 2704320, "seconds": 2.698850956000001}
+{"variant": "B", "epoch": 0, "train_l1_scaled": 0.2481692149637437, "n_targets": 2704320, "seconds": 2.684093173000008}
+{"variant": "B", "epoch": 1, "train_l1_scaled": 0.24724641169454767, "n_targets": 2704320, "seconds": 2.6139321429999995}
+{"variant": "B", "epoch": 2, "train_l1_scaled": 0.24692126118760183, "n_targets": 2704320, "seconds": 2.7345637179999756}
+              model  horizon      mae     wape
+    selected_linear        1 0.233254 0.420168
+      hurdle_median        1 0.227494 0.409794
+hurdle_linear_blend        1 0.226834 0.408603
+    selected_linear        6 0.262158 0.464994
+      hurdle_median        6 0.251004 0.445209
+hurdle_linear_blend        6 0.250427 0.444186
+    selected_linear       24 0.256821 0.463204
+      hurdle_median       24 0.249159 0.449384
+hurdle_linear_blend       24 0.249162 0.449390

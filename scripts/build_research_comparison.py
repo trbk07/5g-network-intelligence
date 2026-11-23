@@ -14,6 +14,7 @@ SOURCES={
     "single_source":"transfer_pilot_val.npz",
     "multisource":"multisource_pilot_val.npz",
     "hurdle":"hurdle_candidate_val.npz",
+    "fixed_blend":"blend_candidate_val.npz",
 }
 
 
@@ -56,9 +57,9 @@ def main():
         "- The NR3500 source case has lower 6h and 24h point MAE than hurdle, while hurdle has lower 1h MAE. The 24h difference is tiny and reused validation does not justify a new horizon-wise selector.",
         "- The target-only relative-shape control also has lower 6h point MAE than hurdle. Compare source cases with their matched control; extra dataset volume alone is not evidence of benefit.",
         "- Identical controls/shared source cases in separate jobs are replications, not independent datasets or new evidence of generalization.",
-        "- The fixed neural blend passed its separately declared development confirmation. Its queued reused-validation audit is not included until the complete replay passes independent verification.",
+        "- The fixed neural blend passed development confirmation and its audit replay is independently verified. It lowers hurdle point MAE at 1h/6h but slightly regresses at 24h; NR3500 remains lower at 6h/24h. Do not derive a new horizon selector from these reused-validation comparisons.",
         "- WAPE below 10% remains unmet. Production remains the frozen release; these research cases are not deployment replacements.","",
-        "Evidence: [transfer decision](transfer_ablation_decision.md), [hurdle audit](hurdle_candidate_analysis.md), [calibration rejection](hurdle_calibration_analysis.md), [linear rejection](temporal_linear_analysis.md), [fixed blend confirmation](development_blend_analysis.md).",""])
+        "Evidence: [transfer decision](transfer_ablation_decision.md), [hurdle audit](hurdle_candidate_analysis.md), [calibration rejection](hurdle_calibration_analysis.md), [linear rejection](temporal_linear_analysis.md), [fixed blend confirmation](development_blend_analysis.md), [fixed blend audit](blend_candidate_analysis.md).",""])
     (reports/"research_validation_comparison.md").write_text("\n".join(lines),encoding="utf-8")
     print(f"Wrote {len(frame)} rows from {len(SOURCES)} saved replay families; all populations aligned. No model promoted.")
 

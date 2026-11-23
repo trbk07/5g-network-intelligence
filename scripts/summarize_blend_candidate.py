@@ -10,6 +10,8 @@ from scripts.finalize_blend_candidate import fixed_epochs
 from scripts.run_risk import risk_records
 from scripts.summarize_hurdle_research import score_rows
 from src.data.io import sha256
+from src.data.schema import parse_beam_id
+from src.evaluation.bootstrap import paired_cluster_ci, paired_multihorizon_ci
 from src.evaluation.origins import evaluation_origins
 from src.evaluation.validation import validation_inputs
 from src.models.blend_research_forecaster import BlendResearchForecaster
@@ -39,9 +41,14 @@ def main():
     replay=risk_records(Path("reports/forecasts/blend_candidate_val.npz"))
     hurdle=risk_records(Path("reports/forecasts/hurdle_candidate_val.npz"))
     ensemble=risk_records(Path("reports/forecasts/improvement_audit.npz"))
+    transfer=risk_records(Path("reports/forecasts/multisource_pilot_val.npz"))
+    original=risk_records(Path("reports/forecasts/lightgbm_val.npz"))
     if set(replay)!={1,6,24}:
         raise ValueError("All declared horizons required")
-    rows,parity=[],[]
+    rows,parity,intervals=[],[],[]
+    pairs={name:[] for name in ("hurdle_median","earlier_ensemble","pm03_nr3500")}
+    scales=[]
+    clusters=np.array([parse_beam_id(beam)[0] for beam in panel.beam_ids])
     expected={"selected_linear","hurdle_median","hurdle_linear_blend"}
     for h,group in replay.items():
         if set(group)!=expected:
@@ -64,6 +71,26 @@ def main():
         if earlier["beam_ids"]!=panel.beam_ids:
             raise ValueError("Earlier ensemble beam population differs")
         rows.extend(score_rows(actual,{"earlier_ensemble":earlier["predicted"]},"reused_validation",h))
+        external=transfer[h]["pm03_nr3500"]
+        for key in ("actual","origins"):
+            np.testing.assert_array_equal(external[key],group["hurdle_linear_blend"][key])
+        if external["beam_ids"]!=panel.beam_ids:
+            raise ValueError("External-transfer comparison population differs")
+        rows.extend(score_rows(actual,{"pm03_nr3500":external["predicted"]},"reused_validation",h))
+        observed=np.isfinite(actual)
+        c1=original[h]["lightgbm_c1"]
+        np.testing.assert_array_equal(c1["actual"],actual)
+        np.testing.assert_array_equal(c1["origins"],origins)
+        if c1["beam_ids"]!=panel.beam_ids:
+            raise ValueError("C1 normalization population differs")
+        scales.append(float(np.abs(c1["predicted"][observed]-actual[observed]).mean()))
+        for name,prediction in (("hurdle_median",group["hurdle_median"]["predicted"]),
+                                ("earlier_ensemble",earlier["predicted"]),("pm03_nr3500",external["predicted"])):
+            candidate=group["hurdle_linear_blend"]["predicted"]
+            pair=(actual,candidate,prediction,observed)
+            pairs[name].append(pair)
+            intervals.append({"reference":name,"horizon":h,"unit":"original_MAE_difference",
+                              **paired_cluster_ci(actual,candidate,prediction,clusters,observed)})
         for origin in (503,551,599):
             index=int(np.flatnonzero(origins==origin)[0])
             beams=np.array([0,len(panel.beam_ids)//2,len(panel.beam_ids)-1])
@@ -74,6 +101,9 @@ def main():
                 np.testing.assert_allclose(predicted,saved,atol=tolerance,rtol=0)
                 parity.append({"horizon":h,"origin":origin,"model":name,"beams_checked":len(beams),
                                "tolerance":tolerance,"max_error":float(np.max(np.abs(predicted-saved)))})
+    for name,comparisons in pairs.items():
+        intervals.append({"reference":name,"horizon":"mean_normalized","unit":"C1_MAE_normalized_difference",
+                          **paired_multihorizon_ci(comparisons,clusters,scales)})
     frame=pd.DataFrame(rows)
     declared=pd.read_csv("reports/blend_candidate_validation.csv")
     declared=declared[declared.load_tier=="All"].set_index(["model","horizon"])
@@ -82,6 +112,7 @@ def main():
     pd.testing.assert_frame_equal(reconstructed[columns].sort_index(),declared[columns].sort_index(),check_dtype=False,atol=1e-12,rtol=1e-12)
     frame.to_csv("reports/blend_candidate_comparison.csv",index=False)
     pd.DataFrame(parity).to_csv("reports/blend_candidate_cpu_parity.csv",index=False)
+    pd.DataFrame(intervals).to_csv("reports/blend_candidate_cluster_intervals.csv",index=False)
     Path("reports/blend_candidate_verification.json").write_text(json.dumps({
         "fixed_epochs_verified":True,"selection_hash_verified":True,"hurdle_replay_hash_verified":True,
         "full_blend_replay_arithmetic_verified":True,"all_metrics_reconstructed":True,
@@ -89,6 +120,7 @@ def main():
         "max_parity_error":max(p["max_error"] for p in parity),"holdout_used":False,"production_promoted":False,
         "claim_scope":"reused-validation audit only, no generalization or no-overfitting guarantee"},indent=2))
     print(frame[["model","horizon","mae","wape","n_valid","zero_fp_rate"]].to_string(index=False))
+    print(pd.DataFrame(intervals)[["reference","horizon","difference","lower","upper"]].to_string(index=False))
 
 
 if __name__=="__main__":

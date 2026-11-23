@@ -1,0 +1,12 @@
+{
+  "fixed_epochs_verified": true,
+  "selection_hash_verified": true,
+  "hurdle_replay_hash_verified": true,
+  "full_blend_replay_arithmetic_verified": true,
+  "all_metrics_reconstructed": true,
+  "history_only_beam_predictions_checked": 81,
+  "max_parity_error": 1.2258320636338027e-07,
+  "holdout_used": false,
+  "production_promoted": false,
+  "claim_scope": "reused-validation audit only, no generalization or no-overfitting guarantee"
+}

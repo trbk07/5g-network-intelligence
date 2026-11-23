@@ -82,6 +82,13 @@ def main():
         "path=next((p for p in paths if p.exists()),None)\n"
         "if path:\n    import pandas as pd\n    from IPython.display import display\n    frame=pd.read_csv(path)\n    display(frame.loc[frame.load_tier=='All',['model','horizon','mae','wape','n_valid']])\n"
         "else:\n    print('No completed audit scores attached.')\n")
+    add("markdown", "## Completed v1 audit and trade-offs\n\nFixed blend MAE was 0.226834 / "
+        "0.250427 / 0.249162 at 1/6/24h. WAPE was 40.86% / 44.42% / 44.94%. "
+        "This improves hurdle at 1/6h but slightly regresses at 24h. The 24h exploratory "
+        "base-station interval crosses zero; NR3500 transfer retains lower 6/24h point MAE. "
+        "Zero false-positive rates also worsen. All ten artifact files, full blend arithmetic and "
+        "81 history-only component predictions were verified. Keep the declared weights, record "
+        "the regression, and do not promote from reused validation. The 10% WAPE target remains unmet.\n")
     notebook={"cells":cells,"metadata":{"kernelspec":{"name":"python3","language":"python","display_name":"Python 3"}},"nbformat":4,"nbformat_minor":5}
     name="18_fixed_blend_candidate_audit.ipynb"
     Path("notebooks",name).write_text(json.dumps(notebook,indent=2),encoding="utf-8")
