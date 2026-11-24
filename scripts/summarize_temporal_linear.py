@@ -14,7 +14,7 @@ from src.utils.config import load_config
 
 
 def summarize(config_path="configs/temporal_linear.yaml",artifact_path="artifacts/temporal_linear",
-              forecaster_class=TemporalLinearForecaster,report_prefix="temporal_linear",compare_linear=False):
+              forecaster_class=TemporalLinearForecaster,report_prefix="temporal_linear",compare_linear=False,compare_mlp=False):
     """Shared neural replay verification; architecture-specific contracts stay in loaders."""
     cfg = load_config(config_path)
     panel, _ = validation_inputs(load_config("configs/data.yaml"))
@@ -45,14 +45,16 @@ def summarize(config_path="configs/temporal_linear.yaml",artifact_path="artifact
                         baseline = float(np.abs(reference["hurdle_median"][mask]-actual[mask]).mean())
                     comparisons.append({**rows[-1], "hurdle_mae": baseline,
                                         "relative_mae_gain_vs_hurdle_pct": 100*(1-metrics["mae"]/baseline)})
-                    if compare_linear:
-                        linear_path=Path("artifacts/temporal_linear")/fold["name"]/variant/f"score_h{h}.npz"
-                        with np.load(linear_path,allow_pickle=False) as linear:
-                            for key in ("actual","origins","beam_ids"):
-                                np.testing.assert_array_equal(linear[key],score[key])
-                            observed=np.isfinite(actual)
-                            linear_mae=float(np.abs(linear["predicted"][observed]-actual[observed]).mean())
-                        comparisons[-1].update(linear_mae=linear_mae,relative_mae_gain_vs_linear_pct=100*(1-metrics["mae"]/linear_mae))
+                    for family,enabled in (("linear",compare_linear),("mlp",compare_mlp)):
+                        if enabled:
+                            path=Path(f"artifacts/temporal_{family}")/fold["name"]/variant/f"score_h{h}.npz"
+                            with np.load(path,allow_pickle=False) as reference:
+                                for key in ("actual","origins","beam_ids"):
+                                    np.testing.assert_array_equal(reference[key],score[key])
+                                observed=np.isfinite(actual)
+                                reference_mae=float(np.abs(reference["predicted"][observed]-actual[observed]).mean())
+                            comparisons[-1].update({f"{family}_mae":reference_mae,
+                                f"relative_mae_gain_vs_{family}_pct":100*(1-metrics["mae"]/reference_mae)})
                     beams = np.array([0, len(panel.beam_ids)//2, len(panel.beam_ids)-1])
                     for index in (0, len(origins)-1):
                         origin = int(origins[index])
