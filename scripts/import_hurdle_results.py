@@ -23,7 +23,7 @@ def import_results(archive_path, workspace, kind="development"):
     archive_path = Path(archive_path).resolve()
     stage_root = workspace / ".cache"
     stage_root.mkdir(exist_ok=True)
-    if kind not in ("development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "chronos_zero_shot"):
+    if kind not in ("development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot"):
         raise ValueError("Unknown hurdle archive kind")
     candidate = kind == "candidate"
     prefix = PurePosixPath("artifacts/hurdle_candidate" if candidate else "artifacts/hurdle_research")
@@ -57,10 +57,10 @@ def import_results(archive_path, workspace, kind="development"):
         prefix = PurePosixPath(f"artifacts/{kind}")
         required = {f"reports/{kind}_validation.csv", f"reports/forecasts/{kind}_val.npz"}
         report_names = required | {f"reports/{kind}_training.log"}
-    if kind == "risk_probability":
-        prefix = PurePosixPath("artifacts/risk_probability")
-        required = {"reports/risk_probability_development.csv"}
-        report_names = required | {"reports/risk_probability_training.log"}
+    if kind in ("risk_probability", "nested_risk_probability"):
+        prefix = PurePosixPath(f"artifacts/{kind}")
+        required = {f"reports/{kind}_development.csv"}
+        report_names = required | {f"reports/{kind}_training.log"}
     if kind == "chronos_zero_shot":
         prefix = PurePosixPath("artifacts/chronos_zero_shot")
         required = {"reports/chronos_zero_shot_development.csv"}
@@ -131,8 +131,8 @@ def import_results(archive_path, workspace, kind="development"):
         evidence_name = "mlp_blend_import_evidence.json"
     if kind in ("blend_candidate", "mlp_blend_candidate"):
         evidence_name = f"{kind}_import_evidence.json"
-    if kind == "risk_probability":
-        evidence_name = "risk_probability_import_evidence.json"
+    if kind in ("risk_probability", "nested_risk_probability"):
+        evidence_name = f"{kind}_import_evidence.json"
     if kind == "chronos_zero_shot":
         evidence_name = "chronos_zero_shot_import_evidence.json"
     (workspace / "reports" / evidence_name).write_text(json.dumps(evidence, indent=2))
@@ -142,6 +142,6 @@ def import_results(archive_path, workspace, kind="development"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
-    parser.add_argument("--kind", choices=["development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "chronos_zero_shot"], default="development")
+    parser.add_argument("--kind", choices=["development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot"], default="development")
     args = parser.parse_args()
     print(json.dumps(import_results(args.archive, Path.cwd(), args.kind), indent=2))

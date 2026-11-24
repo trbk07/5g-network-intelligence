@@ -1,0 +1,14 @@
+{
+  "artifact_files_verified": 18,
+  "threshold_statistics_and_conditional_population_counts_verified": true,
+  "all_metrics_and_axes_reconstructed": true,
+  "warning_probabilities_unchanged": true,
+  "full_chain_rule_arithmetic_verified": true,
+  "nested_event_violations": 0,
+  "history_only_predictions_checked": 108,
+  "max_parity_error": 0.0,
+  "validation_or_holdout_used": false,
+  "local_fit_or_calibration_performed": false,
+  "production_promoted": false,
+  "claim_scope": "one-seed reused development probability study, not original-target MAE/WAPE improvement"
+}

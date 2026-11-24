@@ -84,7 +84,7 @@ def test_mlp_blend_import_requires_both_reports(tmp_path):
     assert not (tmp_path/"artifacts/champion").exists()
 
 
-@pytest.mark.parametrize("kind,prefix", [("temporal_mlp", "temporal_mlp"), ("quantile_resolution", "hurdle_quantile_resolution"), ("risk_probability", "risk_probability")])
+@pytest.mark.parametrize("kind,prefix", [("temporal_mlp", "temporal_mlp"), ("quantile_resolution", "hurdle_quantile_resolution"), ("risk_probability", "risk_probability"), ("nested_risk_probability", "nested_risk_probability")])
 def test_new_study_uses_its_own_allowlist(tmp_path, kind, prefix):
     archive = tmp_path / "mlp.tar.gz"
     archive_fixture(archive, temporal_linear=True)

@@ -1,0 +1,7 @@
+fold,horizon,n_valid,nesting_violations,nesting_violation_fraction,maximum_probability_excess,tolerance,probabilities_corrected
+inner1,1,172800,0,0.0,0.0,1e-12,False
+inner1,6,158400,0,0.0,0.0,1e-12,False
+inner1,24,106560,0,0.0,0.0,1e-12,False
+inner2,1,172800,0,0.0,0.0,1e-12,False
+inner2,6,158400,0,0.0,0.0,1e-12,False
+inner2,24,106560,0,0.0,0.0,1e-12,False
