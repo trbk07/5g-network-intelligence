@@ -95,3 +95,32 @@ setup-check JSON file and verified its contents by reading it back. No unrelated
 Drive files were inspected or modified. The report was downloaded to
 `reports/drive_verification.json`; the CPU runtime was terminated afterwards.
 Future sessions may require fresh Google authorization before mounting Drive.
+
+## TCN Colab fallback when Kaggle is queued
+
+The same `configs/temporal_tcn.yaml` and frozen development protocol can run on
+hosted Colab T4. Packaging is local; all fitting remains remote. The launcher
+requires mounted Drive, verifies the complete source/data transport and refuses
+an existing execution-state file. Checkpoints and reports are symlinked into a
+dedicated project run directory on Drive, with a result archive saved at completion.
+
+1. Run `python -m scripts.package_colab_tcn` from the repository. Record the
+   printed bundle SHA256 and source commit; the archive is in `.cache/colab-tcn`.
+2. Provision T4 with `.colab-venv/Scripts/colab.exe new --session tcn-colab --gpu T4`.
+3. Upload the archive to `/content/tcn_source.zip` using the CLI `upload` command.
+4. Run `colab drivemount --session tcn-colab /content/drive` in an interactive
+   terminal. Complete Google's consent and only then press Enter in that terminal.
+   Noninteractive stdin can return prematurely and cause credential propagation
+   to fail. A replacement runtime may require a new Google confirmation.
+5. Execute `scripts/run_colab_tcn.py` remotely with CLI `exec --session tcn-colab
+   --file scripts/run_colab_tcn.py --timeout 0`, supplying `--env
+   TCN_BUNDLE_SHA256=<recorded-sha>` and `--env
+   TCN_RUN_NAME=temporal_tcn_colab_<unique-run-name>`.
+
+The launcher checks hosted Colab/CUDA before preparation and refuses local
+execution. It does not train when imported or tested. Runtime/source/storage
+evidence and a PID/state record are written before training begins. Inspect that
+state and the actual cloud session after a connection loss; never resubmit solely
+because the local observation timed out. A queued Kaggle run is not proof of a
+Colab fit; report each platform's actual state separately. Do not claim the queued
+Kaggle version was cancelled unless its cancellation has been verified.
