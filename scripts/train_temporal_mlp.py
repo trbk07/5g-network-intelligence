@@ -22,18 +22,19 @@ from src.utils.runtime import require_cloud_training
 from src.utils.seed import set_seed
 
 
-def main():
+def train_study(config_path="configs/temporal_mlp.yaml",artifact_path="artifacts/temporal_mlp",
+                report_prefix="temporal_mlp",architecture="temporal-residual-mlp-v1",model_factory=None):
     require_cloud_training()
     if not torch.cuda.is_available():
-        raise RuntimeError("Temporal MLP fitting requires hosted CUDA")
+        raise RuntimeError("Temporal neural study requires hosted CUDA")
     os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG",":4096:8")
     torch.set_num_threads(2)
-    cfg=load_config("configs/temporal_mlp.yaml")
+    cfg=load_config(config_path)
     if inspect.signature(torch.optim.AdamW).parameters["weight_decay"].default!=cfg["weight_decay"]:
         raise ValueError("Shared optimizer default differs from fixed protocol")
     panel,_=validation_inputs(load_config("configs/data.yaml"))
     panel=replace(panel,values=panel.values[:504],time=panel.time[:504])
-    root=Path("artifacts/temporal_mlp")
+    root=Path(artifact_path)
     root.mkdir(parents=True,exist_ok=True)
     Path("reports").mkdir(exist_ok=True)
     rows=[]
@@ -54,8 +55,9 @@ def main():
             if (directory/"last.pt").exists():
                 raise ValueError("Refusing to overwrite an existing run")
             preprocessing.save(directory/"preprocessor.npz")
-            model=TemporalResidualMLP(1 if variant=="A" else 4,cfg["hidden_size"],cfg["dropout"])
-            identity={"architecture":"temporal-residual-mlp-v1","fold":fold,"variant":variant}
+            model=(model_factory(cfg,variant) if model_factory is not None else
+                   TemporalResidualMLP(1 if variant=="A" else 4,cfg["hidden_size"],cfg["dropout"]))
+            identity={"architecture":architecture,"fold":fold,"variant":variant}
             summary=train_gru(model,train,stopping,cfg,directory,cfg["seed"],run_identity=identity)
             checkpoint=torch.load(directory/"best.pt",map_location="cuda",weights_only=True)
             model.load_state_dict(checkpoint["model"])
@@ -75,12 +77,16 @@ def main():
                 "training":summary,"parameters":sum(p.numel() for p in model.parameters()),
                 "source_commit":os.environ.get("SOURCE_GIT_COMMIT"),"torch_version":str(torch.__version__),
                 "gpu":torch.cuda.get_device_name(0),"holdout_used":False,"validation_504_671_used":False},indent=2))
-            pd.DataFrame(rows).to_csv("reports/temporal_mlp_development.csv",index=False)
+            pd.DataFrame(rows).to_csv(f"reports/{report_prefix}_development.csv",index=False)
             print(pd.DataFrame(rows).tail(3).to_string(index=False),flush=True)
             del model,train,stopping
             torch.cuda.empty_cache()
     files={p.relative_to(root).as_posix():sha256(p) for p in root.rglob("*") if p.is_file()}
     (root/"manifest.json").write_text(json.dumps({"files":files},indent=2))
+
+
+def main():
+    train_study()
 
 
 if __name__=="__main__":

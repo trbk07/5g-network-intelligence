@@ -22,6 +22,7 @@ import pytest
     ("23_fixed_mlp_blend_candidate_audit.ipynb", "RUN_TRAINING"),
     ("24_historical_exceedance_probability.ipynb", "RUN_TRAINING"),
     ("25_nested_historical_exceedance_probability.ipynb", "RUN_TRAINING"),
+    ("26_temporal_dilated_convolution.ipynb", "RUN_TRAINING"),
 ])
 def test_hurdle_review_is_readable_and_does_not_train(name, flag, tmp_path, monkeypatch):
     root = Path(__file__).resolve().parents[2]
