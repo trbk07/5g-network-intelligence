@@ -1,0 +1,14 @@
+{
+  "all_metrics_reconstructed": true,
+  "finite_training_objectives": true,
+  "history_only_predictions_checked": 72,
+  "maximum_cpu_gpu_discrepancy": 2.384185791015625e-07,
+  "hurdle_better_than_direct_points": 0,
+  "comparison_points": 6,
+  "completed_patience_runs": 4,
+  "epoch_capped_runs": 0,
+  "decision": "Reject BCE-plus-pinball hurdle recipe; no validation refit or production promotion",
+  "holdout_used": false,
+  "validation_504_671_used": false,
+  "production_promoted": false
+}

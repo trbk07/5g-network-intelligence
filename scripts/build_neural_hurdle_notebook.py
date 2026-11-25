@@ -75,6 +75,16 @@ def main():
         "minimize the final mixture MAE. Extra last-level features differ from the older "
         "residual-MLP input, which is why a new matched direct control is required. No "
         "training gain, final-test superiority or WAPE <10% result is claimed yet.\n")
+    if Path("reports/neural_hurdle_verification.json").exists():
+        add("markdown", "## Completed and verified result\n\nAll four Kaggle T4 fits completed "
+            "patience; no run hit its epoch cap. The BCE-plus-pinball hurdle head regressed "
+            "against the matched direct head at all six fold/horizon points. Metrics, masks, "
+            "target axes and CPU inference parity were independently checked. Preserve this "
+            "negative result; no validation refit or production promotion. Full evidence: "
+            "`reports/neural_hurdle_analysis.md`.\n")
+        add("code", "# Inspect matched comparisons without repeating fitting.\n"
+            "comparison = PROJECT / 'reports/neural_hurdle_matched_comparison.csv'\n"
+            "if comparison.exists():\n    display(pd.read_csv(comparison))\n")
     notebook = {"cells": cells, "metadata": {"kernelspec": {"display_name": "Python 3",
                 "language": "python", "name": "python3"}}, "nbformat": 4, "nbformat_minor": 5}
     Path("notebooks/28_multivariate_zero_inflated_forecasting.ipynb").write_text(
