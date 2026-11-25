@@ -1,13 +1,16 @@
 """Stage a readable private Kaggle worker from the separate review notebook."""
 
 import json
+import hashlib
 import shutil
+import zipfile
 from pathlib import Path
 
 
 def main():
     source = Path(".cache/multisource-neural-source")
-    transport = json.loads((source/"transport.json").read_text())
+    with zipfile.ZipFile(source/"multisource_neural_source.zip") as archive:
+        manifest_sha = hashlib.sha256(archive.read("colab_source_manifest.json")).hexdigest()
     shutil.copyfile("scripts/run_colab_tcn.py", source/"run_colab_tcn.py")
     (source/"DATA_SOURCES.md").write_text(
         "# Source attribution\n\nCode: project MIT LICENSE in the bundle.\n"
@@ -32,15 +35,29 @@ def main():
             cell["source"] = text.replace("RUN_TRAINING = False", "RUN_TRAINING = True").splitlines(keepends=True)
     setup = (
         "# Verify the attached input bundle before extracting readable project files.\n"
-        "from pathlib import Path\nimport os, sys, zipfile\n"
-        "candidates = list(Path('/kaggle/input').rglob('multisource_neural_source.zip'))\n"
-        "if len(candidates) != 1:\n    raise RuntimeError('Exactly one declared source bundle required')\n"
-        "bundle = candidates[0]\nsys.path.insert(0, str(bundle.parent))\n"
-        "from run_colab_tcn import verify_transport\n"
-        f"manifest = verify_transport(bundle, {transport['sha256']!r})\n"
+        "from pathlib import Path, PurePosixPath\nimport os, sys, json, hashlib, shutil\n"
+        "# Kaggle extracts uploaded ZIPs into a directory during dataset ingestion.\n"
+        "candidates = list(Path('/kaggle/input').rglob('colab_source_manifest.json'))\n"
+        "if len(candidates) != 1:\n    raise RuntimeError('Exactly one declared source manifest required')\n"
+        "manifest_path = candidates[0]\n"
+        f"if hashlib.sha256(manifest_path.read_bytes()).hexdigest() != {manifest_sha!r}:\n"
+        "    raise ValueError('Pinned source manifest checksum differs')\n"
+        "manifest = json.loads(manifest_path.read_text())\ninput_root = manifest_path.parent\n"
         "project = Path('/kaggle/working/multisource_neural')\n"
         "project.mkdir(exist_ok=True)\n"
-        "with zipfile.ZipFile(bundle) as archive:\n    archive.extractall(project)\n"
+        "for name, digest in manifest['files'].items():\n"
+        "    relative = PurePosixPath(name)\n"
+        "    if relative.is_absolute() or '..' in relative.parts or ':' in name or '\\\\' in name:\n"
+        "        raise ValueError('Unsafe manifest path')\n"
+        "    original = input_root / name\n"
+        "    if not original.resolve().is_relative_to(input_root.resolve()):\n"
+        "        raise ValueError('Input path escapes verified root')\n"
+        "    if hashlib.sha256(original.read_bytes()).hexdigest() != digest:\n"
+        "        raise ValueError('Source checksum differs: ' + name)\n"
+        "# Copy only verified members; never import code before verification.\n"
+        "for name in manifest['files']:\n"
+        "    destination = project / name\n    destination.parent.mkdir(parents=True, exist_ok=True)\n"
+        "    shutil.copyfile(input_root / name, destination)\n"
         "os.chdir(project)\nsys.path.insert(0, str(project))\n"
         "os.environ['SOURCE_GIT_COMMIT'] = manifest['source_commit']\n"
         "print('Verified source commit:', manifest['source_commit'])\n"
@@ -59,7 +76,7 @@ def main():
     name = "27_multisource_representation_pretraining.ipynb"
     (stage/name).write_text(json.dumps(notebook, indent=2, ensure_ascii=False), encoding="utf-8")
     (stage/"kernel-metadata.json").write_text(json.dumps({
-        "id": "truongbaokien/5g-ni-multisource-neural-pretraining",
+        "id": "truongbaokien/5g-ni-multisource-representation-pretraining",
         "title": "5G NI Multisource Representation Pretraining", "code_file": name,
         "language": "python", "kernel_type": "notebook", "is_private": True,
         "enable_gpu": True, "enable_internet": False,

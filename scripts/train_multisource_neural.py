@@ -18,6 +18,22 @@ from src.utils.config import load_config
 from src.utils.runtime import require_cloud_training
 from src.utils.seed import set_seed
 
+KAGGLE_WORKING = Path("/kaggle/working")
+DRIVE_ROOT = Path("/content/drive/MyDrive")
+
+
+def validate_output_storage(root, reports=Path("reports")):
+    """Prefer the actual Kaggle filesystem over Colab markers inherited by images."""
+    if KAGGLE_WORKING.is_dir():
+        output = KAGGLE_WORKING.resolve()
+        if not all(Path(path).resolve().is_relative_to(output) for path in (root, reports)):
+            raise RuntimeError("Kaggle checkpoints and reports must stay in Output")
+    elif "COLAB_RELEASE_TAG" in os.environ:
+        drive = DRIVE_ROOT.resolve()
+        if not drive.is_dir() or not all(Path(path).resolve().is_relative_to(drive)
+                                        for path in (root, reports)):
+            raise RuntimeError("Colab checkpoints and reports must resolve to mounted Drive before fitting")
+
 
 def source_cases():
     radio = [f"reports/{name}_preparation.json" for name in
@@ -41,12 +57,7 @@ def main():
             sha256(Path("reports/multisource_preparation.json")) != overlap["source_preparation_sha256"]):
         raise ValueError("Current radio overlap audit required")
     root = Path("artifacts/multisource_neural")
-    if "COLAB_RELEASE_TAG" in os.environ:
-        drive = Path("/content/drive/MyDrive").resolve()
-        if not drive.is_dir() or not root.resolve().is_relative_to(drive):
-            raise RuntimeError("Colab checkpoints must resolve to mounted Drive before fitting")
-        if not Path("reports").resolve().is_relative_to(drive):
-            raise RuntimeError("Colab reports must resolve to mounted Drive before fitting")
+    validate_output_storage(root)
     root.mkdir(parents=True, exist_ok=True)
     for case in cfg["cases"]:
         set_seed(cfg["seed"])

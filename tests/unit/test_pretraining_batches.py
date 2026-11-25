@@ -104,3 +104,26 @@ def test_colab_launcher_rejects_local_before_any_output(monkeypatch):
     monkeypatch.delenv("COLAB_RELEASE_TAG", raising=False)
     with pytest.raises(RuntimeError, match="local training is forbidden"):
         run_colab_multisource_neural.main()
+
+
+def test_kaggle_with_inherited_colab_marker_uses_output(tmp_path, monkeypatch):
+    from scripts import train_multisource_neural as worker
+
+    working = tmp_path/"kaggle/working"
+    working.mkdir(parents=True)
+    monkeypatch.setattr(worker, "KAGGLE_WORKING", working)
+    monkeypatch.setattr(worker, "DRIVE_ROOT", tmp_path/"unmounted")
+    monkeypatch.setenv("COLAB_RELEASE_TAG", "inherited-image-marker")
+    worker.validate_output_storage(working/"artifacts", working/"reports")
+    with pytest.raises(RuntimeError, match="Kaggle"):
+        worker.validate_output_storage(tmp_path/"ephemeral", working/"reports")
+
+
+def test_colab_still_requires_drive(tmp_path, monkeypatch):
+    from scripts import train_multisource_neural as worker
+
+    monkeypatch.setattr(worker, "KAGGLE_WORKING", tmp_path/"not-kaggle")
+    monkeypatch.setattr(worker, "DRIVE_ROOT", tmp_path/"unmounted")
+    monkeypatch.setenv("COLAB_RELEASE_TAG", "hosted")
+    with pytest.raises(RuntimeError, match="mounted Drive"):
+        worker.validate_output_storage(tmp_path/"artifacts", tmp_path/"reports")
