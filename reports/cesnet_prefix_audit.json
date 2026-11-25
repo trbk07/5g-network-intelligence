@@ -1,0 +1,22 @@
+{
+  "source": "data\\external\\cesnet\\23296272\\CESNET-TimeSeries24-institutions-hour.h5",
+  "license": "CC-BY-4.0",
+  "publisher": "https://zenodo.org/records/23296272",
+  "independent_collection": "CESNET-TimeSeries24",
+  "total_rows": 1880182,
+  "entities": 283,
+  "hourly_grid_length": 6718,
+  "duplicate_keys": 0,
+  "external_prefix_end_exclusive": 5374,
+  "external_future_values_inspected": false,
+  "prefix_rows": 1505729,
+  "prefix_negative_n_bytes": 0,
+  "prefix_zero_n_bytes": 0,
+  "eligible_contiguous_segments": 636,
+  "eligible_segment_hours": 1490456,
+  "minimum_segment_hours": 193,
+  "candidate_signal": "n_bytes per hour; IP traffic, not PRB utilization",
+  "permitted_use": "external representation pretraining with matched target-only control",
+  "training_executed": false,
+  "original_holdout_accessed": false
+}

@@ -1,0 +1,53 @@
+{
+  "original_record": 13382427,
+  "distribution_record": 23296272,
+  "license": "CC-BY-4.0",
+  "original_doi": "10.5281/zenodo.13382427",
+  "distribution_doi": "10.5281/zenodo.23296272",
+  "title": "CESNET-TimeSeries24: Time Series Dataset for Network Traffic Anomaly Detection and Forecasting",
+  "creators": [
+    {
+      "name": "Koumar, Josef",
+      "affiliation": "CESNET, z\u00e1jmov\u00e9 sdru\u017een\u00ed pr\u00e1vnick\u00fdch osob",
+      "orcid": "0000-0002-3643-9723"
+    },
+    {
+      "name": "Hynek, Karel",
+      "affiliation": "CESNET, z\u00e1jmov\u00e9 sdru\u017een\u00ed pr\u00e1vnick\u00fdch osob",
+      "orcid": "0000-0002-8281-618X"
+    },
+    {
+      "name": "\u010cejka, Tom\u00e1\u0161",
+      "affiliation": "CESNET, z\u00e1jmov\u00e9 sdru\u017een\u00ed pr\u00e1vnick\u00fdch osob",
+      "orcid": "0000-0001-7794-9511"
+    },
+    {
+      "name": "\u0160i\u0161ka, Pavel",
+      "affiliation": null
+    }
+  ],
+  "distribution_metadata_modified": "2026-10-16T05:38:29.949847+00:00",
+  "files": [
+    {
+      "path": "data\\external\\cesnet\\23296272\\CESNET-TimeSeries24-institutions-hour.h5",
+      "file": "CESNET-TimeSeries24-institutions-hour.h5",
+      "bytes": 156206976,
+      "publisher_checksum": "md5:df23222e092960ce1f83aa75294494cb",
+      "sha256": "1b9ecc4b08e768fa7374d064d96e3fd626640487f1973e2d248f7d02cb91a838",
+      "source_url": "https://zenodo.org/api/records/23296272/files/CESNET-TimeSeries24-institutions-hour.h5/content"
+    },
+    {
+      "path": "data\\external\\cesnet\\23296272\\SHA256SUMS.txt",
+      "file": "SHA256SUMS.txt",
+      "bytes": 8444,
+      "publisher_checksum": "md5:ec2493ba2b2f66dbedc5c93d16e4d893",
+      "sha256": "6adb7562c8159a860a495501a3d2ac41f7c4a69062da9cdb62da1642b1e1c6f2",
+      "source_url": "https://zenodo.org/api/records/23296272/files/SHA256SUMS.txt/content"
+    }
+  ],
+  "publisher_MD5_and_SHA256_verified": true,
+  "training_performed": false,
+  "domain": "IP traffic, not PRB; candidate for separately evaluated temporal representation pretraining only",
+  "aggregation_source": "Publisher-provided hourly HDF5; no local resampling or fit",
+  "remaining_gate": "Schema/time/duplicates/coverage and source overlap audit; no accuracy improvement claimed"
+}

@@ -1,0 +1,44 @@
+protocol: multisource-neural-pretraining-v1
+status: intake_complete_experiment_not_launched
+objective: improve_original_beam_MAE_and_WAPE_without_holdout_selection
+execution: hosted_colab_or_kaggle_only
+sources:
+  target:
+    collection: GOTS-F
+    training_end_inclusive: 503
+    holdout: forbidden
+  radio_pretraining:
+    collection: Zenodo-17815388
+    domains: [NR1800, NR2100, NR3500]
+    policy: reuse_existing_audited_contiguous_prefix_segments
+  traffic_pretraining:
+    collection: CESNET-TimeSeries24
+    distribution_record: 23296272
+    signal: n_bytes
+    prefix_end_exclusive: 5374
+    audit: reports/cesnet_prefix_audit.json
+    future_fraction: unused
+    physical_target_pooling_with_PRB: forbidden
+design:
+  approach: univariate_temporal_representation_pretraining_then_target_finetuning
+  normalization: fit_on_each_source_training_prefix_only
+  fitted_beam_summary_inputs: forbidden
+  sampling: balanced_by_source_then_entity
+  source_identity: provenance_and_sampling_only
+  controls:
+    - target_only_same_architecture
+    - radio_pretraining_then_target
+    - cesnet_pretraining_then_target
+    - radio_and_cesnet_pretraining_then_target
+  original_development_folds: reuse_frozen_inner1_inner2
+  selection: select_on_inner1_confirm_unchanged_on_inner2
+  final_validation: exploratory_reused_validation_not_unseen_generalization
+  production_promotion: forbidden_without_separate_review
+launch_gates:
+  - freeze_architecture_compute_budget_seeds_and_window_sampling_before_fitting
+  - verify_cloud_only_guard_and_checkpoint_resume
+  - fit_preprocessors_on_fold_training_prefix_only
+  - verify_no_overlap_of_target_fit_stop_and_scored_timestamps
+  - publish_source_ablation_and_negative_transfer_results
+checkpoints: Drive_or_Kaggle_Output
+notebook_policy: readable_sections_comments_review_Run_All_does_not_train
