@@ -1,0 +1,13 @@
+{
+  "source_commit": "56642a2421b5529e308e7ee5dbf10f8999428407",
+  "files": 79,
+  "manifest_sha256": "69abfbe51b51aeb6722955dee9608a5ab17c7f3317468c2449c3c63bc762c7ed",
+  "bundle_sha256": "fda2b2e3c091005597f766d82baf46d557822f6ab0ab62e54e63733a3ee00cf4",
+  "bytes": 34220989,
+  "original_values_504_onward_redacted": true,
+  "training_performed": false,
+  "all_member_hashes_verified": true,
+  "canonical_shape_verified": true,
+  "extracted_kaggle_layout_simulated": true,
+  "worker_python_cells_parsed": true
+}

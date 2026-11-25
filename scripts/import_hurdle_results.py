@@ -23,7 +23,7 @@ def import_results(archive_path, workspace, kind="development"):
     archive_path = Path(archive_path).resolve()
     stage_root = workspace / ".cache"
     stage_root.mkdir(exist_ok=True)
-    if kind not in ("development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "temporal_tcn", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot", "multisource_neural"):
+    if kind not in ("development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "temporal_tcn", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot", "multisource_neural", "neural_hurdle"):
         raise ValueError("Unknown hurdle archive kind")
     candidate = kind == "candidate"
     prefix = PurePosixPath("artifacts/hurdle_candidate" if candidate else "artifacts/hurdle_research")
@@ -70,6 +70,10 @@ def import_results(archive_path, workspace, kind="development"):
         required = {f"reports/multisource_neural_{case}_development.csv" for case in
                     ("target_only", "target_self_pretrain", "radio", "cesnet", "radio_and_cesnet")}
         report_names = required | {"reports/multisource_neural_training.log"}
+    if kind == "neural_hurdle":
+        prefix = PurePosixPath("artifacts/neural_hurdle")
+        required = {f"reports/neural_hurdle_{case}_development.csv" for case in ("direct", "hurdle")}
+        report_names = required | {"reports/neural_hurdle_training.log"}
     with tempfile.TemporaryDirectory(prefix="hurdle-import-", dir=stage_root) as temp:
         staging = Path(temp)
         with tarfile.open(archive_path, "r:gz") as archive:
@@ -142,6 +146,8 @@ def import_results(archive_path, workspace, kind="development"):
         evidence_name = "chronos_zero_shot_import_evidence.json"
     if kind == "multisource_neural":
         evidence_name = "multisource_neural_import_evidence.json"
+    if kind == "neural_hurdle":
+        evidence_name = "neural_hurdle_import_evidence.json"
     (workspace / "reports" / evidence_name).write_text(json.dumps(evidence, indent=2))
     return evidence
 
@@ -149,6 +155,6 @@ def import_results(archive_path, workspace, kind="development"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
-    parser.add_argument("--kind", choices=["development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "temporal_tcn", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot", "multisource_neural"], default="development")
+    parser.add_argument("--kind", choices=["development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "temporal_tcn", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot", "multisource_neural", "neural_hurdle"], default="development")
     args = parser.parse_args()
     print(json.dumps(import_results(args.archive, Path.cwd(), args.kind), indent=2))

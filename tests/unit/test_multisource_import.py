@@ -10,15 +10,16 @@ import pytest
 from scripts.import_hurdle_results import import_results
 
 
-def archive_fixture(path, missing=None):
-    cases = ["target_only", "target_self_pretrain", "radio", "cesnet", "radio_and_cesnet"]
+def archive_fixture(path, missing=None, study="multisource_neural"):
+    cases = (["direct", "hurdle"] if study == "neural_hurdle" else
+             ["target_only", "target_self_pretrain", "radio", "cesnet", "radio_and_cesnet"])
     model = b"static checkpoint fixture; no trained weights"
-    files = {"artifacts/multisource_neural/target_only/inner1/A/best.pt": model,
-             "artifacts/multisource_neural/manifest.json": json.dumps({"files": {
-                 "target_only/inner1/A/best.pt": hashlib.sha256(model).hexdigest()}}).encode(),
+    files = {f"artifacts/{study}/{cases[0]}/inner1/A/best.pt": model,
+             f"artifacts/{study}/manifest.json": json.dumps({"files": {
+                 f"{cases[0]}/inner1/A/best.pt": hashlib.sha256(model).hexdigest()}}).encode(),
              "artifacts/champion/forbidden.txt": b"must not be imported",
              "reports/cesnet_preparation.json": b"must not overwrite provenance"}
-    files.update({f"reports/multisource_neural_{case}_development.csv": b"fixture table\n"
+    files.update({f"reports/{study}_{case}_development.csv": b"fixture table\n"
                   for case in cases if case != missing})
     with tarfile.open(path, "w:gz") as archive:
         for name, content in files.items():
@@ -44,3 +45,14 @@ def test_missing_control_rejects_before_copy(tmp_path):
     with pytest.raises(ValueError, match="Complete score"):
         import_results(archive, tmp_path, "multisource_neural")
     assert not (tmp_path/"artifacts").exists()
+
+
+def test_neural_hurdle_requires_both_heads(tmp_path):
+    archive = tmp_path/"result.tar.gz"
+    archive_fixture(archive, missing="hurdle", study="neural_hurdle")
+    with pytest.raises(ValueError, match="Complete score"):
+        import_results(archive, tmp_path, "neural_hurdle")
+    archive_fixture(archive, study="neural_hurdle")
+    result = import_results(archive, tmp_path, "neural_hurdle")
+    assert result["copied_or_identical_files"] == 4
+    assert not (tmp_path/"artifacts/champion").exists()
