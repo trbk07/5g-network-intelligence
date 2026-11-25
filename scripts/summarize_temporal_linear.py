@@ -5,11 +5,13 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import torch
 
 from scripts.summarize_hurdle_research import score_rows
 from src.evaluation.origins import evaluation_origins
 from src.evaluation.validation import validation_inputs
 from src.models.temporal_linear_forecaster import TemporalLinearForecaster
+from src.models.training_status import stopping_status
 from src.utils.config import load_config
 
 
@@ -19,13 +21,21 @@ def summarize(config_path="configs/temporal_linear.yaml",artifact_path="artifact
     cfg = load_config(config_path)
     panel, _ = validation_inputs(load_config("configs/data.yaml"))
     root = Path(artifact_path)
-    rows, comparisons, parity = [], [], []
+    rows, comparisons, parity, termination = [], [], [], []
     for fold in cfg["folds"]:
         for variant in cfg["variants"]:
             model = forecaster_class(root, fold["name"], variant)
             if model.metadata["protocol"] != cfg:
                 raise ValueError("Downloaded protocol differs")
             directory = root / fold["name"] / variant
+            outcome=stopping_status(model.metadata["training"],cfg)
+            last=torch.load(directory/"last.pt",map_location="cpu",weights_only=True)
+            if (last["epoch"]+1!=model.metadata["training"]["epochs_completed"]
+                    or last["best_epoch"]!=model.metadata["training"]["best_epoch"]
+                    or last["stale"]!=outcome["stale_epochs"]):
+                raise ValueError("Stopping metadata differs from the last checkpoint")
+            termination.append({"fold":fold["name"],"variant":variant,
+                **model.metadata["training"],**outcome})
             for h in cfg["horizons"]:
                 with np.load(directory / f"score_h{h}.npz", allow_pickle=False) as score:
                     origins = evaluation_origins(fold["stop_end"], fold["score_end"], h)
@@ -70,11 +80,14 @@ def summarize(config_path="configs/temporal_linear.yaml",artifact_path="artifact
     comparison = pd.DataFrame(comparisons)
     comparison.to_csv(f"reports/{report_prefix}_comparison.csv", index=False)
     pd.DataFrame(parity).to_csv(f"reports/{report_prefix}_cpu_parity.csv", index=False)
+    pd.DataFrame(termination).to_csv(f"reports/{report_prefix}_training_termination.csv",index=False)
     Path(f"reports/{report_prefix}_verification.json").write_text(json.dumps({
         "all_metrics_reconstructed": True, "preprocessing_fit_prefix_verified": True,
         "history_only_beam_predictions_checked": sum(p["beams_checked"] for p in parity),
         "cpu_gpu_tolerance_original_units": 1e-5, "max_parity_error": max(p["max_error"] for p in parity),
         "validation_504_671_used": False, "holdout_used": False, "production_promoted": False,
+        "early_stopping_completed_runs":sum(r["early_stopping_completed"] for r in termination),
+        "epoch_capped_before_patience_runs":sum(r["termination_reason"]=="epoch_cap" for r in termination),
         "claim_scope": "one-seed reused development study only; no unseen-test generalization claim"
     }, indent=2))
     print(comparison.to_string(index=False))

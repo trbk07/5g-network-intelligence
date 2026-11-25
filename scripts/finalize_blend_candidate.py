@@ -22,6 +22,7 @@ from src.features.gru_inputs import GRUBatches, GRUPreprocessor
 from src.models.forecast_blend import blend_forecasts
 from src.models.gru_train import _save, masked_l1
 from src.models.temporal_linear import TemporalLinear
+from src.models.training_status import stopping_status
 from src.utils.config import load_config
 from src.utils.runtime import require_cloud_training
 from src.utils.seed import set_seed
@@ -38,6 +39,10 @@ def fixed_epochs(metadata):
         if (not isinstance(best,int) or best<0 or training["epochs_completed"]<=best
                 or training["budget_exhausted"]):
             raise ValueError("Complete stopping-selected development epochs required")
+        protocol=meta.get("protocol",{})
+        if ("max_epochs" in protocol and "early_stopping_patience" in protocol
+                and not stopping_status(training,protocol)["early_stopping_completed"]):
+            raise ValueError("Development run has not completed its early-stopping patience")
         counts.append(best+1)
     return int(np.floor(np.median(counts)+0.5))
 

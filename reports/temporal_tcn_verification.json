@@ -1,0 +1,13 @@
+{
+  "all_metrics_reconstructed": true,
+  "preprocessing_fit_prefix_verified": true,
+  "history_only_beam_predictions_checked": 72,
+  "cpu_gpu_tolerance_original_units": 1e-05,
+  "max_parity_error": 1.798412174736086e-07,
+  "validation_504_671_used": false,
+  "holdout_used": false,
+  "production_promoted": false,
+  "early_stopping_completed_runs": 3,
+  "epoch_capped_before_patience_runs": 1,
+  "claim_scope": "one-seed reused development study only; no unseen-test generalization claim"
+}

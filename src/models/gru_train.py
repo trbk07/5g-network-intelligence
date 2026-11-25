@@ -8,6 +8,7 @@ import torch
 
 from src.features.gru_inputs import GRUBatches
 from src.models.gru import GRUNet
+from src.models.training_status import stopping_status
 from src.utils.runtime import require_cloud_training
 
 
@@ -105,5 +106,6 @@ def train_gru(model: GRUNet, train: GRUBatches, validation: GRUBatches, config: 
         if seconds_limit is not None and time.perf_counter() - run_started >= seconds_limit:
             budget_exhausted = True
             break
-    return {"best_epoch": best_epoch, "best_val_l1_scaled": best,
-            "epochs_completed": completed, "budget_exhausted": budget_exhausted}
+    summary={"best_epoch": best_epoch, "best_val_l1_scaled": best,
+             "epochs_completed": completed, "budget_exhausted": budget_exhausted}
+    return {**summary,**stopping_status(summary,config)}

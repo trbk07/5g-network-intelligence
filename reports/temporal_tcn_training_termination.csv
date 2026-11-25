@@ -1,0 +1,5 @@
+fold,variant,best_epoch,best_val_l1_scaled,epochs_completed,budget_exhausted,termination_reason,early_stopping_completed,epoch_cap_reached,stale_epochs
+inner1,A,15,0.2505455118285285,21,False,early_stopping,True,False,5
+inner1,B,26,0.24816223821375105,30,False,epoch_cap,False,True,3
+inner2,A,14,0.2544371287292904,20,False,early_stopping,True,False,5
+inner2,B,16,0.25297385218408375,22,False,early_stopping,True,False,5
