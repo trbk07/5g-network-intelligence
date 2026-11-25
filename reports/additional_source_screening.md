@@ -43,7 +43,7 @@ These earlier screens did not establish additional usable training data. The
 subsequent CESNET intake below adds a distinct pretraining candidate. Preserve
 the frozen production model and do not tune against the observed holdout.
 
-## CESNET-TimeSeries24: acquired and prepared, not yet trained
+## CESNET-TimeSeries24: intake and subsequent neural pilot
 
 The [publisher distribution](https://zenodo.org/records/23296272) provides
 institution-level hourly IP traffic under CC BY 4.0. Acquisition verified both
@@ -58,9 +58,11 @@ timestamps and gaps; no interpolation or PRB-label substitution is performed.
 See `cesnet_acquisition.json`, `cesnet_prefix_audit.json` and
 `cesnet_preparation.json` for checksums, coverage and segment provenance.
 
-This is traffic volume, not PRB utilization. Its proposed use is representation
+This is traffic volume, not PRB utilization. Its use is representation
 pretraining followed by target-domain fine-tuning, with matched target-only,
-radio-only and pooled-source controls. No model improvement is claimed before
-hosted ablations. The experiment outline is
+target-self-pretraining, radio-only and pooled-source controls. The completed
+Kaggle v3 pilot was verified but did not establish consistent external-data gains;
+see `multisource_neural_analysis.md`. Intake JSON reports remain historical
+snapshots of preprocessing without training. The experiment outline is
 `configs/multisource_neural_pretraining.yaml`; architecture and compute budgets
 remain launch gates, not implicit permission to tune against final holdout.

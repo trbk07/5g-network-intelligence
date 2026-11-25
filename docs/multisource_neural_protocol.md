@@ -1,8 +1,11 @@
 # Multisource neural pretraining pilot
 
 This extension tests a training recipe, not a production replacement. The
-source intake and numerical input check are complete; no cloud fit or MAE gain
-is established by these checks.
+source intake and numerical input checks preceded a completed Kaggle v3 pilot.
+All fifteen hosted fits and their saved outputs have now been independently
+verified. The external recipes did not consistently outperform compute-matched
+self-pretraining. See `reports/multisource_neural_analysis.md`; no production
+promotion or final-validation refit follows from this result.
 
 The first pilot uses a univariate 64-unit residual MLP to make the representation
 transfer explicit. Five fixed external epochs each sample 65,536 windows. The

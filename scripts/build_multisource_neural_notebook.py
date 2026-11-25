@@ -72,6 +72,16 @@ def main():
         "univariate inputs; traffic-to-PRB transfer can fail. Sampling balances collections but "
         "does not prove deployment-domain similarity. No production replacement or WAPE <10% "
         "claim follows from input checks.\n")
+    if Path("reports/multisource_neural_verification.json").exists():
+        add("markdown", "## Completed and verified hosted result\n\nKaggle v3 completed all "
+            "fifteen fits. Exact initialization, source-prefix preprocessing, 320 pretraining "
+            "optimizer steps and history-only CPU replay were verified. External pretraining "
+            "did not consistently beat compute-matched target self-pretraining on inner2. "
+            "Keep this negative result; no production promotion or final-validation refit. "
+            "Full evidence: `reports/multisource_neural_analysis.md`.\n")
+        add("code", "# Review existing ablation evidence only; no fitting or coefficient search.\n"
+            "ablation = PROJECT / 'reports/multisource_neural_ablation.csv'\n"
+            "if ablation.exists():\n    display(pd.read_csv(ablation))\n")
     notebook = {"cells": cells, "metadata": {"kernelspec": {"display_name": "Python 3",
                 "language": "python", "name": "python3"}}, "nbformat": 4, "nbformat_minor": 5}
     Path("notebooks/27_multisource_representation_pretraining.ipynb").write_text(

@@ -1,5 +1,5 @@
 protocol: multisource-neural-pretraining-v1
-status: intake_complete_experiment_not_launched
+status: pilot_completed_verified_no_promotion
 objective: improve_original_beam_MAE_and_WAPE_without_holdout_selection
 execution: hosted_colab_or_kaggle_only
 sources:

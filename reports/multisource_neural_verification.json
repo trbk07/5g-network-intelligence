@@ -1,0 +1,10 @@
+{
+  "all_five_cases_verified": true,
+  "initialization_tensors_verified": true,
+  "pretraining_optimizer_step_counts_verified": true,
+  "external_prefix_checksums_and_global_preprocessing_verified": true,
+  "comparison_rows": 30,
+  "holdout_used": false,
+  "production_promoted": false,
+  "claim_scope": "one-seed reused development only"
+}
