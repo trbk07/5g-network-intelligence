@@ -1,0 +1,30 @@
+protocol: mae-aligned-multivariate-development-v1
+variants: [B]
+cases: [direct_clipped, hurdle_mae]
+seed: 17
+horizons: [1, 6, 24]
+folds:
+  - {name: inner1, fit_end: 335, stop_end: 383, score_end: 443}
+  - {name: inner2, fit_end: 395, stop_end: 443, score_end: 503}
+hidden_size: 64
+dropout: 0.1
+learning_rate: 0.001
+weight_decay: 0.01
+batch_size: 1024
+max_epochs: 40
+early_stopping_patience: 5
+gradient_clip: 1.0
+training_stride: 1
+auxiliary_weight: 0.1
+training_objective:
+  direct_clipped: masked_scaled_L1_after_nonnegative_projection
+  hurdle_mae: masked_scaled_mixture_median_L1_plus_0.1_times_BCE_and_positive_pinball
+stopping_objective: masked_scaled_point_L1
+historical_controls: reuse_verified_neural_hurdle_direct_and_hurdle_checkpoints
+architecture: unchanged_encoder_and_head_shapes_from_neural_hurdle
+conditional_levels: [0.05, 0.1, 0.25, 0.5]
+selection_policy: no_loss_weight_search_on_scoring_windows
+probability_calibration_claim: forbidden
+validation_504_671: forbidden
+original_final_holdout: forbidden
+production_change: forbidden

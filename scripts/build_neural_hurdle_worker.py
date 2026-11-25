@@ -12,20 +12,29 @@ import numpy as np
 from src.data.panel import load_panel, save_panel
 
 
-def main():
+def main(study="neural_hurdle"):
+    if study not in ("neural_hurdle", "mae_aligned"):
+        raise ValueError("Unknown study")
+    stem = study.replace("_", "-")
+    notebook_name = ("28_multivariate_zero_inflated_forecasting.ipynb" if study == "neural_hurdle"
+                     else "29_mae_aligned_forecasting.ipynb")
+    title = ("5G NI Multivariate Zero Inflated Forecasting" if study == "neural_hurdle"
+             else "5G NI MAE Aligned Forecasting")
+    slug = ("5g-ni-multivariate-zero-inflated-forecasting" if study == "neural_hurdle"
+            else "5g-ni-mae-aligned-forecasting")
     root = Path.cwd()
-    source = root/".cache/neural-hurdle-source"
+    source = root/f".cache/{stem}-source"
     source.mkdir(parents=True, exist_ok=True)
     panel = load_panel("data/processed/panel.npz")
     values = np.full(panel.values.shape, np.nan, dtype=panel.values.dtype)
     values[:504] = panel.values[:504]
-    stage_panel = root/".cache/neural-hurdle-panel/panel.npz"
+    stage_panel = root/f".cache/{stem}-panel/panel.npz"
     save_panel(replace(panel, values=values), stage_panel)
     files = {p.relative_to(root).as_posix(): p for p in root.glob("src/**/*.py")}
-    for name in ("__init__.py", "train_neural_hurdle.py", "train_temporal_mlp.py",
+    for name in ("__init__.py", f"train_{study}.py", "train_temporal_mlp.py",
                  "train_temporal_linear.py", "train_multisource_neural.py"):
         files[f"scripts/{name}"] = root/"scripts"/name
-    for name in ("data.yaml", "evaluation.yaml", "neural_hurdle.yaml"):
+    for name in ("data.yaml", "evaluation.yaml", f"{study}.yaml"):
         files[f"configs/{name}"] = root/"configs"/name
     files.update({"data/processed/panel.npz": stage_panel,
                   "data/processed/panel_meta.json": stage_panel.with_name("panel_meta.json"),
@@ -37,7 +46,7 @@ def main():
         "files": {name: hashlib.sha256(path.read_bytes()).hexdigest() for name, path in files.items()}}
     manifest_bytes = json.dumps(manifest, indent=2).encode()
     digest = hashlib.sha256(manifest_bytes).hexdigest()
-    bundle = source/"neural_hurdle_source.zip"
+    bundle = source/f"{study}_source.zip"
     with zipfile.ZipFile(bundle, "w", zipfile.ZIP_DEFLATED) as archive:
         for name, path in files.items():
             archive.write(path, name)
@@ -52,9 +61,9 @@ def main():
         "Original values from hour 504 onward have been replaced by NaN. "
         "This job does not include external transfer datasets.\n")
     (source/"dataset-metadata.json").write_text(json.dumps({
-        "id": "truongbaokien/5g-ni-neural-hurdle-inputs", "title": "5G NI Neural Hurdle Inputs",
+        "id": f"truongbaokien/5g-ni-{stem}-inputs", "title": f"5G NI {stem.title()} Inputs",
         "licenses": [{"name": "MIT"}]}, indent=2))
-    notebook = json.loads(Path("notebooks/28_multivariate_zero_inflated_forecasting.ipynb").read_text(encoding="utf-8"))
+    notebook = json.loads(Path("notebooks", notebook_name).read_text(encoding="utf-8"))
     for cell in notebook["cells"]:
         text = "".join(cell["source"])
         if "RUN_TRAINING = False" in text:
@@ -68,7 +77,7 @@ def main():
         f"if hashlib.sha256(manifest_path.read_bytes()).hexdigest() != {digest!r}:\n"
         "    raise ValueError('Pinned manifest checksum differs')\n"
         "manifest = json.loads(manifest_path.read_text())\ninput_root = manifest_path.parent\n"
-        "project = Path('/kaggle/working/neural_hurdle')\nproject.mkdir(exist_ok=True)\n"
+        f"project = Path('/kaggle/working/{study}')\nproject.mkdir(exist_ok=True)\n"
         "for name, expected in manifest['files'].items():\n"
         "    relative = PurePosixPath(name)\n"
         "    if relative.is_absolute() or '..' in relative.parts or ':' in name or '\\\\' in name:\n"
@@ -87,25 +96,29 @@ def main():
     notebook["cells"].insert(4, {"cell_type": "code", "id": "verified-worker-inputs",
         "metadata": {}, "source": setup.splitlines(keepends=True), "execution_count": None, "outputs": []})
     export = ("# Preserve completed outputs for independent CPU replay.\nimport tarfile\n"
-        "output = Path('/kaggle/working/neural_hurdle_results.tar.gz')\n"
+        f"output = Path('/kaggle/working/{study}_results.tar.gz')\n"
         "with tarfile.open(output, 'w:gz') as archive:\n"
-        "    for folder in ('artifacts/neural_hurdle', 'reports'):\n"
+        f"    for folder in ('artifacts/{study}', 'reports'):\n"
         "        archive.add(PROJECT / folder, arcname=folder)\nprint(output)\n")
     notebook["cells"].append({"cell_type": "code", "id": "export-durable-results",
         "metadata": {}, "source": export.splitlines(keepends=True), "execution_count": None, "outputs": []})
-    stage = root/".cache/kaggle-neural-hurdle"
+    stage = root/f".cache/kaggle-{stem}"
     stage.mkdir(parents=True, exist_ok=True)
-    name = "28_multivariate_zero_inflated_forecasting.ipynb"
+    name = notebook_name
     (stage/name).write_text(json.dumps(notebook, indent=2, ensure_ascii=False), encoding="utf-8")
     (stage/"kernel-metadata.json").write_text(json.dumps({
-        "id": "truongbaokien/5g-ni-multivariate-zero-inflated-forecasting",
-        "title": "5G NI Multivariate Zero Inflated Forecasting", "code_file": name,
+        "id": f"truongbaokien/{slug}",
+        "title": title, "code_file": name,
         "language": "python", "kernel_type": "notebook", "is_private": True,
         "enable_gpu": True, "enable_internet": False,
-        "dataset_sources": ["truongbaokien/5g-ni-neural-hurdle-inputs"],
+        "dataset_sources": [f"truongbaokien/5g-ni-{stem}-inputs"],
         "kernel_sources": [], "competition_sources": []}, indent=2))
     print(json.dumps(transport, indent=2))
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--study", choices=["neural_hurdle", "mae_aligned"], default="neural_hurdle")
+    main(parser.parse_args().study)
