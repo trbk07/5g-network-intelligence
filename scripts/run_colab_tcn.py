@@ -13,7 +13,7 @@ import time
 import zipfile
 
 
-def verify_transport(archive_path, expected_sha256):
+def verify_transport(archive_path, expected_sha256, manifest_name="colab_source_manifest.json"):
     """Validate the complete allowlisted transport before extracting anything."""
     if hashlib.sha256(Path(archive_path).read_bytes()).hexdigest()!=expected_sha256:
         raise ValueError("Transport checksum differs")
@@ -28,8 +28,8 @@ def verify_transport(archive_path, expected_sha256):
             names.append(member.filename)
         if len(names)!=len(set(names)):
             raise ValueError("Duplicate transport members")
-        manifest=json.loads(archive.read("colab_source_manifest.json"))
-        if set(names)!=set(manifest["files"])|{"colab_source_manifest.json"}:
+        manifest=json.loads(archive.read(manifest_name))
+        if set(names)!=set(manifest["files"])|{manifest_name}:
             raise ValueError("Transport does not match its manifest")
         for name,digest in manifest["files"].items():
             if hashlib.sha256(archive.read(name)).hexdigest()!=digest:

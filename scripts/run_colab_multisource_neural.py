@@ -12,9 +12,11 @@ import time
 import zipfile
 
 
-def main():
+def main(study="multisource_neural"):
     if os.name == "nt" or "COLAB_RELEASE_TAG" not in os.environ or not Path("/content").is_dir():
         raise RuntimeError("Hosted Colab required; local training is forbidden")
+    if study not in ("multisource_neural", "mae_aligned"):
+        raise ValueError("Unknown hosted study")
     import torch
     from run_colab_tcn import verify_transport  # Uploaded shared checksum/path validator.
 
@@ -23,22 +25,24 @@ def main():
     drive = Path("/content/drive/MyDrive")
     if not drive.is_dir():
         raise RuntimeError("Mount Drive before launching")
-    bundle = Path("/content/multisource_neural_source.zip")
-    manifest = verify_transport(bundle, os.environ["MULTISOURCE_BUNDLE_SHA256"])
+    bundle = Path(f"/content/{study}_source.zip")
+    expected_sha = os.environ["MULTISOURCE_BUNDLE_SHA256" if study == "multisource_neural" else "MAE_ALIGNED_BUNDLE_SHA256"]
+    manifest = verify_transport(bundle, expected_sha,
+                                "colab_source_manifest.json" if study == "multisource_neural" else "source_manifest.json")
     if manifest["original_values_available_through"] != 503:
         raise ValueError("Development-only redacted panel required")
     run = drive/"5g-network-intelligence/checkpoints"/(
-        "multisource_neural_"+manifest["source_commit"][:12])
+        study+"_"+manifest["source_commit"][:12])
     state_path = run/"runtime_state.json"
     if state_path.exists():
         raise RuntimeError("Existing execution state: inspect before resubmitting")
-    project = Path("/content/multisource_neural")
+    project = Path(f"/content/{study}")
     project.mkdir(exist_ok=True)
     with zipfile.ZipFile(bundle) as archive:
         archive.extractall(project)
     (project/"artifacts").mkdir(exist_ok=True)
     run.mkdir(parents=True, exist_ok=True)
-    for link, target in ((project/"artifacts/multisource_neural", run/"artifacts/multisource_neural"),
+    for link, target in ((project/f"artifacts/{study}", run/f"artifacts/{study}"),
                          (project/"reports", run/"reports")):
         target.mkdir(parents=True, exist_ok=True)
         if link.name == "reports" and link.is_dir() and not link.is_symlink():
@@ -62,7 +66,7 @@ def main():
     subprocess.run([sys.executable, "-m", "pip", "install", "lightgbm>=4.6,<5",
                     "pandas", "pyyaml", "scikit-learn"], check=True)
     state = {"status": "starting", "source_commit": manifest["source_commit"],
-             "bundle_sha256": os.environ["MULTISOURCE_BUNDLE_SHA256"],
+             "bundle_sha256": expected_sha,
              "launcher_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
              if "__file__" in globals() else "CLI_executed_source",
              "gpu": torch.cuda.get_device_name(0), "torch": str(torch.__version__),
@@ -72,12 +76,12 @@ def main():
 
     def heartbeat():
         while not finished.wait(20):
-            print("[Colab] Multisource worker active; checkpoints on Drive.", flush=True)
+            print(f"[Colab] {study} worker active; checkpoints on Drive.", flush=True)
 
     threading.Thread(target=heartbeat, daemon=True).start()
     try:
-        with (project/"reports/multisource_neural_training.log").open("w") as log:
-            child = subprocess.Popen([sys.executable, "-u", "-m", "scripts.train_multisource_neural"],
+        with (project/f"reports/{study}_training.log").open("w") as log:
+            child = subprocess.Popen([sys.executable, "-u", "-m", f"scripts.train_{study}"],
                                      stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                      text=True, bufsize=1)
             state.update(status="running", remote_training_pid=child.pid)
@@ -90,8 +94,8 @@ def main():
             status = child.wait()
         state.update(status="complete" if status == 0 else "failed", exit_code=status)
         state_path.write_text(json.dumps(state, indent=2))
-        with tarfile.open(run/"multisource_neural_results.tar.gz", "w:gz") as archive:
-            for folder in ("artifacts/multisource_neural", "reports"):
+        with tarfile.open(run/f"{study}_results.tar.gz", "w:gz") as archive:
+            for folder in (f"artifacts/{study}", "reports"):
                 archive.add(project/folder, arcname=folder)
         if status:
             raise RuntimeError("Hosted worker failed; inspect saved log before any restart")
@@ -100,4 +104,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(os.environ.get("CLOUD_STUDY", "multisource_neural"))

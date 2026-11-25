@@ -1,0 +1,30 @@
+{
+  "source_commit": "50b92367a9796a0db569ea3b6fe9a0e810c3f675",
+  "files": 80,
+  "manifest_sha256": "e2fe86b843d7f43c7972746351795e90c17f248d0e25c1b960e7321c5d1b448e",
+  "bundle_sha256": "fe6ba1f2fb822fd7140079b851382dda995a0e4ebab1de24d22be388bb22901c",
+  "bytes": 34222173,
+  "original_values_504_onward_redacted": true,
+  "training_performed": false,
+  "verified_member_hashes": 80,
+  "worker_python_cells_valid": true,
+  "extracted_layout_verified": true,
+  "all_original_values_504_onward_redacted": true,
+  "kernel": "truongbaokien/5g-ni-mae-aligned-forecasting",
+  "kernel_version": 1,
+  "input_dataset": "truongbaokien/5g-ni-mae-aligned-inputs",
+  "input_visibility": "private",
+  "status_observed": "QUEUED",
+  "fit_started_verified": false,
+  "cases": [
+    "direct_clipped",
+    "hurdle_mae"
+  ],
+  "historical_controls_retrained": false,
+  "colab_fallback_creation_requested": true,
+  "colab_session_name": "mae-aligned",
+  "colab_ready_verified": false,
+  "parallel_fit_started": false,
+  "holdout_used": false,
+  "production_promoted": false
+}

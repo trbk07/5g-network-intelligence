@@ -41,3 +41,15 @@ def test_local_launcher_refuses_before_reading_files(monkeypatch):
     monkeypatch.delenv("COLAB_RELEASE_TAG",raising=False)
     with pytest.raises(RuntimeError,match="local training is forbidden"):
         main()
+
+
+def test_named_study_manifest_is_verified_without_extracting(tmp_path):
+    path=tmp_path/"source.zip"
+    content=b"static source fixture"
+    with zipfile.ZipFile(path,"w") as archive:
+        archive.writestr("src/example.py",content)
+        archive.writestr("source_manifest.json",json.dumps({"files":{
+            "src/example.py":hashlib.sha256(content).hexdigest()}}))
+    digest=hashlib.sha256(path.read_bytes()).hexdigest()
+    assert verify_transport(path,digest,"source_manifest.json")["files"]
+    assert not (tmp_path/"src").exists()
