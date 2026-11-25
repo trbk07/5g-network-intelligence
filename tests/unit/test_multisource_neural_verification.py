@@ -4,7 +4,7 @@ import pandas as pd
 import pytest
 import torch
 
-from scripts.summarize_multisource_neural import compare_cases, verify_initialization
+from scripts.summarize_multisource_neural import compare_cases, verify_initialization, verify_external_identity
 from src.data.io import sha256
 
 
@@ -72,3 +72,21 @@ def test_skipped_pretraining_updates_rejected(tmp_path):
         verify_initialization(tmp_path, "radio", fold,
                               {"external_epochs": 5, "external_samples_per_epoch": 65536,
                                "batch_size": 1024})
+
+
+def test_external_identity_rejects_changed_prefix_and_scaling():
+    import copy
+
+    cfg = {"seed": 17, "external_epochs": 5, "max_epochs": 30, "early_stopping_patience": 5}
+    sources = [{"report": "prefix.json", "sha256": "a"*64, "entities": 2,
+                "fit_scope": "prepared_external_training_prefix_only", "mean": 2., "scale": 3.}]
+    identity = {"seed": 17, "run_identity": {"case": "radio", "sources": copy.deepcopy(sources)},
+                "config": {"seed": 17, "external_epochs": 5, "early_stopping_patience": 6}}
+    verify_external_identity(identity, sources, "radio", cfg)
+    identity["run_identity"]["sources"][0]["sha256"] = "b"*64
+    with pytest.raises(ValueError, match="prefix provenance"):
+        verify_external_identity(identity, sources, "radio", cfg)
+    identity["run_identity"]["sources"] = copy.deepcopy(sources)
+    identity["run_identity"]["sources"][0]["scale"] = 30.
+    with pytest.raises(AssertionError):
+        verify_external_identity(identity, sources, "radio", cfg)

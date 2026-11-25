@@ -9,7 +9,9 @@ import pandas as pd
 import torch
 
 from scripts.summarize_temporal_linear import summarize
+from scripts.train_multisource_neural import source_cases
 from src.data.io import sha256
+from src.features.pretraining_batches import PretrainingBatches
 from src.models.temporal_mlp_forecaster import TemporalMLPForecaster
 from src.utils.config import load_config
 
@@ -17,6 +19,25 @@ from src.utils.config import load_config
 class MultisourceNeuralForecaster(TemporalMLPForecaster):
     protocol_name = "multisource-univariate-mlp-pretraining-v1"
     architecture_name = "multisource-univariate-mlp-v1"
+
+
+def verify_external_identity(identity, expected_sources, case, cfg):
+    """Reject changed source prefixes or preprocessing, not just changed model tensors."""
+    if identity["seed"] != cfg["seed"] or identity["run_identity"]["case"] != case:
+        raise ValueError("External seed/case identity differs")
+    observed = identity["run_identity"]["sources"]
+    if len(observed) != len(expected_sources):
+        raise ValueError("External source population differs")
+    for actual, expected in zip(observed, expected_sources):
+        for key in ("report", "sha256", "entities", "fit_scope"):
+            if actual[key] != expected[key]:
+                raise ValueError("External prefix provenance differs")
+        np.testing.assert_allclose([actual["mean"], actual["scale"]],
+                                   [expected["mean"], expected["scale"]], rtol=1e-12, atol=1e-12)
+    ignored = {"max_epochs", "variants", "seeds", "artifact_dir", "gpu_budget_seconds"}
+    expected_config = {**cfg, "early_stopping_patience": cfg["external_epochs"]+1}
+    if identity["config"] != {k: v for k, v in expected_config.items() if k not in ignored}:
+        raise ValueError("External optimization protocol differs")
 
 
 def compare_cases(frames):
@@ -95,6 +116,11 @@ def main():
             raise ValueError("Root checkpoint checksum differs")
     frames = {}
     for case in cfg["cases"]:
+        if case in source_cases():
+            reports, weights = source_cases()[case]
+            expected = PretrainingBatches(reports, weights, samples=1).provenance
+            checkpoint = torch.load(root/"external"/case/"last.pt", map_location="cpu", weights_only=True)
+            verify_external_identity(checkpoint["identity"], expected, case, cfg)
         for fold in cfg["folds"]:
             verify_initialization(root, case, fold, cfg)
         prefix = f"multisource_neural_{case}"
@@ -106,6 +132,7 @@ def main():
     Path("reports/multisource_neural_verification.json").write_text(json.dumps({
         "all_five_cases_verified": True, "initialization_tensors_verified": True,
         "pretraining_optimizer_step_counts_verified": True,
+        "external_prefix_checksums_and_global_preprocessing_verified": True,
         "comparison_rows": len(comparison), "holdout_used": False,
         "production_promoted": False, "claim_scope": "one-seed reused development only"}, indent=2))
     print(comparison.to_string(index=False))
