@@ -18,7 +18,7 @@ external_epochs: 5
 external_samples_per_epoch: 65536
 external_checkpoint_policy: last_fixed_epoch_not_best_diagnostic_loss
 source_sampling: equal_collection_mass_then_equal_radio_domain_then_entity
-cases: [target_only, radio, cesnet, radio_and_cesnet]
+cases: [target_only, target_self_pretrain, radio, cesnet, radio_and_cesnet]
 beam_population: all_original_beams
 preprocessing: global_per_source_or_target_KPI_training_prefix_only
 validation_504_671: forbidden

@@ -1,12 +1,29 @@
 """Source-balanced univariate windows from verified external training segments."""
 
 import json
+import copy
 from pathlib import Path
 
 import numpy as np
 import torch
 
 from src.data.io import sha256
+
+
+class SampledTargetBatches:
+    """Fixed-count replacement sampling over an already fold-bounded target batcher."""
+
+    def __init__(self, base, samples):
+        if samples < 1 or not len(base.pairs):
+            raise ValueError("Positive samples and eligible target pairs required")
+        self.base, self.n_samples, self.device = base, samples, base.device
+
+    def batches(self, batch_size, shuffle_seed=None):
+        rng = np.random.default_rng(0 if shuffle_seed is None else shuffle_seed)
+        sampled = copy.copy(self.base)
+        sampled.pairs = self.base.pairs[rng.integers(len(self.base.pairs), size=self.n_samples)]
+        sampled.n_samples = self.n_samples
+        yield from sampled.batches(batch_size)
 
 
 class PretrainingBatches:

@@ -72,3 +72,27 @@ def test_collection_balance():
     reports, weights = source_cases()["radio_and_cesnet"]
     assert len(reports) == 4
     assert sum(weights[:3]) == weights[3]
+
+
+def test_target_resampling_keeps_fold_boundary_and_original_pairs():
+    from src.evaluation.origins import train_origins_joint
+    from src.features.pretraining_batches import SampledTargetBatches
+
+    class Base:
+        device = "cpu"
+        pairs = np.array([[origin, beam] for origin in train_origins_joint(335)
+                          for beam in range(3)])
+
+        def batches(self, batch_size):
+            for start in range(0, len(self.pairs), batch_size):
+                yield self.pairs[start:start+batch_size]
+
+    base = Base()
+    original = base.pairs.copy()
+    sampled = SampledTargetBatches(base, 65)
+    first = list(sampled.batches(16, 17))
+    second = list(sampled.batches(16, 17))
+    assert [len(x) for x in first] == [16, 16, 16, 16, 1]
+    assert np.concatenate(first)[:, 0].max()+24 <= 335
+    np.testing.assert_array_equal(np.concatenate(first), np.concatenate(second))
+    np.testing.assert_array_equal(base.pairs, original)

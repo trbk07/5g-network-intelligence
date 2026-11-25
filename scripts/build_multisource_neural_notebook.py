@@ -17,7 +17,9 @@ def main():
     add("markdown", "# 5G Network Intelligence — Multisource Representation Pretraining\n\n"
         "## Research question and hypothesis\n\nCan external radio and IP-traffic histories improve "
         "original-beam forecasting after fine-tuning? More rows do not imply better PRB predictions. "
-        "Compare target-only, radio, CESNET, and radio+CESNET; retain negative transfer results.\n")
+        "Compare target-only, target self-pretraining, radio, CESNET, and radio+CESNET; "
+        "retain negative transfer results. Self-pretraining uses each fold's fit prefix and "
+        "matches the external sampling and epoch budget.\n")
     add("markdown", "## Temporal protocol and metrics\n\nOriginal fit/stop/score cutoffs are "
         "335/383/443 and 395/443/503. Inner1 is exploratory selection; inner2 confirms unchanged "
         "choices. Previously reused development data cannot establish unseen generalization. "
@@ -61,7 +63,7 @@ def main():
         "hurdle and MLP controls. Saved forecast replay, coverage, checksum and inference parity "
         "verification are required before accepting any gain.\n")
     add("code", "# Display available evidence only; absent reports mean no measured result.\n"
-        "for case in ('target_only', 'radio', 'cesnet', 'radio_and_cesnet'):\n"
+        "for case in ('target_only', 'target_self_pretrain', 'radio', 'cesnet', 'radio_and_cesnet'):\n"
         "    report = PROJECT / f'reports/multisource_neural_{case}_development.csv'\n"
         "    if report.exists():\n        print(case)\n        display(pd.read_csv(report))\n"
         "    else:\n        print(case, ': no completed result available')\n")

@@ -5,10 +5,13 @@ import os
 from pathlib import Path
 
 import torch
+import numpy as np
 
 from scripts.train_temporal_mlp import train_study
 from src.data.io import sha256
-from src.features.pretraining_batches import PretrainingBatches
+from src.features.pretraining_batches import PretrainingBatches, SampledTargetBatches
+from src.features.gru_inputs import GRUBatches
+from src.evaluation.origins import train_origins_joint
 from src.models.gru_train import train_gru
 from src.models.temporal_mlp import TemporalResidualMLP
 from src.utils.config import load_config
@@ -51,7 +54,7 @@ def main():
         torch.cuda.manual_seed_all(cfg["seed"])
         torch.use_deterministic_algorithms(True)
         pretrained = None
-        if case != "target_only":
+        if case in source_cases():
             reports, weights = source_cases()[case]
             train = PretrainingBatches(reports, weights, cfg["external_samples_per_epoch"], "cuda")
             diagnostic = PretrainingBatches(reports, weights, 2048, "cuda")
@@ -85,9 +88,46 @@ def main():
                 model.load_state_dict(pretrained, strict=True)
             return model
 
+        def initialize(model, panel, preprocessing, fold, config):
+            if case != "target_self_pretrain":
+                return model
+            if preprocessing.fit_end != fold["fit_end"]:
+                raise ValueError("Self-pretraining preprocessing must match fold fit cutoff")
+            origins = train_origins_joint(fold["fit_end"], stride=config["training_stride"])
+            if int(origins.max())+24 > fold["fit_end"]:
+                raise ValueError("Self-pretraining target crosses fold fit boundary")
+            base = GRUBatches(panel, preprocessing, "A", origins,
+                              np.arange(len(panel.beam_ids)), "cuda")
+            sampled = SampledTargetBatches(base, config["external_samples_per_epoch"])
+            diagnostic = SampledTargetBatches(base, 2048)
+            directory = root/"self_pretraining"/fold["name"]
+            fixed = {**config, "max_epochs": config["external_epochs"],
+                     "early_stopping_patience": config["external_epochs"]+1}
+            fine_tune_rng = torch.get_rng_state()
+            fine_tune_cuda_rng = torch.cuda.get_rng_state_all()
+            summary = train_gru(model, sampled, diagnostic, fixed, directory, config["seed"],
+                                resume=(directory/"last.pt").exists(),
+                                run_identity={"case": case, "fold": fold,
+                                              "fit_end": preprocessing.fit_end})
+            if summary["epochs_completed"] != config["external_epochs"]:
+                raise ValueError("Fixed target self-pretraining budget incomplete")
+            state = torch.load(directory/"last.pt", map_location="cpu", weights_only=True)
+            model.load_state_dict(state["model"])
+            (directory/"meta.json").write_text(json.dumps({"case": case, "fold": fold,
+                "training": summary, "fit_end": preprocessing.fit_end,
+                "maximum_supervised_hour": int(origins.max())+24,
+                "checkpoint_selected": "last.pt", "protocol": config,
+                "source_commit": os.environ.get("SOURCE_GIT_COMMIT"),
+                "diagnostic_is_training_prefix_not_generalization": True}, indent=2))
+            # Fine-tuning starts a fresh optimizer and the same RNG stream as other cases.
+            torch.set_rng_state(fine_tune_rng)
+            torch.cuda.set_rng_state_all(fine_tune_cuda_rng)
+            return model
+
         # All cases use identical fold boundaries, target fit budget and stopping protocol.
         train_study(cfg_path, str(root/case), f"multisource_neural_{case}",
-                    architecture="multisource-univariate-mlp-v1", model_factory=factory)
+                    architecture="multisource-univariate-mlp-v1", model_factory=factory,
+                    model_initializer=initialize)
     files = {p.relative_to(root).as_posix(): sha256(p)
              for p in root.rglob("*") if p.is_file() and p != root/"manifest.json"}
     (root/"manifest.json").write_text(json.dumps({"files": files, "protocol": cfg}, indent=2))

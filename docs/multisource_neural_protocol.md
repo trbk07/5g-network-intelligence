@@ -20,11 +20,14 @@ All targets remain in their own source scale during pretraining.
 
 The target-only case has no external optimization stage. Therefore its comparison
 with a pretrained case measures the whole recipe, including extra optimization;
-it cannot isolate the causal contribution of additional datasets. A fold-specific
-target-self-pretraining control with the same number of gradient updates remains
-necessary before attributing a gain specifically to external data. This control
-must use only the fold's original fit prefix. It must not pretrain once through
-503 and reuse those weights in earlier folds.
+it cannot isolate the causal contribution of additional datasets on its own.
+The implemented fifth case, target-self-pretraining, samples the same fixed
+number of windows and epochs from each fold's original fit prefix. Its global
+preprocessor is fitted at 335 or 395 respectively; maximum supervised timestamps
+cannot exceed those cutoffs. It never pretrains through 503 for reuse in an
+earlier fold. Fine-tuning starts a fresh optimizer and restores the pre-stage
+Torch RNG stream. Actual valid-target and update counts must still be checked
+after training because missing original labels can affect supervision density.
 
 Checkpoints include optimizer and Torch CPU/CUDA RNG state. External pretraining
 can resume its matching `last.pt`; a partially completed target study must be
