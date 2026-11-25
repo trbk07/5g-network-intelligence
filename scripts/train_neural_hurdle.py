@@ -1,10 +1,12 @@
 """Hosted multivariate direct-versus-hurdle study with MAE-only stopping."""
 
 import torch
+import json
 
 from scripts.train_multisource_neural import validate_output_storage
 from scripts.train_temporal_mlp import train_study
 from src.models.neural_hurdle import NeuralHurdleMLP
+from src.data.io import sha256
 from src.utils.config import load_config
 from src.utils.runtime import require_cloud_training
 from pathlib import Path
@@ -38,6 +40,9 @@ def main():
                     model_initializer=initialize,
                     training_loss=lambda model, sequence, phase, target:
                         model.training_loss(sequence, phase, target))
+    files = {path.relative_to(root).as_posix(): sha256(path) for path in root.rglob("*")
+             if path.is_file() and path != root/"manifest.json"}
+    (root/"manifest.json").write_text(json.dumps({"files": files, "protocol": cfg}, indent=2))
 
 
 if __name__ == "__main__":

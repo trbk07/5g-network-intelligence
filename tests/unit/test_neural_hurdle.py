@@ -65,3 +65,18 @@ def test_training_entrypoint_rejects_local(monkeypatch):
     monkeypatch.setattr(train_neural_hurdle, "require_cloud_training", reject)
     with pytest.raises(RuntimeError, match="local forbidden"):
         train_neural_hurdle.main()
+
+
+def test_history_adapter_preserves_exact_physical_zero():
+    from scripts.summarize_neural_hurdle import HurdleForecaster
+    from src.features.gru_inputs import GRUPreprocessor
+
+    adapter = HurdleForecaster.__new__(HurdleForecaster)
+    means = np.array([.123456789, 0., 0., 0.])
+    scales = np.array([.987654321, 1., 1., 1.])
+    adapter.preprocessor = GRUPreprocessor(np.zeros(4), means, scales, ("one", "two"), 335, "B")
+    adapter.model = NeuralHurdleMLP(target_mean=means[0], target_scale=scales[0]).eval()
+    result = adapter.predict_at(np.zeros((168, 2, 4)), 383, 6)
+    assert np.array_equal(result, np.zeros(2))
+    with pytest.raises(ValueError, match="168 historical"):
+        adapter.predict_at(np.zeros((169, 2, 4)), 383, 6)

@@ -58,5 +58,8 @@ class TemporalLinearForecaster:
         sequence = self.preprocessor.transform(history, self.preprocessor.variant).transpose(1, 0, 2)
         phase = self.preprocessor.static_at(np.full(history.shape[1], origin), np.arange(history.shape[1]))
         with torch.inference_mode():
+            if hasattr(self.model, "predict_physical"):
+                output = self.model.predict_physical(torch.as_tensor(sequence), torch.as_tensor(phase)).numpy()
+                return np.maximum(0, output[:, (1,6,24).index(horizon)])
             output = self.model(torch.as_tensor(sequence), torch.as_tensor(phase))[:, (1,6,24).index(horizon)].numpy()
         return np.maximum(0, output*self.preprocessor.scale[0]+self.preprocessor.mean[0])
