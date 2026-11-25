@@ -1,6 +1,7 @@
 """Verify hosted multisource checkpoints, initialization, metrics and CPU replay."""
 
 import json
+import math
 from pathlib import Path
 
 import numpy as np
@@ -69,6 +70,10 @@ def verify_initialization(root, case, fold, cfg):
     state = torch.load(source, map_location="cpu", weights_only=True)
     if state["epoch"]+1 != cfg["external_epochs"]:
         raise ValueError("Fixed pretraining budget incomplete")
+    expected_steps = math.ceil(cfg["external_samples_per_epoch"]/cfg["batch_size"])*cfg["external_epochs"]
+    actual_steps = {int(item["step"]) for item in state["optimizer"]["state"].values()}
+    if actual_steps != {expected_steps}:
+        raise ValueError("Pretraining optimizer steps differ from matched compute budget")
     if initial["model"].keys() != state["model"].keys():
         raise ValueError("Transferred model schema differs")
     for key in state["model"]:
@@ -100,6 +105,7 @@ def main():
     comparison.to_csv("reports/multisource_neural_ablation.csv", index=False)
     Path("reports/multisource_neural_verification.json").write_text(json.dumps({
         "all_five_cases_verified": True, "initialization_tensors_verified": True,
+        "pretraining_optimizer_step_counts_verified": True,
         "comparison_rows": len(comparison), "holdout_used": False,
         "production_promoted": False, "claim_scope": "one-seed reused development only"}, indent=2))
     print(comparison.to_string(index=False))

@@ -42,14 +42,33 @@ def test_transferred_weights_must_equal_source(tmp_path):
     fold = {"name": "inner1", "fit_end": 335}
     source = tmp_path/"external/radio/last.pt"
     source.parent.mkdir(parents=True)
-    torch.save({"epoch": 4, "model": {"weight": torch.tensor([1.])}}, source)
+    torch.save({"epoch": 4, "model": {"weight": torch.tensor([1.])},
+                "optimizer": {"state": {0: {"step": torch.tensor(320.)}}}}, source)
     directory = tmp_path/"radio/inner1/A"
     directory.mkdir(parents=True)
     initial = {"case": "radio", "fold": fold, "source_checkpoint": str(source),
                "source_checkpoint_sha256": sha256(source), "model": {"weight": torch.tensor([1.])}}
     torch.save(initial, directory/"initialization.pt")
-    verify_initialization(tmp_path, "radio", fold, {"external_epochs": 5})
+    config = {"external_epochs": 5, "external_samples_per_epoch": 65536, "batch_size": 1024}
+    verify_initialization(tmp_path, "radio", fold, config)
     initial["model"]["weight"] = torch.tensor([2.])
     torch.save(initial, directory/"initialization.pt")
     with pytest.raises(AssertionError):
-        verify_initialization(tmp_path, "radio", fold, {"external_epochs": 5})
+        verify_initialization(tmp_path, "radio", fold, config)
+
+
+def test_skipped_pretraining_updates_rejected(tmp_path):
+    fold = {"name": "inner1", "fit_end": 335}
+    source = tmp_path/"external/radio/last.pt"
+    source.parent.mkdir(parents=True)
+    torch.save({"epoch": 4, "model": {"weight": torch.tensor([1.])},
+                "optimizer": {"state": {0: {"step": torch.tensor(319.)}}}}, source)
+    directory = tmp_path/"radio/inner1/A"
+    directory.mkdir(parents=True)
+    torch.save({"case": "radio", "fold": fold, "source_checkpoint": str(source),
+                "source_checkpoint_sha256": sha256(source),
+                "model": {"weight": torch.tensor([1.])}}, directory/"initialization.pt")
+    with pytest.raises(ValueError, match="optimizer steps"):
+        verify_initialization(tmp_path, "radio", fold,
+                              {"external_epochs": 5, "external_samples_per_epoch": 65536,
+                               "batch_size": 1024})
