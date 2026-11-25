@@ -1,0 +1,26 @@
+protocol: multisource-univariate-mlp-pretraining-v1
+variants: [A]
+seed: 17
+horizons: [1, 6, 24]
+folds:
+  - {name: inner1, fit_end: 335, stop_end: 383, score_end: 443}
+  - {name: inner2, fit_end: 395, stop_end: 443, score_end: 503}
+hidden_size: 64
+dropout: 0.1
+learning_rate: 0.001
+weight_decay: 0.01
+batch_size: 1024
+max_epochs: 30
+early_stopping_patience: 5
+gradient_clip: 1.0
+training_stride: 1
+external_epochs: 5
+external_samples_per_epoch: 65536
+external_checkpoint_policy: last_fixed_epoch_not_best_diagnostic_loss
+source_sampling: equal_collection_mass_then_equal_radio_domain_then_entity
+cases: [target_only, radio, cesnet, radio_and_cesnet]
+beam_population: all_original_beams
+preprocessing: global_per_source_or_target_KPI_training_prefix_only
+validation_504_671: forbidden
+original_final_holdout: forbidden
+production_change: forbidden

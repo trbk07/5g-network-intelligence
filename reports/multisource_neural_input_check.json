@@ -1,0 +1,58 @@
+{
+  "source_provenance": [
+    {
+      "report": "reports/pm01_nr1800_preparation.json",
+      "sha256": "fb0b22f5ed0f450f4629621b4efc804830dfaa49eca4a3cac99a98d5d56784ef",
+      "mean": 4.208224467491396,
+      "scale": 3.6402230404499605,
+      "entities": 73,
+      "fit_scope": "prepared_external_training_prefix_only"
+    },
+    {
+      "report": "reports/pm03_nr2100_preparation.json",
+      "sha256": "b492f7c5bf69c819af7bc9c671a8bf96042299ba7b5bfec2d3649a3db8a240b7",
+      "mean": 6.315510406662731,
+      "scale": 6.066922485956843,
+      "entities": 721,
+      "fit_scope": "prepared_external_training_prefix_only"
+    },
+    {
+      "report": "reports/pm03_nr3500_preparation.json",
+      "sha256": "d1f694a0e1fc37509e5f4127c4f2758bcfd89715480da3de321afd091d311fd7",
+      "mean": 6.987703583543471,
+      "scale": 6.436384468458567,
+      "entities": 291,
+      "fit_scope": "prepared_external_training_prefix_only"
+    },
+    {
+      "report": "reports/cesnet_preparation.json",
+      "sha256": "7990da8a62fa1eb124457275d75371ba762a0439ecff6f894a5212148491d369",
+      "mean": 2335650710.8203454,
+      "scale": 11113440369.375076,
+      "entities": 282,
+      "fit_scope": "prepared_external_training_prefix_only"
+    }
+  ],
+  "source_weights": [
+    0.16666666666666666,
+    0.16666666666666666,
+    0.16666666666666666,
+    0.5
+  ],
+  "history_shape": [
+    32,
+    168,
+    2
+  ],
+  "phase_shape": [
+    32,
+    4
+  ],
+  "target_shape": [
+    32,
+    3
+  ],
+  "all_finite": true,
+  "training_performed": false,
+  "holdout_accessed": false
+}
