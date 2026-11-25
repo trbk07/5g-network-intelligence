@@ -44,6 +44,7 @@ def main():
         files[processed] = root/processed
     for name in ("LICENSE", "docs/multisource_neural_protocol.md"):
         files[name] = root/name
+    files["data/external/zenodo/17815388/record.json"] = root/"data/external/zenodo/17815388/record.json"
     manifest = {"source_commit": subprocess.check_output(
         ["git", "-c", "safe.directory=D:/5G", "rev-parse", "HEAD"], text=True).strip(),
         "original_values_available_through": 503,

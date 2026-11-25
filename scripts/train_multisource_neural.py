@@ -89,7 +89,17 @@ def main():
             return model
 
         def initialize(model, panel, preprocessing, fold, config):
+            def record_initialization(source_checkpoint=None):
+                path = root/case/fold["name"]/"A"/"initialization.pt"
+                if path.exists():
+                    raise FileExistsError("Refusing to overwrite initialization evidence")
+                torch.save({"model": model.state_dict(), "case": case, "fold": fold,
+                            "source_checkpoint": str(source_checkpoint) if source_checkpoint else None,
+                            "source_checkpoint_sha256": sha256(source_checkpoint)
+                            if source_checkpoint else None}, path)
+
             if case != "target_self_pretrain":
+                record_initialization(root/"external"/case/"last.pt" if case in source_cases() else None)
                 return model
             if preprocessing.fit_end != fold["fit_end"]:
                 raise ValueError("Self-pretraining preprocessing must match fold fit cutoff")
@@ -122,6 +132,7 @@ def main():
             # Fine-tuning starts a fresh optimizer and the same RNG stream as other cases.
             torch.set_rng_state(fine_tune_rng)
             torch.cuda.set_rng_state_all(fine_tune_cuda_rng)
+            record_initialization(directory/"last.pt")
             return model
 
         # All cases use identical fold boundaries, target fit budget and stopping protocol.
