@@ -96,3 +96,11 @@ def test_target_resampling_keeps_fold_boundary_and_original_pairs():
     assert np.concatenate(first)[:, 0].max()+24 <= 335
     np.testing.assert_array_equal(np.concatenate(first), np.concatenate(second))
     np.testing.assert_array_equal(base.pairs, original)
+
+
+def test_colab_launcher_rejects_local_before_any_output(monkeypatch):
+    from scripts import run_colab_multisource_neural
+
+    monkeypatch.delenv("COLAB_RELEASE_TAG", raising=False)
+    with pytest.raises(RuntimeError, match="local training is forbidden"):
+        run_colab_multisource_neural.main()

@@ -1,0 +1,11 @@
+{
+  "sha256": "0e2fdda4474c44c1d0848b692e19e0e0a61e19e1ed41c0b98121787fac8ae14f",
+  "bytes": 48531330,
+  "files": 91,
+  "source_commit": "b98c54f44ab2db46b6f91e04097a9d9cbedde3b3",
+  "training_performed": false,
+  "original_values_available_through": 503,
+  "verified_member_hashes": 91,
+  "canonical_shape_preserved": true,
+  "all_original_values_504_onward_redacted": true
+}
