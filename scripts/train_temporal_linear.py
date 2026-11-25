@@ -36,7 +36,10 @@ def score_horizon(model, panel, preprocessor, fold, h, batch_size):
             t, b = torch.as_tensor(chunk[:, 0], device="cuda"), torch.as_tensor(chunk[:, 1], device="cuda")
             sequence = transformed[t[:, None] + offsets, b[:, None]]
             phase = torch.as_tensor(preprocessor.static_at(chunk[:, 0], chunk[:, 1]), device="cuda")
-            value = model(sequence, phase)[:, head].cpu().numpy() * preprocessor.scale[0] + preprocessor.mean[0]
+            if hasattr(model, "predict_physical"):
+                value = model.predict_physical(sequence, phase)[:, head].cpu().numpy()
+            else:
+                value = model(sequence, phase)[:, head].cpu().numpy() * preprocessor.scale[0] + preprocessor.mean[0]
             predictions.append(np.maximum(0, value))
     return origins, np.concatenate(predictions), panel.values[origins + h, :, 0].reshape(-1)
 

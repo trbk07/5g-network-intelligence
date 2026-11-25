@@ -24,7 +24,7 @@ from src.utils.seed import set_seed
 
 def train_study(config_path="configs/temporal_mlp.yaml",artifact_path="artifacts/temporal_mlp",
                 report_prefix="temporal_mlp",architecture="temporal-residual-mlp-v1",model_factory=None,
-                model_initializer=None):
+                model_initializer=None,training_loss=None):
     require_cloud_training()
     if not torch.cuda.is_available():
         raise RuntimeError("Temporal neural study requires hosted CUDA")
@@ -61,7 +61,8 @@ def train_study(config_path="configs/temporal_mlp.yaml",artifact_path="artifacts
             if model_initializer is not None:
                 model=model_initializer(model,panel,preprocessing,fold,cfg)
             identity={"architecture":architecture,"fold":fold,"variant":variant}
-            summary=train_gru(model,train,stopping,cfg,directory,cfg["seed"],run_identity=identity)
+            summary=train_gru(model,train,stopping,cfg,directory,cfg["seed"],run_identity=identity,
+                              training_loss=training_loss)
             checkpoint=torch.load(directory/"best.pt",map_location="cuda",weights_only=True)
             model.load_state_dict(checkpoint["model"])
             for h in cfg["horizons"]:

@@ -31,7 +31,7 @@ def _save(state: dict, path: Path) -> None:
 def train_gru(model: GRUNet, train: GRUBatches, validation: GRUBatches, config: dict,
                directory: str | Path, seed: int, resume: bool = False,
                allow_cpu_test: bool = False, run_identity: dict | None = None,
-               seconds_limit: float | None = None) -> dict:
+               seconds_limit: float | None = None, training_loss=None) -> dict:
     """Train with AdamW, clipping, early stopping; reject full training on CPU."""
     require_cloud_training()
     if train.device == "cpu" and not allow_cpu_test:
@@ -67,7 +67,8 @@ def train_gru(model: GRUNet, train: GRUBatches, validation: GRUBatches, config: 
         total, count = 0., 0
         for sequence, static, target in train.batches(config["batch_size"], seed + epoch):
             optimizer.zero_grad(set_to_none=True)
-            loss, n = masked_l1(model(sequence, static), target)
+            loss, n = (masked_l1(model(sequence, static), target) if training_loss is None
+                       else training_loss(model, sequence, static, target))
             if not n:
                 continue
             loss.backward()
@@ -99,6 +100,9 @@ def train_gru(model: GRUNet, train: GRUBatches, validation: GRUBatches, config: 
                "seconds": time.perf_counter()-began, "best_epoch": best_epoch,
                "train_valid_targets": count, "validation_valid_targets": val_count,
                "peak_vram_bytes": torch.cuda.max_memory_allocated() if train.device != "cpu" else 0}
+        if training_loss is not None:
+            row["train_objective"] = row.pop("train_l1_scaled")
+            row["training_objective"] = config["training_objective"]
         with (directory / "history.jsonl").open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(row)+"\n")
         print(json.dumps(row), flush=True)

@@ -1,0 +1,29 @@
+protocol: multivariate-neural-hurdle-development-v1
+variants: [B]
+cases: [direct, hurdle]
+seed: 17
+horizons: [1, 6, 24]
+folds:
+  - {name: inner1, fit_end: 335, stop_end: 383, score_end: 443}
+  - {name: inner2, fit_end: 395, stop_end: 443, score_end: 503}
+hidden_size: 64
+dropout: 0.1
+learning_rate: 0.001
+weight_decay: 0.01
+batch_size: 1024
+max_epochs: 40
+early_stopping_patience: 5
+gradient_clip: 1.0
+training_stride: 1
+training_objective:
+  direct: masked_scaled_L1
+  hurdle: finite_label_BCE_plus_positive_only_mean_pinball_equal_weights
+conditional_levels: [0.05, 0.1, 0.25, 0.5]
+stopping_objective: masked_scaled_mixture_median_L1
+conditional_quantile_units: target_divided_by_global_training_scale
+input_policy: centered_history_masks_last_global_KPI_levels_causal_seasonal_means_phase4
+calibration: none
+probability_cutoff: analytical_mixture_median_not_fitted_threshold
+validation_504_671: forbidden
+original_final_holdout: forbidden
+production_change: forbidden
