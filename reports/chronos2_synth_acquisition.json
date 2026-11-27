@@ -1,0 +1,26 @@
+{
+  "model_id": "autogluon/chronos-2-synth",
+  "revision": "3607918a9fd027d5c465d8213e46b98e2c041cea",
+  "license": "apache-2.0",
+  "model_card": "https://huggingface.co/autogluon/chronos-2-synth/blob/3607918a9fd027d5c465d8213e46b98e2c041cea/README.md",
+  "files": {
+    "README.md": {
+      "sha256": "3b86d1695d4f98bc2b149f7afbe14c93df991284fd0bcb9bd40253f951866a48",
+      "bytes": 1265
+    },
+    "config.json": {
+      "sha256": "01fd2b164b1ea49588624d369c37fcd67acfc12735c1082d79f5ec14a4d7cf37",
+      "bytes": 971
+    },
+    "model.safetensors": {
+      "sha256": "920a3344726a8026c9335d38ae1a2bfa9b7d659c1b8fe0b0af8d5f775863422e",
+      "bytes": 475963368
+    }
+  },
+  "local_directory": "data/external/pretrained/chronos2_synth/3607918a9fd027d5c465d8213e46b98e2c041cea",
+  "publisher_states_synthetic_only_pretraining": true,
+  "independent_corpus_audit_performed": false,
+  "training_performed": false,
+  "model_instantiated_locally": false,
+  "holdout_accessed": false
+}

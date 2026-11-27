@@ -1,0 +1,21 @@
+model_id: autogluon/chronos-2-synth
+revision: 3607918a9fd027d5c465d8213e46b98e2c041cea
+license: apache-2.0
+weights_file: model.safetensors
+weights_sha256: 920a3344726a8026c9335d38ae1a2bfa9b7d659c1b8fe0b0af8d5f775863422e
+weights_bytes: 475963368
+config_sha256: 01fd2b164b1ea49588624d369c37fcd67acfc12735c1082d79f5ec14a4d7cf37
+chronos_version: 2.3.2
+publisher_pretraining_claim: synthetic_univariate_and_multivariate_only
+independent_corpus_audit: not_performed
+training_execution: hosted_colab_or_kaggle_only
+initial_experiment: multivariate_zero_shot_control_vs_target_LoRA_finetuning
+input_kpis: [DLPRB, DLThpVol, DLThpTime, MR_number]
+context_length: 168
+prediction_length: 24
+horizons: [1, 6, 24]
+cross_learning_between_beams: false
+future_actual_covariates: forbidden
+original_validation_504_671: forbidden
+original_final_holdout: forbidden
+production_change: forbidden

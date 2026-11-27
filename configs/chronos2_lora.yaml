@@ -1,0 +1,42 @@
+protocol: chronos2-synthetic-multivariate-lora-v1
+model_config: configs/chronos2_synth.yaml
+chronos_version: 2.3.2
+transformers_version: 4.57.6
+peft_version: 0.18.1
+seed: 17
+context_length: 168
+prediction_length: 24
+min_past: 168
+input_kpis: [DLPRB, DLThpVol, DLThpTime, MR_number]
+native_task_schema: DLPRB_target_with_three_past_only_covariates
+future_covariate_actuals: forbidden
+target_for_selection_and_reporting: DLPRB
+horizons: [1, 6, 24]
+folds:
+  - {name: inner1, fit_end: 335, stop_end: 383, score_end: 443}
+  - {name: inner2, fit_end: 395, stop_end: 443, score_end: 503}
+finetune_mode: lora
+learning_rate: 0.00001
+max_steps: 1000
+batch_size_variates: 256
+checkpoint_steps: 100
+selection_checkpoints: [100, 300, 1000]
+checkpoint_selection: original_DLPRB_MAE_on_stopping_only_ties_earlier_step
+native_validation_selection: disabled
+save_optimizer_and_rng: true
+cross_learning_between_beams: false
+lora:
+  r: 8
+  lora_alpha: 16
+  target_modules: [self_attention.q, self_attention.v, self_attention.k, self_attention.o, output_patch_embedding.output_layer]
+maximum_trainable_fraction: 0.05
+missing_inputs: preserve_NaN_native_mask
+zeros: observed_not_missing
+point_forecast: native_median_clipped_nonnegative
+controls: [same_checkpoint_multivariate_zero_shot, verified_hurdle, verified_MLP_B_hurdle_blend]
+scoring_population: all_original_beams_and_all_frozen_development_origins
+research_candidate_gate: no_horizon_regression_vs_current_control_and_mean_relative_gain_at_least_2_percent
+raw_additional_dataset_stage: deferred_until_target_finetuning_signal_and_matched_compute_control
+validation_504_671: forbidden
+original_final_holdout: forbidden
+production_promotion: forbidden

@@ -1,0 +1,23 @@
+{
+  "version": "2.3.2",
+  "filename": "chronos_forecasting-2.3.2-py3-none-any.whl",
+  "sha256": "0f0d9a1972f252d6cf584b9fa749bd1b389b3c1cf05a889c4130cb10652c2117",
+  "bytes": 80769,
+  "source_read_only": true,
+  "package": "chronos-forecasting",
+  "source": "https://pypi.org/project/chronos-forecasting/2.3.2/",
+  "files": {
+    "pipeline.py": "9fad1e4fb7251471463a40408a32d25d31b23b7afb88069911f095071b9b0599",
+    "dataset.py": "90b34b05af99069972a33aa780019ab2fca7514e907b68921a2d5c9205584e0a",
+    "trainer.py": "3868aaefd2477eb0d6a68b2b0c7309ad0f00d1d3b02fb8deb4f8f211afecbd88"
+  },
+  "review_findings": {
+    "native_LoRA_supported": true,
+    "missing_PEFT_silently_falls_back_to_full_finetuning": true,
+    "save_only_model_default_requires_override_for_optimizer_checkpoints": true,
+    "training_window_sampling_stays_within_supplied_prefix": true,
+    "native_validation_defaults_to_quantile_loss_selection": true
+  },
+  "training_executed": false,
+  "external_model_instantiated_locally": false
+}
