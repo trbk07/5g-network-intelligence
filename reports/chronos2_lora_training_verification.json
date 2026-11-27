@@ -1,0 +1,65 @@
+{
+  "all_training_manifest_hashes_verified": true,
+  "folds": [
+    {
+      "fold": "inner1",
+      "maximum_training_label_hour": 335,
+      "torch": "2.11.0+cu130",
+      "gpu": "Tesla T4",
+      "checkpoints": [
+        {
+          "step": 100,
+          "adapter_parameters": 1205888,
+          "adapter_tensors": 194,
+          "tensor_payload_sha256": "c11d94cde346a5e1ceff261d69efcd313686bf03d69ba193bf9d3edcc7e6c8e4"
+        },
+        {
+          "step": 300,
+          "adapter_parameters": 1205888,
+          "adapter_tensors": 194,
+          "tensor_payload_sha256": "01b959a4f0dc3b189f842de1d06579d087e20507c55e3f593e4c4bb525cc9390"
+        },
+        {
+          "step": 1000,
+          "adapter_parameters": 1205888,
+          "adapter_tensors": 194,
+          "tensor_payload_sha256": "648f9e271339a2f7ba2ba58c4e56147ed80ccfc6dcb15826817c81c27a658f9f"
+        }
+      ],
+      "adapter_payload_changed_between_saved_steps": true
+    },
+    {
+      "fold": "inner2",
+      "maximum_training_label_hour": 395,
+      "torch": "2.11.0+cu130",
+      "gpu": "Tesla T4",
+      "checkpoints": [
+        {
+          "step": 100,
+          "adapter_parameters": 1205888,
+          "adapter_tensors": 194,
+          "tensor_payload_sha256": "012a8e1046e5ffb62ee076da1ece6ba355867133a80693f4c3e15e355ce7e398"
+        },
+        {
+          "step": 300,
+          "adapter_parameters": 1205888,
+          "adapter_tensors": 194,
+          "tensor_payload_sha256": "4d43474c14979b25d054ddc73a734dc34bf099d5f062a8bc1e745db41ab063a7"
+        },
+        {
+          "step": 1000,
+          "adapter_parameters": 1205888,
+          "adapter_tensors": 194,
+          "tensor_payload_sha256": "33ca954ea01cd954cea81fdcee7c1cf6dbe91ee9ef3349e0ffcc463ba016f97e"
+        }
+      ],
+      "adapter_payload_changed_between_saved_steps": true
+    }
+  ],
+  "training_complete": true,
+  "checkpoint_selection_complete": false,
+  "forecast_accuracy_verified": false,
+  "local_training_performed": false,
+  "holdout_used": false,
+  "production_promoted": false
+}
