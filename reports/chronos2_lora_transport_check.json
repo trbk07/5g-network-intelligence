@@ -1,0 +1,14 @@
+{
+  "source_commit": "d2473d8237d1bfe9407eef0a0861ad3eb8bdb38b",
+  "files": 87,
+  "manifest_sha256": "e90775883695e69567bc899a136fbc4ad9abad6ec71dbd9c61a4bc4c594285cc",
+  "bundle_sha256": "b39e95b3617e5da993ce00a2f6a1d1e9a97e4faa9b2e3e44a2db70ae5698f06a",
+  "bytes": 510197800,
+  "original_values_504_onward_redacted": true,
+  "training_performed": false,
+  "verified_member_hashes": 87,
+  "redaction_verified": true,
+  "worker_cells_parsed": true,
+  "extracted_layout_verified": true,
+  "base_weights_remain_in_readonly_input": true
+}
