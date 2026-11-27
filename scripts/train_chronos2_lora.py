@@ -81,7 +81,7 @@ def main():
             callbacks=[CheckLoRA()], seed=cfg["seed"], data_seed=cfg["seed"],
             save_strategy="steps", save_steps=cfg["checkpoint_steps"], save_total_limit=None,
             save_only_model=False, save_safetensors=True, logging_steps=25,
-            load_best_model_at_end=False, eval_strategy="no")
+            load_best_model_at_end=False, eval_strategy="no", disable_tqdm=True)
         for step in cfg["selection_checkpoints"]:
             checkpoint = output/"trainer"/f"checkpoint-{step}"
             if not (checkpoint/"adapter_model.safetensors").exists() or not (checkpoint/"optimizer.pt").exists():
