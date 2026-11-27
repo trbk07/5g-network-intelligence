@@ -1,0 +1,11 @@
+{
+  "rows": 36,
+  "axes_and_manifests_verified": true,
+  "segmentation": "observed zeros and positive targets; no fitted threshold",
+  "correlation_scope": "full observed population repeated alongside each segment",
+  "blend_weights_computed": false,
+  "training_performed": false,
+  "holdout_used": false,
+  "validation_504_671_used": false,
+  "claim": "error structure only; no proof that a blend improves MAE"
+}

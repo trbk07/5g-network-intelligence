@@ -1,0 +1,19 @@
+protocol: clipped-hurdle-blend-development-v1
+selection_fold: inner1
+confirmation_fold: inner2
+horizons: [1, 6, 24]
+variants: [B]
+clipped_weight_grid: [0.0, 0.05, 0.1, 0.2]
+selection_metric: original_unit_MAE
+tie_policy: smaller_weight
+confirmation_rule: no_horizon_regresses_vs_hurdle_and_current_mlp_blend
+minimum_relative_gain_vs_current_at_one_horizon: 0.001
+post_confirmation_weight_changes: forbidden
+base_model_retraining: false
+validation_504_671: forbidden
+original_final_holdout: forbidden
+production_change: forbidden
+clipped_manifest_sha256: 214a70016da2fe9b776df68018dd7d0e2b412e2c58cadd03d48cb62a4ea64ef0
+hurdle_manifest_sha256: 593d524646ed96e1b2c2d62eb67892f8698c7b23d08dff6a7420b3bbd918efb0
+current_manifest_sha256: 70786cdb90e92f6937ba20df7d5cd48686fd7004a9ed473c309c31e093af8771
+claim_scope: reused_development_only_no_automatic_validation_refit
