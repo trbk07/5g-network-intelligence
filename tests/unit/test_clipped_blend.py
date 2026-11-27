@@ -35,3 +35,35 @@ def test_selection_entrypoint_refuses_local(monkeypatch):
     monkeypatch.setattr(select_clipped_blend, "require_cloud_training", reject)
     with pytest.raises(RuntimeError, match="local forbidden"):
         select_clipped_blend.main()
+
+
+def test_intake_requires_current_control_report_before_copy(tmp_path):
+    import hashlib
+    import io
+    import json
+    import tarfile
+
+    from scripts.import_hurdle_results import import_results
+
+    archive = tmp_path/"result.tar.gz"
+    content = b"fixed selection fixture"
+    files = {"artifacts/clipped_blend/selection.json": content,
+             "artifacts/clipped_blend/manifest.json": json.dumps({"files": {
+                 "selection.json": hashlib.sha256(content).hexdigest()}}).encode(),
+             "reports/clipped_blend_selection_grid.csv": b"grid fixture",
+             "reports/clipped_blend_confirmation.csv": b"confirmation fixture"}
+
+    def write():
+        with tarfile.open(archive, "w:gz") as output:
+            for name, data in files.items():
+                member = tarfile.TarInfo(name)
+                member.size = len(data)
+                output.addfile(member, io.BytesIO(data))
+
+    write()
+    with pytest.raises(ValueError, match="Complete score"):
+        import_results(archive, tmp_path, "clipped_blend")
+    assert not (tmp_path/"artifacts").exists()
+    files["reports/clipped_blend_current_control.csv"] = b"reference fixture"
+    write()
+    assert import_results(archive, tmp_path, "clipped_blend")["copied_or_identical_files"] == 5

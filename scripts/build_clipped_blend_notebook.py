@@ -107,6 +107,12 @@ def main():
         "or establish unseen-test superiority. A strict-gate failure ends this recipe.\n")
     add("code", "for name in ('clipped_blend_selection_grid.csv', 'clipped_blend_confirmation.csv', 'clipped_blend_current_control.csv'):\n"
         "    path = Path('reports')/name\n    if path.exists():\n        display(pd.read_csv(path))\n")
+    if Path("reports/clipped_blend_verification.json").exists():
+        add("markdown", "## Completed and verified result\n\nThe selected clipped weight "
+            "was 0.20 at every horizon. Saved forecasts replay exactly. Hurdle-only gains "
+            "confirm, but the strict current-control gate fails: +24h regresses and the "
+            "+1h/+6h gains remain below 0.1%. Reject this recipe; no coefficient changes, "
+            "validation refit or production promotion. Evidence: `reports/clipped_blend_analysis.md`.\n")
     notebook = {"cells": cells, "metadata": {"kernelspec": {"display_name": "Python 3",
                 "language": "python", "name": "python3"}}, "nbformat": 4, "nbformat_minor": 5}
     name = "30_clipped_forecast_blending.ipynb"

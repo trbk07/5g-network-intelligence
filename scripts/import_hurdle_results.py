@@ -23,7 +23,7 @@ def import_results(archive_path, workspace, kind="development"):
     archive_path = Path(archive_path).resolve()
     stage_root = workspace / ".cache"
     stage_root.mkdir(exist_ok=True)
-    if kind not in ("development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "temporal_tcn", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot", "multisource_neural", "neural_hurdle", "mae_aligned"):
+    if kind not in ("development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "temporal_tcn", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot", "multisource_neural", "neural_hurdle", "mae_aligned", "clipped_blend"):
         raise ValueError("Unknown hurdle archive kind")
     candidate = kind == "candidate"
     prefix = PurePosixPath("artifacts/hurdle_candidate" if candidate else "artifacts/hurdle_research")
@@ -78,6 +78,11 @@ def import_results(archive_path, workspace, kind="development"):
         prefix = PurePosixPath("artifacts/mae_aligned")
         required = {f"reports/mae_aligned_{case}_development.csv" for case in ("direct_clipped", "hurdle_mae")}
         report_names = required | {"reports/mae_aligned_training.log"}
+    if kind == "clipped_blend":
+        prefix = PurePosixPath("artifacts/clipped_blend")
+        required = {f"reports/clipped_blend_{name}.csv" for name in
+                    ("selection_grid", "confirmation", "current_control")}
+        report_names = required | {"reports/clipped_blend.log"}
     with tempfile.TemporaryDirectory(prefix="hurdle-import-", dir=stage_root) as temp:
         staging = Path(temp)
         with tarfile.open(archive_path, "r:gz") as archive:
@@ -154,6 +159,8 @@ def import_results(archive_path, workspace, kind="development"):
         evidence_name = "neural_hurdle_import_evidence.json"
     if kind == "mae_aligned":
         evidence_name = "mae_aligned_import_evidence.json"
+    if kind == "clipped_blend":
+        evidence_name = "clipped_blend_import_evidence.json"
     (workspace / "reports" / evidence_name).write_text(json.dumps(evidence, indent=2))
     return evidence
 
@@ -161,6 +168,6 @@ def import_results(archive_path, workspace, kind="development"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
-    parser.add_argument("--kind", choices=["development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "temporal_tcn", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot", "multisource_neural", "neural_hurdle", "mae_aligned"], default="development")
+    parser.add_argument("--kind", choices=["development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "temporal_tcn", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot", "multisource_neural", "neural_hurdle", "mae_aligned", "clipped_blend"], default="development")
     args = parser.parse_args()
     print(json.dumps(import_results(args.archive, Path.cwd(), args.kind), indent=2))

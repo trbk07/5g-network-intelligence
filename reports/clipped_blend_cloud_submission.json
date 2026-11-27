@@ -1,0 +1,24 @@
+{
+  "kernel": "truongbaokien/5g-ni-clipped-forecast-blending",
+  "kernel_version": 1,
+  "runtime": "Kaggle hosted CPU",
+  "status_observed": "COMPLETE",
+  "source_commit": "516dc9089742416709e2e9bd0c9bca3240a563b9",
+  "base_models_retrained": false,
+  "coefficient_selection_performed_locally": false,
+  "selection_fold": "inner1",
+  "confirmation_fold": "inner2",
+  "selected_weights": {
+    "1": 0.2,
+    "6": 0.2,
+    "24": 0.2
+  },
+  "passes_hurdle_only_gate": true,
+  "passes_strict_current_control_gate": false,
+  "archive_sha256": "c01671d69b45de0efc96281894bb23dd60dcfaf8af1bfd9b52d75b028453d611",
+  "verified_artifact_files": 5,
+  "confirmation_predictions_recomputed": 437760,
+  "maximum_replay_error": 0.0,
+  "holdout_used": false,
+  "production_promoted": false
+}
