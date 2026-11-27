@@ -67,6 +67,31 @@ def test_intake_is_allowlisted_and_idempotent(tmp_path):
     assert first["verified_artifact_files"] == 1
 
 
+@pytest.mark.parametrize("kind", ["chronos2_lora", "chronos2_lora_evaluation"])
+def test_chronos2_training_and_evaluation_have_separate_contracts(tmp_path, kind):
+    archive = tmp_path / "chronos2.tar.gz"
+    artifact = b"fixture only; no model loading or fitting"
+    required = (["chronos2_lora_training.log"] if kind == "chronos2_lora" else
+                ["chronos2_lora_stopping.csv", "chronos2_lora_development.csv"])
+    entries = {
+        f"artifacts/{kind}/inner1/fixture.txt": artifact,
+        f"artifacts/{kind}/manifest.json": json.dumps({"files": {
+            "inner1/fixture.txt": hashlib.sha256(artifact).hexdigest()}}).encode(),
+        "artifacts/champion/forbidden.txt": b"must not import",
+        **{f"reports/{name}": b"fixture report" for name in required},
+    }
+    with tarfile.open(archive, "w:gz") as output:
+        for name, content in entries.items():
+            member = tarfile.TarInfo(name)
+            member.size = len(content)
+            output.addfile(member, io.BytesIO(content))
+    evidence = import_results(archive, tmp_path, kind)
+    assert evidence["verified_artifact_files"] == 1
+    assert (tmp_path / f"reports/{kind}_import_evidence.json").exists()
+    assert not (tmp_path / "artifacts/champion").exists()
+    assert all((tmp_path / "reports" / name).exists() for name in required)
+
+
 def test_mlp_blend_import_requires_both_reports(tmp_path):
     archive = tmp_path / "mlp-blend.tar.gz"
     archive_fixture(archive, blend=True)

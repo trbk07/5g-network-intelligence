@@ -118,7 +118,9 @@ def main():
                     or set(config["target_modules"]) != set(cfg["lora"]["target_modules"])):
                 raise ValueError("LoRA adapter configuration differs")
             model = PeftModel.from_pretrained(base.model, str(adapter), is_trainable=False, local_files_only=True)
-            base = Chronos2Pipeline(model=model)
+            # Match the official pipeline loader: inference uses a merged Chronos model,
+            # while the immutable adapter and base payloads remain separate on disk.
+            base = Chronos2Pipeline(model=model.merge_and_unload())
         base.model.eval()
         return base
 
