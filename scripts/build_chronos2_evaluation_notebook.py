@@ -56,6 +56,15 @@ def main():
          "    display(results[['fold', 'stage', 'horizon', 'mae', 'WAPE (%)',\n"
          "                     'n_valid', 'Zero false positives (%)']])\n"
          "else:\n    print('No verified development metrics available yet; no accuracy claim.')\n"),
+        ("markdown", "## Independent verification\n"
+         "Before accepting a result, reconstruct saved MAE/WAPE and stopping choices, "
+         "verify every cache's exact causal history, and compare CPU inference with GPU "
+         "forecasts at fixed beams and origins (absolute tolerance 1e-4 DLPRB units). "
+         "The separate verification report records completion; absent evidence remains "
+         "unverified. Review never launches verification or fitting automatically.\n"),
+        ("code", "verification = PROJECT / 'reports/chronos2_lora_verification.json'\n"
+         "if verification.exists():\n    display(json.loads(verification.read_text(encoding='utf-8')))\n"
+         "else:\n    print('Independent result verification is not available yet.')\n"),
         ("markdown", "## Acceptance and limitations\n"
          "Compare with the saved LightGBM hurdle and MLP-B/hurdle controls on the same "
          "masks. Require no horizon regression and at least 2% mean relative MAE "
