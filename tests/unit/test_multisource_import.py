@@ -11,8 +11,9 @@ from scripts.import_hurdle_results import import_results
 
 
 def archive_fixture(path, missing=None, study="multisource_neural"):
-    cases = (["direct", "hurdle"] if study == "neural_hurdle" else
-             ["target_only", "target_self_pretrain", "radio", "cesnet", "radio_and_cesnet"])
+    cases = {"neural_hurdle": ["direct", "hurdle"],
+             "mae_aligned": ["direct_clipped", "hurdle_mae"],
+             "multisource_neural": ["target_only", "target_self_pretrain", "radio", "cesnet", "radio_and_cesnet"]}[study]
     model = b"static checkpoint fixture; no trained weights"
     files = {f"artifacts/{study}/{cases[0]}/inner1/A/best.pt": model,
              f"artifacts/{study}/manifest.json": json.dumps({"files": {
@@ -55,4 +56,14 @@ def test_neural_hurdle_requires_both_heads(tmp_path):
     archive_fixture(archive, study="neural_hurdle")
     result = import_results(archive, tmp_path, "neural_hurdle")
     assert result["copied_or_identical_files"] == 4
+    assert not (tmp_path/"artifacts/champion").exists()
+
+
+def test_mae_aligned_requires_both_objectives(tmp_path):
+    archive = tmp_path/"result.tar.gz"
+    archive_fixture(archive, missing="hurdle_mae", study="mae_aligned")
+    with pytest.raises(ValueError, match="Complete score"):
+        import_results(archive, tmp_path, "mae_aligned")
+    archive_fixture(archive, study="mae_aligned")
+    assert import_results(archive, tmp_path, "mae_aligned")["copied_or_identical_files"] == 4
     assert not (tmp_path/"artifacts/champion").exists()

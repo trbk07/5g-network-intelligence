@@ -58,6 +58,16 @@ def main():
          "Negative results must remain visible. Do not refit on final validation or promote "
          "a model solely because the new objective sounds more aligned.\n"),
     ]
+    if Path("reports/mae_aligned_verification.json").exists():
+        content += [("markdown", "## Completed and verified result\n\nFour Kaggle T4 fits "
+            "completed patience. The mixture-MAE objective improves the old surrogate hurdle "
+            "at all six points but remains weaker than strong historical controls. Clipped "
+            "direct improves zero false positives at every point, with mixed MAE effects. "
+            "No standalone promotion or validation refit. Full evidence: "
+            "`reports/mae_aligned_analysis.md`.\n"),
+            ("code", "# Read existing comparisons; never repeat fitting for presentation.\n"
+             "path = PROJECT / 'reports/mae_aligned_control_comparison.csv'\n"
+             "if path.exists():\n    display(pd.read_csv(path))\n")]
     cells = []
     for kind, text in content:
         cell = {"cell_type": kind, "id": f"mae-aligned-{len(cells):02d}", "metadata": {},

@@ -1,0 +1,14 @@
+{
+  "all_metrics_reconstructed": true,
+  "history_only_predictions_checked": 72,
+  "maximum_cpu_gpu_discrepancy": 1.1920928955078125e-07,
+  "completed_patience_runs": 4,
+  "epoch_capped_runs": 0,
+  "hurdle_mae_better_than_old_surrogate_points": 6,
+  "direct_clipped_better_than_old_direct_points": 3,
+  "direct_clipped_zero_fp_improved_points": 6,
+  "decision": "No standalone promotion; objective changes yield mixed gains versus strong controls",
+  "holdout_used": false,
+  "validation_504_671_used": false,
+  "production_promoted": false
+}
