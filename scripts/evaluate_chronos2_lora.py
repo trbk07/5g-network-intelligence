@@ -13,7 +13,7 @@ import pandas as pd
 
 from scripts.train_multisource_neural import validate_output_storage
 from src.data.io import sha256
-from src.evaluation.chronos2_replay import cached_origin
+from src.evaluation.chronos2_replay import cached_origin, predict_origin
 from src.evaluation.origins import evaluation_origins
 from src.evaluation.validation import validation_inputs
 from src.utils.config import load_config
@@ -45,6 +45,9 @@ def score_case(pipeline, panel, fold, stage, directory, identity, batch_size):
                 origins[h].append(origin)
                 predictions[h].append(predicted[:, h-1])
                 actuals[h].append(panel.values[origin+h, :, 0])
+        if (origin-fold["stop_end"]+1) % 10 == 0:
+            print(json.dumps({"fold": fold["name"], "stage": stage,
+                              "scoring_origins_completed": origin-fold["stop_end"]+1}), flush=True)
     rows = []
     for h in horizons:
         expected = evaluation_origins(fold["stop_end"], fold["score_end"], h)
@@ -61,6 +64,22 @@ def score_case(pipeline, panel, fold, stage, directory, identity, batch_size):
                      "n_valid": int(mask.sum()), "zero_fp_rate": float((predicted[zero] > 0).mean())})
         np.savez_compressed(directory/f"score_h{h}.npz", predicted=predicted, actual=actual,
                             origins=expected, beam_ids=np.asarray(panel.beam_ids))
+    return rows
+
+
+def cpu_parity(pipeline, panel, fold, directory):
+    """Independently replay small causal CPU batches against full-population GPU caches."""
+    beams = np.array([0, len(panel.beam_ids)//2, len(panel.beam_ids)-1])
+    rows = []
+    for origin in (fold["stop_end"], fold["score_end"]-24):
+        predicted = predict_origin(pipeline, panel.values[:, beams, :], origin, 256)
+        with np.load(directory/"cache"/f"origin_{origin}.npz", allow_pickle=False) as cache:
+            saved = cache["predicted"][beams]
+        np.testing.assert_allclose(predicted, saved, atol=1e-4, rtol=0)
+        rows.append({"origin": origin, "beam_ids": [panel.beam_ids[b] for b in beams],
+                     "cpu_predictions": predicted.tolist(),
+                     "maximum_error": float(np.abs(predicted-saved).max())})
+    (directory/"cpu_parity.json").write_text(json.dumps({"tolerance": 1e-4, "rows": rows}, indent=2))
     return rows
 
 
@@ -109,8 +128,8 @@ def main():
         raise ValueError("Existing evaluation identity differs; refuse stale caches")
     identity_path.write_text(json.dumps(identity, indent=2))
 
-    def load_pipeline(adapter=None):
-        base = Chronos2Pipeline.from_pretrained(str(args.model_root), device_map="cuda",
+    def load_pipeline(adapter=None, device="cuda"):
+        base = Chronos2Pipeline.from_pretrained(str(args.model_root), device_map=device,
                                                 torch_dtype=torch.float32, local_files_only=True)
         if adapter is not None:
             config = json.loads((adapter/"adapter_config.json").read_text())
@@ -185,6 +204,9 @@ def main():
             rows.extend(score_case(pipeline, panel, fold, stage, output, model_identity, cfg["batch_size_variates"]))
             del pipeline
             torch.cuda.empty_cache()
+            cpu = load_pipeline(adapter, device="cpu")
+            cpu_parity(cpu, panel, fold, output)
+            del cpu
         pd.DataFrame(rows).to_csv("reports/chronos2_lora_development.csv", index=False)
         pd.DataFrame(stopping_rows).to_csv("reports/chronos2_lora_stopping.csv", index=False)
     files = {p.relative_to(root).as_posix(): sha256(p) for p in root.rglob("*")

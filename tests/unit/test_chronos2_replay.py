@@ -78,3 +78,18 @@ def test_real_checkpoint_selection_refuses_local_before_external_model_import(mo
     monkeypatch.setattr(evaluate_chronos2_lora, "require_cloud_training", reject)
     with pytest.raises(RuntimeError, match="local forbidden"):
         evaluate_chronos2_lora.main()
+
+
+def test_cpu_parity_replays_small_causal_batches_against_full_cache(tmp_path):
+    from types import SimpleNamespace
+
+    from scripts.evaluate_chronos2_lora import cpu_parity
+
+    values = np.broadcast_to(np.arange(504.)[:, None, None], (504, 3, 4)).copy()
+    fold = {"name": "inner1", "fit_end": 335, "stop_end": 383, "score_end": 443}
+    panel = SimpleNamespace(values=values, beam_ids=("one", "two", "three"))
+    for origin in (383, 419):
+        cached_origin(Pipeline(), values, origin, tmp_path/"cache", {"model": "fixture"})
+    rows = cpu_parity(Pipeline(), panel, fold, tmp_path)
+    assert len(rows) == 2 and all(r["maximum_error"] == 0 for r in rows)
+    assert (tmp_path/"cpu_parity.json").exists()
