@@ -1,0 +1,28 @@
+{
+  "source_commit": "61ba235f7c3d214a004852b79ab9dd7219e08819",
+  "files": 106,
+  "manifest_sha256": "2976dd986f5326f59712e478eeee2c19be794ea47f1b88bd270c6769746f9db1",
+  "bundle_sha256": "5d724ffef955b8502c4241998b917fab3c211af078816f4a09d016bf8a057a26",
+  "bytes": 48863779,
+  "original_values_504_onward_redacted": true,
+  "training_performed": true,
+  "kernel": "truongbaokien/5g-ni-multi-corpus-spatial-encoder-pretraining",
+  "kernel_version": 1,
+  "status_observed": "RUNNING",
+  "external_source_domains": 9,
+  "external_collections": 4,
+  "new_eligible_prefix_entity_hours": 40653,
+  "pretraining_steps_per_run": 5120,
+  "pretraining_cases": [
+    "target_self_pretrain",
+    "multi_source_pretrain"
+  ],
+  "telecom_italia_included": false,
+  "local_training_performed": false,
+  "holdout_used": false,
+  "production_promoted": false,
+  "cloud_training_progress_verified": true,
+  "latest_observed_phase": "target_self_pretraining_first_fold",
+  "latest_observed_pretraining_epoch": 18,
+  "forecast_metrics_verified": false
+}

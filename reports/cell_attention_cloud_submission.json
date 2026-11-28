@@ -1,0 +1,17 @@
+{
+  "source_commit": "a575f3f121f0d8753d8215aeb38deaf2b6393d06",
+  "files": 84,
+  "manifest_sha256": "72c701d1f226864c1a3ae758dac5c43b18e429c3f8f43dc8e14ea3b208d01af8",
+  "bundle_sha256": "9d147de1176a6c58fd8102a4daaf6c66b571fffeb02c73b2dcb690bad3eed1a1",
+  "bytes": 34228799,
+  "original_values_504_onward_redacted": true,
+  "training_performed": true,
+  "kernel": "truongbaokien/5g-ni-cell-spatial-temporal-attention",
+  "kernel_version": 1,
+  "status_observed": "RUNNING",
+  "cloud_epoch_progress_observed": 8,
+  "local_training_performed": false,
+  "holdout_used": false,
+  "production_promoted": false,
+  "cloud_training_progress_verified": true
+}

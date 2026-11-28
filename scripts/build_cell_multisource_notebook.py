@@ -23,6 +23,10 @@ def main():
         text = text.replace("configs/cell_attention.yaml", "configs/cell_multisource.yaml")
         text = text.replace("scripts.train_cell_attention", "scripts.train_cell_multisource")
         text = text.replace("reports/cell_attention_training.log", "reports/cell_multisource_training.log")
+        text = text.replace("Both modes have identical parameter counts and initialization. The local control blocks access to other beams.",
+            "Both pretraining cases fine-tune the same full-cell architecture. The separate local/cell study supplies the spatial ablation.")
+        text = text.replace("Historical trainer log names ending in `scaled` represent physical DLPRB MAE in this study.",
+            "Pretraining losses are dimensionless source MAE; fine-tuning/stopping losses use physical DLPRB units. Interpret historical `scaled` field names by stage.")
         if "path = PROJECT / 'reports/cell_attention_development.csv'" in text:
             text = ("# Review completed results only; no fitting or coefficient search.\n"
                 "for case in ('target_self_pretrain', 'multi_source_pretrain'):\n"
