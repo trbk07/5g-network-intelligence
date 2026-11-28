@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-28",
+  "kernel": "truongbaokien/5g-ni-target-patches-and-past-kpi-attention",
+  "version": 1,
+  "source_commit": "0062eaf296c396da12af583ce7a99f7129bce372",
+  "code_dataset": "truongbaokien/5g-ni-past-covariate-code",
+  "source_manifest_sha256": "b73dfd010acc2bb2794519a5fece5db1cd0b92af4ecff65d82c278f414707707",
+  "code_members": 87,
+  "data_or_checkpoint_included": false,
+  "original_hosted_input_reused": "truongbaokien/5g-ni-cell-multisource-v2-inputs",
+  "declared_arms": ["no_covariates", "past_covariates"],
+  "training_submitted": true,
+  "last_observed_status": "QUEUED",
+  "training_started_verified": false,
+  "local_training_performed": false,
+  "holdout_used": false,
+  "quality_improvement_established": false
+}

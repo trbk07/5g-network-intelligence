@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-28",
+  "kernel": "truongbaokien/5g-ni-available-target-supervision",
+  "version": 1,
+  "source_commit": "a2d7ff0896d897942770473871289a66c612e8db",
+  "training_submitted": true,
+  "last_observed_status": "RUNNING",
+  "historical_preparation_report": "reports/partial_supervision_preparation.json",
+  "note": "Preparation snapshot remains immutable; this records the later submission state.",
+  "quality_improvement_established": false,
+  "holdout_used": false
+}

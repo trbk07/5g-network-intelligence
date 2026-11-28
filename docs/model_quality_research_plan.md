@@ -127,3 +127,18 @@ pooling, original hours 504 onward, holdout reuse or production promotion.
 The reader guide is `notebooks/41_telecom_data_and_pretraining_budget_ablation.ipynb`.
 An upload or queued worker is not evidence that fitting has begun or quality
 improved. Verify actual epoch logs, all declared arms, compute and metrics.
+
+### Verified Telecom outcome and literature-driven architecture
+
+The Telecom study completed and passed independent integrity/CPU replay checks.
+All three arms fail the declared quality gates; mean relative MAE gains against
+the strong control are -0.03936%, +0.01117% and -0.08743%, respectively.
+Do not promote or scale this recipe on an assumed benefit from data volume.
+See `reports/telecom_transfer_quality_assessment.json` for the paired evidence.
+
+The available-target supervision study is now submitted separately. A second
+paired experiment implements target patches with past-KPI attention inspired by
+TimeXer, with an equal-capacity no-covariate control. Sources, adaptation details,
+protocol and acceptance criteria are in `docs/literature_driven_training.md`.
+Submission records distinguish queue/running states from verified fitting and
+quality. No production artifact or protected temporal boundary changes.
