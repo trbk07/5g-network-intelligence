@@ -45,6 +45,15 @@
       "license": "CC-BY-4.0",
       "attribution": "Original dataset authors and CESNET TS-Zoo conversion; see publisher metadata",
       "training_ready": false
+    },
+    {
+      "path": "data/external/network_expansion/TelecomItalia-telecommunications-service_provider-1_hour.h5",
+      "bytes": 5117552328,
+      "sha256": "59703f46b395ef46d5722ed02db6db8f650bf4e8a78afc312534a58c18653135",
+      "md5": "95b6f7fbcdbd4be2a8217165838c0883",
+      "license": "ODbL-1.0",
+      "attribution": "from BigDataChallenge contest \u2014 http://www.telecomitalia.com/tit/en/bigdatachallenge.html",
+      "training_ready": false
     }
   ],
   "training_performed": false,

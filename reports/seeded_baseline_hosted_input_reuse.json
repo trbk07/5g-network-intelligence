@@ -1,0 +1,7 @@
+{
+  "reuses_existing_hosted_dataset": "truongbaokien/5g-ni-cell-multisource-v2-inputs",
+  "hosted_manifest_sha256": "3069c57c9f64f809464ead2fae973fbaa35a86c3a46884e15cc693354eecab46",
+  "identical_panel_sha256": "0e45f74ded5f79438a209d8e05e8bf5e7f1a7c29dae2502fb059315f0a1cf8a1",
+  "baseline_config_sha256": "78fb3c7dac25dca50e39e55f26d9fe3ccd5584aecffc6a8a92b5dcad3dc55072",
+  "new_data_export_performed": false
+}

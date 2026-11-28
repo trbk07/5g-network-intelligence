@@ -40,6 +40,14 @@ attention for stopping/scoring. New artifact roots, configs, private workers and
 notebooks prevent overwriting v1. All 100-epoch/12-patience and 5,120-step budgets
 stay fixed. Exact cold-weight and transfer checks are mandatory acceptance gates.
 
+An additional seed-29 baseline is declared before viewing v2 scoring results.
+It uses Colab when the Kaggle baseline is queued, fetching the four pinned public
+GOTS-F train files directly from the publisher rather than uploading local beam
+payloads. Canonical prefix hashes must match before fitting, and hours 504 onward
+are redacted. Report both seeds and runtimes; this is seed/runtime robustness,
+not pure seed variance or permission to cherry-pick the best seed. All checkpoints
+remain on Drive. The seed-17 multi-corpus controls remain paired within Kaggle.
+
 ## Next structural experiment
 
 Test raw within-cell spatial information, absent from the per-beam models. Each
