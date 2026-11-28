@@ -1,7 +1,13 @@
 """Forward and causal-ablation tests only; no fitting/backward/optimizer steps."""
 
 import pytest
+import numpy as np
 import torch
+
+from dataclasses import replace
+
+from src.data.panel import Panel
+from src.features.gru_inputs import GRUBatches, GRUPreprocessor
 
 from src.models.past_covariate_attention import PastCovariateAttention
 from src.utils.config import load_config
@@ -62,3 +68,42 @@ def test_controller_refuses_local_training(monkeypatch):
     monkeypatch.setattr(train_past_covariate_attention, "require_cloud_training", reject)
     with pytest.raises(RuntimeError, match="local training forbidden"):
         train_past_covariate_attention.main()
+
+
+def test_batch_forecast_does_not_depend_on_values_after_origin():
+    """Poison every future KPI, not just the target, at the real batch interface."""
+    rng = np.random.default_rng(17)
+    values = rng.uniform(.1, 2., (504, 2, 4))
+    panel = Panel(values, np.arange(504), ('0_0_0', '0_0_1'), {})
+    pre = GRUPreprocessor.fit(panel, 335, 'B')  # Preprocessing only; no model fit.
+    poisoned = values.copy()
+    poisoned[384:] = 1e9
+    original = next(GRUBatches(panel, pre, 'B', [383], [0, 1]).batches(2))
+    altered = next(GRUBatches(replace(panel, values=poisoned), pre, 'B', [383], [0, 1]).batches(2))
+    assert torch.equal(original[0], altered[0]) and torch.equal(original[1], altered[1])
+    assert not torch.equal(original[2], altered[2])
+    cfg = load_config('configs/past_covariate_attention.yaml')
+    model = PastCovariateAttention(cfg).configure_target_scale(pre.mean[0], pre.scale[0]).eval()
+    with torch.no_grad():
+        # Activate the attention route analytically, without optimization.
+        model.head.weight.copy_(torch.randn_like(model.head.weight)*.005)
+        a = model.predict_physical(original[0], original[1])
+        b = model.predict_physical(altered[0], altered[1])
+    torch.testing.assert_close(a, b, atol=0, rtol=0)
+
+
+def test_standardized_loss_preserves_physical_mae_and_nonnegative_outputs():
+    model = PastCovariateAttention(load_config('configs/past_covariate_attention.yaml')).eval()
+    mean, scale = .7, .3
+    model.configure_target_scale(mean, scale)
+    sequence = torch.full((2, 168, 8), -10.)
+    sequence[:, :, 4:] = 0
+    phase = torch.zeros(2, 4)
+    actual = torch.tensor([[0., .2, .5], [.1, .3, .8]])
+    with torch.no_grad():
+        standardized = model(sequence, phase)
+        physical = model.predict_physical(sequence, phase)
+        scaled_loss = torch.abs(standardized-(actual-mean)/scale).mean()
+        physical_loss = torch.abs(physical-actual).mean()
+    assert bool((physical >= 0).all())
+    torch.testing.assert_close(scaled_loss*scale, physical_loss)

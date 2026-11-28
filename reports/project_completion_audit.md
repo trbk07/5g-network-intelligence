@@ -50,3 +50,20 @@ directory installation loaded the expected frozen champion and 24 beams.
 The published GitHub asset has also been downloaded, checksum-verified and
 installed into a fresh directory. Further dataset/WAPE research is separate
 open work and is not represented as a completed quality improvement.
+
+## Research extension checkpoint: 2026-11-28
+
+The read-only release evidence verifier was rerun after the new research work:
+96/96 checks pass. This confirms protected evidence integrity, not a fresh
+clean-clone test of every later research commit or a new holdout evaluation.
+
+| Extension | Evidence | Decision / remaining work |
+| --- | --- | --- |
+| Telecom data and pretraining budget | telecom_transfer_verified_metrics.json; telecom_transfer_quality_assessment.json | Independent audit passed; all quality gates failed. No promotion. |
+| Available target supervision | partial_supervision_verified_metrics.json; partial_supervision_analysis.md | Four hosted target fits completed; audit verified 2,304 history-only predictions with maximum error 0.00000190735. Added labels fail quality gates. |
+| Literature-driven target/covariate attention | literature_driven_training.md; past_covariate_attention_submission.json | Model/controller implemented; Kaggle v1 queued at latest observation. No training or accuracy gain established for this model. |
+| Colab attention failover | past_covariate_colab_preparation.json | T4/Drive prepared; canonical development prefix rebuilt from pinned public sources and hours 504 onward redacted. Fitting awaits authoritative cancellation of the queued duplicate. |
+| Causal and integrity checks | test_past_covariate_attention.py; test_partial_supervision_audit.py | 15 forward/metadata tests passed locally, with no model fit/backward. Includes future poisoning at the batch interface and standardized/physical MAE equivalence. |
+
+The broader quality objective remains unmet. Repeated development comparisons
+and extra data are not substitutes for material improvement or fresh evidence.
