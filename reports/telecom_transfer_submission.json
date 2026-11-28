@@ -20,6 +20,17 @@
   "observed_worker_source_verified": true,
   "observed_first_arm_selected": true,
   "epoch_evidence_at_initial_observation": false,
+  "subsequent_epoch_evidence": {
+    "arm": "telecom_matched",
+    "phase": "source_prefix_forecasting",
+    "fold": "inner1",
+    "torch_initial_seed": 17,
+    "last_observed_zero_based_epoch": 6,
+    "last_diagnostic_L1": 0.31954383477568626,
+    "loss_units": "dimensionless source pretraining; not target DLPRB forecast quality",
+    "training_valid_targets_per_epoch": 196608,
+    "diagnostic_valid_targets": 6144
+  },
   "checkpoints_storage": "Kaggle Output",
   "local_training_performed": false,
   "holdout_used": false,
