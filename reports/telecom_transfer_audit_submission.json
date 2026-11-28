@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-28",
+  "training_kernel": "truongbaokien/5g-ni-telecom-data-and-pretraining-budget-ablation",
+  "training_version": 1,
+  "training_terminal_status_verified": "COMPLETE",
+  "training_source_commit": "63187481ba9c7dfe2f3f56375aca0e30993298ee",
+  "audit_kernel": "truongbaokien/5g-ni-telecom-experiment-integrity-and-replay",
+  "audit_version": 1,
+  "last_observed_audit_status": "RUNNING",
+  "audit_source_commit": "bc454cd3a3a60335cf90dc36e47008b72f0e4c4a",
+  "audit_source_sha256": "cc9999bc7e52eecbc109e3eb95069cc0ad1a99cc9fd5cc3c7a57a60eb2ec8b92",
+  "compute": "hosted_Kaggle_CPU_inference_and_integrity_checks_only",
+  "training_performed_by_audit": false,
+  "checkpoint_storage": "Kaggle_Input_Output",
+  "local_checkpoint_download": false,
+  "quality_assessment": "pending_complete_cloud_verification",
+  "holdout_used": false,
+  "production_promoted": false
+}
