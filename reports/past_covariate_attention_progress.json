@@ -9,10 +9,21 @@
   "torch": "2.14.1+cu130",
   "attention_math": "flash_sdp=False; mem_efficient_sdp=False; MHA_fastpath=False",
   "last_observed_case": "no_covariates",
-  "last_observed_fold": "inner1",
+  "last_observed_fold": "inner2",
   "parameters": 452367,
   "training_started_verified": true,
-  "last_observed_epoch": 0,
+  "last_observed_epoch": 2,
+  "completed_fit_snapshots": [
+    {
+      "case": "no_covariates",
+      "fold": "inner1",
+      "epochs_completed": 22,
+      "best_epoch": 9,
+      "patience_stop_observed": true,
+      "full_horizon_scoring_log_observed": true,
+      "independent_verification_complete": false
+    }
+  ],
   "epoch_zero_seconds": 20.343763947999946,
   "epoch_zero_train_valid_targets": 1252800,
   "epoch_zero_validation_valid_targets": 216000,

@@ -89,3 +89,11 @@ counts and optimizer updates. It reconstructs all saved metrics and replays
 history-only forecasts on CPU with the predeclared 0.0001 tolerance. Weights stay
 on Drive; only aggregate evidence is exported. Implementation or passing unit
 tests must not be described as a completed cloud audit.
+
+`scripts/assess_past_covariate_attention.py` accepts only the complete verified
+study and compares both cases to the fixed strong comparator, as well as the
+past-KPI case to its new control. Seven aggregate-only gate tests cover missing
+cases, population mismatch, source/parity verification and regressions hidden by
+a positive mean. The reader review is
+`notebooks/46_past_kpi_attention_results_and_error_analysis.ipynb`; its default
+Run All displays available evidence and never trains or loads checkpoints.
