@@ -142,3 +142,9 @@ TimeXer, with an equal-capacity no-covariate control. Sources, adaptation detail
 protocol and acceptance criteria are in `docs/literature_driven_training.md`.
 Submission records distinguish queue/running states from verified fitting and
 quality. No production artifact or protected temporal boundary changes.
+
+The paired available-target study subsequently completed and passed its
+independent audit. Adding valid labels produces -0.01031% mean relative MAE
+gain against its new joint control and -0.50902% against the strong comparator;
+all quality gates fail. See `reports/partial_supervision_analysis.md`.
+Do not promote or repeat the same recipe with a larger budget on this evidence.

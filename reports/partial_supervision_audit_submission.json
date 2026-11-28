@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-28",
+  "training_kernel": "truongbaokien/5g-ni-available-target-supervision",
+  "training_version": 1,
+  "training_status": "COMPLETE",
+  "training_source_commit": "a2d7ff0896d897942770473871289a66c612e8db",
+  "audit_kernel": "truongbaokien/5g-ni-available-supervision-integrity-and-replay",
+  "audit_version": 1,
+  "audit_source_commit": "82b1dc6e86b74995c932f1a6cc97291d3fb53a67",
+  "audit_source_sha256": "37eb42ac30d23ed2e39cc3141f96e59266def93e803303cfbe7ee329d43e8e6f",
+  "last_observed_audit_status": "COMPLETE",
+  "verification_passed": true,
+  "checkpoint_storage": "Kaggle Input/Output; no local download",
+  "quality_improvement_established": false,
+  "quality_gate_passed": false
+}

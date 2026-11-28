@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-28",
+  "runtime_session": "past-kpi-attention",
+  "source_commit": "0062eaf296c396da12af583ce7a99f7129bce372",
+  "gpu": "Tesla T4",
+  "torch": "2.14.1+cu130",
+  "drive_mount_verified": true,
+  "project": "/content/drive/MyDrive/5g-network-intelligence/checkpoints/past_kpi_0062eaf296c3",
+  "code_archive_sha256": "d7ad13f8121c280ffe7d269d1019d773c6cb48e6b53b8faf778e90aab7c60529",
+  "public_input_manifest_sha256": "2b87c5e29011e6f1bdf474fd16de387821f5e32bb95992c09005d3b0cab128bc",
+  "canonical_development_prefix_rebuilt_and_verified": true,
+  "original_hours_504_onward_redacted": true,
+  "local_beam_payload_uploaded": false,
+  "training_started": false,
+  "launch_condition": "Kaggle duplicate authoritatively cancelled before Colab fitting",
+  "queued_duplicate": "truongbaokien/5g-ni-target-patches-and-past-kpi-attention",
+  "cancellation_status": "not_cancelled; browser connector failed to initialize twice; SDK exposes no cancellation operation",
+  "scope": "preparation evidence only; no model quality claim"
+}

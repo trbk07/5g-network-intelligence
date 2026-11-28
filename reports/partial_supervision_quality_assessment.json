@@ -1,0 +1,34 @@
+{
+  "arms_vs_strong_control": {
+    "joint": {
+      "no_fold_horizon_regression": false,
+      "mean_relative_mae_gain_pct": -0.49963605444480014,
+      "initial_research_gate_passed": false,
+      "material_point_gain_gate_passed": false,
+      "all_development_WAPE_below_10pct": false,
+      "production_promotion_permitted": false,
+      "scope": "point estimates only; reused development, robustness and uncertainty still required"
+    },
+    "available": {
+      "no_fold_horizon_regression": false,
+      "mean_relative_mae_gain_pct": -0.5090200455917496,
+      "initial_research_gate_passed": false,
+      "material_point_gain_gate_passed": false,
+      "all_development_WAPE_below_10pct": false,
+      "production_promotion_permitted": false,
+      "scope": "point estimates only; reused development, robustness and uncertainty still required"
+    }
+  },
+  "paired_label_policy_effect": {
+    "no_fold_horizon_regression": false,
+    "mean_relative_mae_gain_pct": -0.010305522717984905,
+    "initial_research_gate_passed": false,
+    "material_point_gain_gate_passed": false,
+    "all_development_WAPE_below_10pct": false,
+    "production_promotion_permitted": false,
+    "scope": "point estimates only; reused development, robustness and uncertainty still required"
+  },
+  "compute_caveat": "Natural optimizer exposure differs; not a pure label-count effect",
+  "fresh_generalization_established": false,
+  "production_promoted": false
+}
