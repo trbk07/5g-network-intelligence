@@ -96,10 +96,16 @@ datasets:
     source: https://doi.org/10.7910/DVN/EGZHFV
     converted_distribution: https://zenodo.org/records/22721975
     license: ODbL-1.0
-    status: hourly_HDF5_download_in_progress_not_training_ready
+    status: verified_prefix_shards_ready_for_exploratory_representation_pretraining
     expected_bytes: 5117552328
     attribution: from_BigDataChallenge_contest
-    training_allowed: false_until_checksum_prefix_and_overlap_audit_complete
+    training_allowed: context_normalized_source_pretraining_only_no_physical_PRB_pooling
+    eligible_prefix_entity_hours: 12029560
+    retained_segments: 10997
+    constant_segments_excluded: 3278
+    exact_whole_segment_duplicates_excluded: 306
+    evidence: reports/telecom_italia_preparation.json
+    overlap_caveat: exact_full_segment_hash_audit_only_partial_intervals_and_original_calendar_identity_not_certified
 pretrained_models:
   chronos_bolt_base:
     source: https://huggingface.co/amazon/chronos-bolt-base

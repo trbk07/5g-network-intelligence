@@ -59,3 +59,17 @@ def test_unaudited_source_cannot_enter_sampler(tmp_path):
     path.write_text(json.dumps(report))
     with pytest.raises(ValueError, match="training-ready"):
         PretrainingBatches([path], [1])
+
+
+def test_excluded_source_segment_is_accounted_but_never_sampled(tmp_path):
+    report, path, shards = fixture_report(tmp_path)
+    removed = shards[0]["segments"].pop()
+    shards[0]["excluded_segments"] = [{"name": removed["name"], "reason": "constant"}]
+    manifest = tmp_path/"manifest.json"
+    manifest.write_text(json.dumps({"shards": shards}))
+    report["processed_sha256"] = sha256(manifest)
+    path.write_text(json.dumps(report))
+    segments = list(iter_sharded_segments(report))
+    assert len(segments) == 1 and segments[0][0] == 1
+    sampler = PretrainingBatches([path], [1], samples=8)
+    assert len(sampler.sources) == 1 and len(sampler.sources[0]) == 1

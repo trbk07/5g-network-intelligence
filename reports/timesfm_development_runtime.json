@@ -1,0 +1,7 @@
+{
+  "source_commit": "6595374dbe378344b0296ba834fe71c7990e44a2",
+  "torch": "2.14.1+cu130",
+  "gpu": "Tesla T4",
+  "training_performed": false,
+  "weights_and_caches_storage": "Drive"
+}

@@ -30,13 +30,14 @@ def iter_sharded_segments(report):
                 or payload.resolve() in seen_paths or sha256(payload) != shard["processed_sha256"]):
             raise ValueError("Unsafe, duplicate or corrupt shard")
         seen_paths.add(payload.resolve())
-        for segment in shard["segments"]:
+        for segment in shard["segments"] + shard.get("excluded_segments", []):
             if segment["name"] in seen_names:
                 raise ValueError("Duplicate segment identity across shards")
             seen_names.add(segment["name"])
     for shard in shards:
         with np.load(shard["processed_path"], allow_pickle=False) as archive:
-            expected = {s["name"]+suffix for s in shard["segments"] for suffix in ("", "_phase")}
+            expected = {s["name"]+suffix for s in shard["segments"] + shard.get("excluded_segments", [])
+                        for suffix in ("", "_phase")}
             if set(archive.files) != expected or len(archive.files) != len(expected):
                 raise ValueError("Shard array coverage differs")
             for segment in shard["segments"]:
