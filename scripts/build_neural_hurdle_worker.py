@@ -15,7 +15,7 @@ from src.utils.config import load_config
 
 
 def main(study="neural_hurdle"):
-    if study not in ("neural_hurdle", "mae_aligned", "chronos2_lora"):
+    if study not in ("neural_hurdle", "mae_aligned", "chronos2_lora", "cell_attention"):
         raise ValueError("Unknown study")
     stem = study.replace("_", "-")
     notebook_name = ("28_multivariate_zero_inflated_forecasting.ipynb" if study == "neural_hurdle"
@@ -28,6 +28,10 @@ def main(study="neural_hurdle"):
         notebook_name = "31_chronos2_multivariate_finetuning.ipynb"
         title = "5G NI Chronos2 Multivariate Fine Tuning"
         slug = "5g-ni-chronos2-multivariate-fine-tuning"
+    if study == "cell_attention":
+        notebook_name = "33_cell_spatial_temporal_attention.ipynb"
+        title = "5G NI Cell Spatial Temporal Attention"
+        slug = "5g-ni-cell-spatial-temporal-attention"
     root = Path.cwd()
     source = root/f".cache/{stem}-source"
     source.mkdir(parents=True, exist_ok=True)
@@ -135,7 +139,7 @@ def main(study="neural_hurdle"):
         "with tarfile.open(output, 'w:gz') as archive:\n"
         f"    for folder in ('artifacts/{study}', 'reports'):\n"
         "        if (PROJECT / folder).exists():\n            archive.add(PROJECT / folder, arcname=folder)\nprint(output)\n")
-    if study == "chronos2_lora":
+    if study in ("chronos2_lora", "cell_attention"):
         export += "if TRAIN_EXIT:\n    raise RuntimeError('Cloud fine-tuning failed; inspect saved logs/checkpoints before restarting')\n"
     notebook["cells"].append({"cell_type": "code", "id": "export-durable-results",
         "metadata": {}, "source": export.splitlines(keepends=True), "execution_count": None, "outputs": []})
@@ -157,5 +161,5 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--study", choices=["neural_hurdle", "mae_aligned", "chronos2_lora"], default="neural_hurdle")
+    parser.add_argument("--study", choices=["neural_hurdle", "mae_aligned", "chronos2_lora", "cell_attention"], default="neural_hurdle")
     main(parser.parse_args().study)

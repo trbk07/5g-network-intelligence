@@ -1,4 +1,10 @@
 # 5G Network KPI Forecasting & Capacity-Risk Monitoring
+
+> Research extension authorized by the owner: architecture, data and hosted
+> training budgets may change to pursue materially better model quality. See
+> [the model quality research plan](docs/model_quality_research_plan.md).
+> Historical eight-week release evidence remains unchanged; holdout tuning and
+> local training remain forbidden.
 ## Master Plan v6.1 — 8 Weeks · High-Impact Portfolio Edition · Solo
 
 | Hạng mục | Quyết định |

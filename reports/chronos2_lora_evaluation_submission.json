@@ -2,7 +2,7 @@
   "source_commit": "0bcd01c",
   "kernel": "truongbaokien/5g-ni-chronos2-adaptation-evaluation",
   "kernel_version": 1,
-  "status_observed": "RUNNING",
+  "status_observed": "COMPLETE",
   "model_loading_observed_in_cloud_log": true,
   "first_stopping_metric_observed": true,
   "first_stopping_metric": {
@@ -30,8 +30,9 @@
   "code_dataset": "truongbaokien/5g-ni-chronos2-evaluation-code",
   "code_manifest_sha256": "d8b2204407e74e64afa5d44a799e5aba7dddf5a100cfb589548d78e9bc3c5d0e",
   "training_manifest_sha256": "03731dfc1a0fb29f513be0c021670547d2b16d103747ecf194d17990f88b481a",
-  "checkpoint_selection_complete": false,
-  "forecast_metrics_verified": false,
+  "checkpoint_selection_complete": true,
+  "forecast_metrics_verified": true,
+  "passes_initial_research_gate": false,
   "training_performed_by_evaluator": false,
   "holdout_used": false,
   "production_promoted": false
