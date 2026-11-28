@@ -8,6 +8,7 @@ import numpy as np
 import torch
 
 from src.data.io import sha256
+from src.features.pretraining_shards import iter_sharded_segments
 
 
 class SampledTargetBatches:
@@ -48,17 +49,22 @@ class PretrainingBatches:
             if sha256(path) != report["processed_sha256"]:
                 raise ValueError("Prepared source checksum mismatch")
             grouped, flat = {}, []
-            with np.load(path, allow_pickle=False) as archive:
-                for segment in report["segments"]:
-                    name = segment["name"]
-                    values = archive[name][:, 0, 0].astype(np.float64)
-                    phase = archive[name + "_phase"].astype(np.int64)
-                    if (len(values) < 193 or len(values) != len(phase)
-                            or not np.all(np.diff(phase) == 1)
-                            or not np.isfinite(values).all() or (values < 0).any()):
-                        raise ValueError("Expected finite nonnegative continuous prefix segment")
-                    grouped.setdefault(json.dumps(segment["entity"]), []).append((values, phase))
+            if report.get("format") == "sharded_prefix_v1":
+                for entity, values, phase in iter_sharded_segments(report):
+                    grouped.setdefault(json.dumps(entity), []).append((values, phase))
                     flat.append(values)
+            else:
+                with np.load(path, allow_pickle=False) as archive:
+                    for segment in report["segments"]:
+                        name = segment["name"]
+                        values = archive[name][:, 0, 0].astype(np.float64)
+                        phase = archive[name + "_phase"].astype(np.int64)
+                        if (len(values) < 193 or len(values) != len(phase)
+                                or not np.all(np.diff(phase) == 1)
+                                or not np.isfinite(values).all() or (values < 0).any()):
+                            raise ValueError("Expected finite nonnegative continuous prefix segment")
+                        grouped.setdefault(json.dumps(segment["entity"]), []).append((values, phase))
+                        flat.append(values)
             if not flat:
                 raise ValueError("No eligible external segments")
             all_values = np.concatenate(flat)
