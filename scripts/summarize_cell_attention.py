@@ -239,9 +239,16 @@ def main():
     parser.add_argument("--multisource", action="store_true")
     parser.add_argument("--precision", action="store_true", help="Verify separate strict-backend forecasts against original weights")
     parser.add_argument("--seeded", action="store_true", help="Verify seeded strict-backend v2 studies")
+    parser.add_argument("--seed29", action="store_true", help="Verify the predeclared Colab seed-29 baseline")
     args = parser.parse_args()
     torch.set_num_threads(2)
     torch.backends.mha.set_fastpath_enabled(False)
+    if args.seed29:
+        if args.multisource or args.precision or args.seeded:
+            raise ValueError("Seed-29 selects its own fixed baseline protocol")
+        summarize(Path("artifacts/cell_attention_seed29"), load_config("configs/cell_attention_seed29.yaml"),
+                  "cell_attention_seed29")
+        return
     if args.seeded and args.precision:
         raise ValueError("Seeded v2 already uses the strict inference backend")
     if args.multisource:

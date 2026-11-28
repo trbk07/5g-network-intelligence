@@ -9,6 +9,8 @@ from pathlib import Path, PurePosixPath
 
 from src.data.io import sha256
 
+SEEDED_CELL_KINDS = ("cell_attention_v2", "cell_multisource_v2", "cell_attention_seed29")
+
 
 def safe_relative(name):
     path = PurePosixPath(name)
@@ -23,7 +25,7 @@ def import_results(archive_path, workspace, kind="development"):
     archive_path = Path(archive_path).resolve()
     stage_root = workspace / ".cache"
     stage_root.mkdir(exist_ok=True)
-    if kind not in ("development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "temporal_tcn", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot", "multisource_neural", "neural_hurdle", "mae_aligned", "clipped_blend", "chronos2_lora", "chronos2_lora_evaluation", "cell_attention", "cell_multisource", "cell_attention_precision"):
+    if kind not in SEEDED_CELL_KINDS and kind not in ("development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "temporal_tcn", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot", "multisource_neural", "neural_hurdle", "mae_aligned", "clipped_blend", "chronos2_lora", "chronos2_lora_evaluation", "cell_attention", "cell_multisource", "cell_attention_precision"):
         raise ValueError("Unknown hurdle archive kind")
     candidate = kind == "candidate"
     prefix = PurePosixPath("artifacts/hurdle_candidate" if candidate else "artifacts/hurdle_research")
@@ -95,6 +97,12 @@ def import_results(archive_path, workspace, kind="development"):
                     {f"reports/cell_multisource_{case}_development.csv" for case in
                      ("target_self_pretrain", "multi_source_pretrain")})
         report_names = required | {f"reports/{kind}_training.log", f"reports/{kind}_inference.log"}
+    if kind in SEEDED_CELL_KINDS:
+        prefix = PurePosixPath(f"artifacts/{kind}")
+        required = ({f"reports/{kind}_{case}_development.csv" for case in
+                     ("target_self_pretrain", "multi_source_pretrain")} if kind == "cell_multisource_v2"
+                    else {f"reports/{kind}_development.csv"})
+        report_names = required | {f"reports/{kind}_training.log"}
     with tempfile.TemporaryDirectory(prefix="hurdle-import-", dir=stage_root) as temp:
         staging = Path(temp)
         with tarfile.open(archive_path, "r:gz") as archive:
@@ -175,7 +183,7 @@ def import_results(archive_path, workspace, kind="development"):
         evidence_name = "clipped_blend_import_evidence.json"
     if kind in ("chronos2_lora", "chronos2_lora_evaluation"):
         evidence_name = f"{kind}_import_evidence.json"
-    if kind in ("cell_attention", "cell_multisource", "cell_attention_precision"):
+    if kind in ("cell_attention", "cell_multisource", "cell_attention_precision") + SEEDED_CELL_KINDS:
         evidence_name = f"{kind}_import_evidence.json"
     (workspace / "reports" / evidence_name).write_text(json.dumps(evidence, indent=2))
     return evidence
@@ -184,6 +192,6 @@ def import_results(archive_path, workspace, kind="development"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
-    parser.add_argument("--kind", choices=["development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "temporal_tcn", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot", "multisource_neural", "neural_hurdle", "mae_aligned", "clipped_blend", "chronos2_lora", "chronos2_lora_evaluation", "cell_attention", "cell_multisource", "cell_attention_precision"], default="development")
+    parser.add_argument("--kind", choices=["development", "candidate", "calibration", "temporal_linear", "temporal_mlp", "temporal_tcn", "quantile_resolution", "development_blend", "mlp_blend", "blend_candidate", "mlp_blend_candidate", "risk_probability", "nested_risk_probability", "chronos_zero_shot", "multisource_neural", "neural_hurdle", "mae_aligned", "clipped_blend", "chronos2_lora", "chronos2_lora_evaluation", "cell_attention", "cell_multisource", "cell_attention_precision", *SEEDED_CELL_KINDS], default="development")
     args = parser.parse_args()
     print(json.dumps(import_results(args.archive, Path.cwd(), args.kind), indent=2))

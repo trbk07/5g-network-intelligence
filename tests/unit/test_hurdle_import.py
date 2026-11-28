@@ -67,7 +67,8 @@ def test_intake_is_allowlisted_and_idempotent(tmp_path):
     assert first["verified_artifact_files"] == 1
 
 
-@pytest.mark.parametrize("kind", ["chronos2_lora", "chronos2_lora_evaluation", "cell_attention", "cell_multisource"])
+@pytest.mark.parametrize("kind", ["chronos2_lora", "chronos2_lora_evaluation", "cell_attention", "cell_multisource",
+                                  "cell_attention_v2", "cell_multisource_v2", "cell_attention_seed29"])
 def test_chronos2_training_and_evaluation_have_separate_contracts(tmp_path, kind):
     archive = tmp_path / "chronos2.tar.gz"
     artifact = b"fixture only; no model loading or fitting"
@@ -77,6 +78,10 @@ def test_chronos2_training_and_evaluation_have_separate_contracts(tmp_path, kind
         "cell_attention": ["cell_attention_development.csv"],
         "cell_multisource": ["cell_multisource_target_self_pretrain_development.csv",
                              "cell_multisource_multi_source_pretrain_development.csv"],
+        "cell_attention_v2": ["cell_attention_v2_development.csv"],
+        "cell_multisource_v2": ["cell_multisource_v2_target_self_pretrain_development.csv",
+                               "cell_multisource_v2_multi_source_pretrain_development.csv"],
+        "cell_attention_seed29": ["cell_attention_seed29_development.csv"],
     }[kind]
     entries = {
         f"artifacts/{kind}/inner1/fixture.txt": artifact,
