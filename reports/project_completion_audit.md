@@ -67,3 +67,10 @@ clean-clone test of every later research commit or a new holdout evaluation.
 
 The broader quality objective remains unmet. Repeated development comparisons
 and extra data are not substitutes for material improvement or fresh evidence.
+
+The attention failover subsequently started on Colab after Kaggle reported
+`CANCEL_ACKNOWLEDGED`. Epoch 0 completed for `no_covariates/inner1`, with
+1,252,800 observed training labels and 216,000 stopping labels. Checkpoints/logs
+are on Drive; `past_covariate_attention_progress.json` records the snapshot.
+This supersedes the earlier queued/preparation status without implying completed
+fits, independent verification or improved accuracy.
