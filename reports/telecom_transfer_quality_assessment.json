@@ -1,0 +1,35 @@
+{
+  "arms": {
+    "telecom_matched": {
+      "no_fold_horizon_regression": false,
+      "mean_relative_mae_gain_pct": -0.03936045281507742,
+      "initial_research_gate_passed": false,
+      "material_point_gain_gate_passed": false,
+      "all_development_WAPE_below_10pct": false,
+      "production_promotion_permitted": false,
+      "scope": "point estimates only; reused development, robustness and uncertainty still required"
+    },
+    "existing_extended": {
+      "no_fold_horizon_regression": false,
+      "mean_relative_mae_gain_pct": 0.011168856669254342,
+      "initial_research_gate_passed": false,
+      "material_point_gain_gate_passed": false,
+      "all_development_WAPE_below_10pct": false,
+      "production_promotion_permitted": false,
+      "scope": "point estimates only; reused development, robustness and uncertainty still required"
+    },
+    "telecom_extended": {
+      "no_fold_horizon_regression": false,
+      "mean_relative_mae_gain_pct": -0.0874314878255474,
+      "initial_research_gate_passed": false,
+      "material_point_gain_gate_passed": false,
+      "all_development_WAPE_below_10pct": false,
+      "production_promotion_permitted": false,
+      "scope": "point estimates only; reused development, robustness and uncertainty still required"
+    }
+  },
+  "quality_improvement_claim": "Evaluate every arm; no best-arm or best-horizon cherry-picking",
+  "production_promoted": false,
+  "fresh_generalization_established": false,
+  "historical_control_caveat": "Check source/runtime identities before attributing historical differences purely to data or compute"
+}

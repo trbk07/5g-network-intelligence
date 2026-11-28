@@ -1,0 +1,209 @@
+{
+  "source_commit": "63187481ba9c7dfe2f3f56375aca0e30993298ee",
+  "training_performed_by_audit": false,
+  "checkpoint_storage": "Kaggle Input/Output; no local checkpoint transfer",
+  "all_metrics_reconstructed": true,
+  "cold_initialization_and_encoder_transfer_verified": true,
+  "all_arms_have_bitwise_matched_target_cold_states": true,
+  "source_budgets": [
+    {
+      "arm": "telecom_matched",
+      "verified_optimizer_updates": 5120
+    },
+    {
+      "arm": "existing_extended",
+      "verified_optimizer_updates": 15360
+    },
+    {
+      "arm": "telecom_extended",
+      "verified_optimizer_updates": 15360
+    }
+  ],
+  "maximum_cpu_gpu_error": 1.9073486328125e-06,
+  "history_only_predictions_checked": 3456,
+  "holdout_used": false,
+  "production_promoted": false,
+  "metrics": [
+    {
+      "arm": "telecom_matched",
+      "fold": "inner1",
+      "mode": "cell",
+      "horizon": 1,
+      "mae": 0.2289510943240271,
+      "wape": 0.42121450630238194,
+      "n_valid": 172800,
+      "zero_fp_rate": 0.6326193598523483
+    },
+    {
+      "arm": "telecom_matched",
+      "fold": "inner1",
+      "mode": "cell",
+      "horizon": 6,
+      "mae": 0.2556456588768205,
+      "wape": 0.4508767136152164,
+      "n_valid": 158400,
+      "zero_fp_rate": 0.6833635414950294
+    },
+    {
+      "arm": "telecom_matched",
+      "fold": "inner1",
+      "mode": "cell",
+      "horizon": 24,
+      "mae": 0.24574845984871158,
+      "wape": 0.4712215409390957,
+      "n_valid": 106560,
+      "zero_fp_rate": 0.7935531022810324
+    },
+    {
+      "arm": "telecom_matched",
+      "fold": "inner2",
+      "mode": "cell",
+      "horizon": 1,
+      "mae": 0.23686503151197252,
+      "wape": 0.4018558467750296,
+      "n_valid": 172800,
+      "zero_fp_rate": 0.7661187381144658
+    },
+    {
+      "arm": "telecom_matched",
+      "fold": "inner2",
+      "mode": "cell",
+      "horizon": 6,
+      "mae": 0.25140717399156537,
+      "wape": 0.4335781593236029,
+      "n_valid": 158400,
+      "zero_fp_rate": 0.7805129634792306
+    },
+    {
+      "arm": "telecom_matched",
+      "fold": "inner2",
+      "mode": "cell",
+      "horizon": 24,
+      "mae": 0.2595351946834738,
+      "wape": 0.42485194072134536,
+      "n_valid": 106560,
+      "zero_fp_rate": 0.7490209729353408
+    },
+    {
+      "arm": "existing_extended",
+      "fold": "inner1",
+      "mode": "cell",
+      "horizon": 1,
+      "mae": 0.22914801203766885,
+      "wape": 0.4215767871544508,
+      "n_valid": 172800,
+      "zero_fp_rate": 0.6638496284423722
+    },
+    {
+      "arm": "existing_extended",
+      "fold": "inner1",
+      "mode": "cell",
+      "horizon": 6,
+      "mae": 0.25641135632733564,
+      "wape": 0.45222715763068927,
+      "n_valid": 158400,
+      "zero_fp_rate": 0.721590597023123
+    },
+    {
+      "arm": "existing_extended",
+      "fold": "inner1",
+      "mode": "cell",
+      "horizon": 24,
+      "mae": 0.24384729582541914,
+      "wape": 0.46757606767271037,
+      "n_valid": 106560,
+      "zero_fp_rate": 0.6915413316921183
+    },
+    {
+      "arm": "existing_extended",
+      "fold": "inner2",
+      "mode": "cell",
+      "horizon": 1,
+      "mae": 0.2368507005541136,
+      "wape": 0.401831533438575,
+      "n_valid": 172800,
+      "zero_fp_rate": 0.7807591111574231
+    },
+    {
+      "arm": "existing_extended",
+      "fold": "inner2",
+      "mode": "cell",
+      "horizon": 6,
+      "mae": 0.251556546183949,
+      "wape": 0.43383576740693464,
+      "n_valid": 158400,
+      "zero_fp_rate": 0.7851407861722888
+    },
+    {
+      "arm": "existing_extended",
+      "fold": "inner2",
+      "mode": "cell",
+      "horizon": 24,
+      "mae": 0.25963403456938855,
+      "wape": 0.42501373888287325,
+      "n_valid": 106560,
+      "zero_fp_rate": 0.8176834044034462
+    },
+    {
+      "arm": "telecom_extended",
+      "fold": "inner1",
+      "mode": "cell",
+      "horizon": 1,
+      "mae": 0.22891190040003465,
+      "wape": 0.4211423989844708,
+      "n_valid": 172800,
+      "zero_fp_rate": 0.6954927388411287
+    },
+    {
+      "arm": "telecom_extended",
+      "fold": "inner1",
+      "mode": "cell",
+      "horizon": 6,
+      "mae": 0.2550116419595706,
+      "wape": 0.44975851170526804,
+      "n_valid": 158400,
+      "zero_fp_rate": 0.6874279123414071
+    },
+    {
+      "arm": "telecom_extended",
+      "fold": "inner1",
+      "mode": "cell",
+      "horizon": 24,
+      "mae": 0.2461685557513287,
+      "wape": 0.47202707289927687,
+      "n_valid": 106560,
+      "zero_fp_rate": 0.8511366696157249
+    },
+    {
+      "arm": "telecom_extended",
+      "fold": "inner2",
+      "mode": "cell",
+      "horizon": 1,
+      "mae": 0.23708005089973233,
+      "wape": 0.4022206401663956,
+      "n_valid": 172800,
+      "zero_fp_rate": 0.771094380910204
+    },
+    {
+      "arm": "telecom_extended",
+      "fold": "inner2",
+      "mode": "cell",
+      "horizon": 6,
+      "mae": 0.251461051963375,
+      "wape": 0.4336710775624678,
+      "n_valid": 158400,
+      "zero_fp_rate": 0.75015333147477
+    },
+    {
+      "arm": "telecom_extended",
+      "fold": "inner2",
+      "mode": "cell",
+      "horizon": 24,
+      "mae": 0.26023224444049187,
+      "wape": 0.4259929919086792,
+      "n_valid": 106560,
+      "zero_fp_rate": 0.8408754677573753
+    }
+  ],
+  "scope": "reused development; quality gate and generalization require separate assessment"
+}

@@ -1,0 +1,37 @@
+protocol: target_patch_past_covariate_bridge_research_v1
+seed: 17
+variants: [B]
+cases: [no_covariates, past_covariates]
+folds:
+  - {name: inner1, fit_end: 335, stop_end: 383, score_end: 443}
+  - {name: inner2, fit_end: 395, stop_end: 443, score_end: 503}
+horizons: [1, 6, 24]
+context_length: 168
+width: 128
+heads: 4
+layers: 2
+patch_length: 12
+dropout: 0.1
+training_stride: 1
+batch_size: 512
+learning_rate: 0.0003
+weight_decay: 0.01
+max_epochs: 80
+early_stopping_patience: 12
+gradient_clip: 1.0
+training_objective: standardized_clipped_DLPRB_MAE_equivalent_to_physical_MAE_within_fold
+preprocessing: global_per_KPI_fit_prefix_only_masks_and_phase4
+future_covariates: forbidden
+beam_statistics_as_inputs: forbidden
+beam_identity_embeddings: forbidden
+paper: https://proceedings.neurips.cc/paper_files/paper/2024/hash/0113ef4642264adc2e6924a3cbbdf532-Abstract-Conference.html
+reference_implementation: https://github.com/thuml/Time-Series-Library
+reference_revision: 4e938a1767106324dd753b2a44832bf870a0252e
+adaptation_scope: independently_implemented_idea_not_benchmark_reproduction
+checkpoint_selection: joint_stopping_MAE_only
+gpu_attention_fastpath: false
+seed_all_torch_generators: true
+initial_gate: no_fold_horizon_regression_and_mean_MAE_gain_at_least_2_percent_vs_fixed_strong_control
+material_gate: mean_MAE_gain_at_least_5_percent_then_robustness_and_uncertainty
+original_hours_504_onward: forbidden
+production_promotion: forbidden
