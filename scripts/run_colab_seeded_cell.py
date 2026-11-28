@@ -125,7 +125,7 @@ def main():
             status = process.wait()
         state.update(status="complete" if status == 0 else "failed", exit_code=status)
         state_path.write_text(json.dumps(state, indent=2))
-        with tarfile.open(run/"cell_attention_seed29_results.tar.gz", "w:gz") as archive:
+        with tarfile.open(run/"cell_attention_seed29_results.tar.gz", "w:gz", dereference=True) as archive:
             for folder in ("artifacts/cell_attention_seed29", "reports"):
                 archive.add(project/folder, arcname=folder)
         if status:
