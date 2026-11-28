@@ -167,7 +167,7 @@ def main():
     notebook["cells"].append({"cell_type": "code", "id": "export-results", "metadata": {},
         "source": export.splitlines(keepends=True), "execution_count": None, "outputs": []})
     (worker/name).write_text(json.dumps(notebook, ensure_ascii=False, indent=2), encoding="utf-8")
-    (worker/"kernel-metadata.json").write_text(json.dumps({"id": "truongbaokien/5g-ni-telecom-data-and-compute-ablation",
+    (worker/"kernel-metadata.json").write_text(json.dumps({"id": "truongbaokien/5g-ni-telecom-data-and-pretraining-budget-ablation",
         "title": "5G NI Telecom Data and Pretraining Budget Ablation", "code_file": name, "language": "python",
         "kernel_type": "notebook", "is_private": True, "enable_gpu": True, "enable_internet": False,
         "dataset_sources": ["truongbaokien/5g-ni-cell-multisource-v2-inputs", metadata["id"]],

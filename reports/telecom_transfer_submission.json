@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-28",
+  "kernel": "truongbaokien/5g-ni-telecom-data-and-pretraining-budget-ablation",
+  "version": 1,
+  "last_observed_status": "RUNNING",
+  "source_commit": "63187481ba9c7dfe2f3f56375aca0e30993298ee",
+  "supplement_dataset": "truongbaokien/5g-ni-telecom-prefix-transfer-inputs",
+  "supplement_visibility": "private",
+  "supplement_manifest_sha256": "10cd970e8724ca5258b855a37e2b3ebbda41b6e80b9984ad83cb56335ba702ed",
+  "supplement_archive_sha256": "d8b79e018d936b4737654404db6401f0621b4eea9fe0ae7154abf6b505ce9abb",
+  "supplement_bytes": 101851180,
+  "original_input_reused": "truongbaokien/5g-ni-cell-multisource-v2-inputs",
+  "original_manifest_sha256": "3069c57c9f64f809464ead2fae973fbaa35a86c3a46884e15cc693354eecab46",
+  "new_original_beam_payload_exported": false,
+  "declared_arms": [
+    {"arm": "telecom_matched", "source_domains": 10, "source_updates": 5120},
+    {"arm": "existing_extended", "source_domains": 9, "source_updates": 15360},
+    {"arm": "telecom_extended", "source_domains": 10, "source_updates": 15360}
+  ],
+  "observed_worker_source_verified": true,
+  "observed_first_arm_selected": true,
+  "epoch_evidence_at_initial_observation": false,
+  "checkpoints_storage": "Kaggle Output",
+  "local_training_performed": false,
+  "holdout_used": false,
+  "quality_improvement_established": false,
+  "related_tests_passed": 23
+}
