@@ -72,6 +72,20 @@ representation instead of assuming another increase in source volume suffices.
 
 ## Current verification status
 
-The new architecture passes lint and four local forward/guard tests. Those tests
-do not train and do not establish forecast quality. Hosted training and an
-independent replay audit are still required before making an accuracy claim.
+The architecture passes lint and six local forward/guard tests, including
+future poisoning at the actual batch interface and physical/standardized MAE
+equivalence. Seven metadata-only verifier tests cover checkpoint identity and
+artifact coverage/checksums. These checks do not train or establish forecast
+quality. Hosted training has started on Colab after the queued Kaggle duplicate
+was authoritatively cancelled. The live progress record is
+`reports/past_covariate_attention_progress.json`.
+
+Independent verification is implemented in
+`scripts/verify_colab_past_covariates.py`. Run it in Colab only after all four
+declared fits complete. It verifies the pinned source manifest, canonical
+development prefix, artifact hashes, fitted preprocessing, matched seeded cold
+states, checkpoint training identities, genuine patience stopping, supervision
+counts and optimizer updates. It reconstructs all saved metrics and replays
+history-only forecasts on CPU with the predeclared 0.0001 tolerance. Weights stay
+on Drive; only aggregate evidence is exported. Implementation or passing unit
+tests must not be described as a completed cloud audit.
