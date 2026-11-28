@@ -15,11 +15,11 @@ from src.evaluation.origins import evaluation_origins, train_origins_joint
 from src.evaluation.validation import validation_inputs
 from src.features.cell_inputs import CellBatches, cell_groups
 from src.features.gru_inputs import GRUPreprocessor
-from src.models.cell_attention import CellPatchAttention
+from src.models.cell_attention import CellPatchAttention, configure_attention_math
 from src.models.gru_train import train_gru
 from src.utils.config import load_config
 from src.utils.runtime import require_cloud_training
-from src.utils.seed import set_seed
+from src.utils.seed import set_neural_seed
 
 
 def score(model, panel, preprocessing, fold, directory, device="cuda"):
@@ -75,6 +75,9 @@ def run_study(config_path="configs/cell_attention.yaml", artifact_path="artifact
     torch.use_deterministic_algorithms(True)
     torch.backends.cuda.enable_flash_sdp(False)
     torch.backends.cuda.enable_mem_efficient_sdp(False)
+    # The fused GPU inference path drifted versus CPU in the historical v1 study.
+    # This affects future runs only; historical weights/forecasts remain immutable.
+    configure_attention_math()
     panel, _ = validation_inputs(load_config("configs/data.yaml"))
     panel = replace(panel, values=panel.values[:504], time=panel.time[:504])
     rows = []
@@ -84,15 +87,21 @@ def run_study(config_path="configs/cell_attention.yaml", artifact_path="artifact
             if directory.exists() and any(directory.iterdir()):
                 raise FileExistsError("Inspect persisted checkpoints before resubmission")
             directory.mkdir(parents=True, exist_ok=True)
-            set_seed(cfg["seed"])
+            set_neural_seed(cfg["seed"])
             preprocessing = GRUPreprocessor.fit(panel, fold["fit_end"], "B")
             preprocessing.save(directory/"preprocessor.npz")
             model = CellPatchAttention(cfg, preprocessing.mean[0], preprocessing.scale[0], mode)
+            torch.save({"model": model.state_dict(), "seed": cfg["seed"],
+                        "torch_initial_seed": torch.initial_seed(), "fold": fold, "mode": mode},
+                       directory/"cold_initialization.pt")
             if initializer is not None:
                 initializer(model, panel, preprocessing, fold, directory, cfg)
             metadata = {"protocol": cfg, "fold": fold, "mode": mode,
                 "parameters": sum(p.numel() for p in model.parameters()), "source_commit": os.environ.get("SOURCE_GIT_COMMIT"),
                 "torch": str(torch.__version__), "gpu": torch.cuda.get_device_name(0),
+                "gpu_attention_fastpath": torch.backends.mha.get_fastpath_enabled(),
+                "torch_initial_seed": torch.initial_seed(),
+                "cold_initialization_sha256": sha256(directory/"cold_initialization.pt"),
                 "holdout_used": False, "validation_504_671_used": False, "training_complete": False}
             (directory/"meta.json").write_text(json.dumps(metadata, indent=2))
             train = CellBatches(panel, preprocessing, train_origins_joint(fold["fit_end"]), "cuda")

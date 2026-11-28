@@ -1,0 +1,16 @@
+{
+  "all_metrics_reconstructed": true,
+  "fit_only_preprocessing_verified": true,
+  "cpu_torch": "2.15.0+cpu",
+  "preprocessing_reduction_tolerance": 1e-12,
+  "forecast_root": "artifacts/cell_attention_precision",
+  "original_checkpoint_selection_changed": false,
+  "stopping_choices_verified": true,
+  "history_only_beam_predictions_checked": 2304,
+  "maximum_cpu_gpu_error": 1.9073486328125e-06,
+  "epoch_capped_runs": 0,
+  "pretraining_transfer": [],
+  "holdout_used": false,
+  "production_promoted": false,
+  "claim_scope": "reused development; fresh generalization unproven"
+}

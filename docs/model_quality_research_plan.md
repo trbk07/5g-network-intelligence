@@ -13,6 +13,33 @@ external-data MLP pretraining also failed to establish stable gains. Neither
 finding justifies another small blend search or a claim that more data alone
 will deliver WAPE below 10%.
 
+The completed cell-attention screen also fails to establish a material gain:
+spatial mixing improves three of six MAEs versus its matched local control,
+without consistently beating the current blend. The original GPU attention
+fastpath caused inference drift. A separate frozen-checkpoint math replay
+reproduced original forecasts and achieved CPU/GPU parity within 1.91e-6 units.
+Future training code explicitly disables that fastpath for stopping/scoring.
+The already-running multi-corpus v1 uses its historical source snapshot and
+requires the same backend-consistency verification before quality acceptance.
+
+### Reproducibility correction after v1 intake
+
+Cold-initialization reconstruction exposed a second v1 defect: the lightweight
+`set_seed` helper seeded Python/NumPy only, and the new cell controller omitted
+the explicit Torch seeding used by earlier neural studies. Thus v1 point scores
+and strict replay are valid numerical observations, but neither the local/cell
+comparison nor the source-pretraining comparison is a controlled shared-start
+ablation. Do not attribute differences to architecture/data or certify seed 17
+for those neural initializations. Preserve all original snapshots and this
+negative finding; the original release and older seeded neural studies are not
+changed by this correction.
+
+The separate v2 studies explicitly seed CPU Torch and all CUDA generators, save
+source/target cold weights, hash the pre/post-transfer states, and use strict
+attention for stopping/scoring. New artifact roots, configs, private workers and
+notebooks prevent overwriting v1. All 100-epoch/12-patience and 5,120-step budgets
+stay fixed. Exact cold-weight and transfer checks are mandatory acceptance gates.
+
 ## Next structural experiment
 
 Test raw within-cell spatial information, absent from the per-beam models. Each

@@ -1,0 +1,9 @@
+{
+  "gpu_torch": "2.11.0+cu130",
+  "gpu": "Tesla T4",
+  "original_gpu_reproduction_max_error": 4.76837158203125e-07,
+  "fused_gpu_vs_cpu_max_error": 0.000286102294921875,
+  "strict_gpu_vs_cpu_max_error": 1.9073486328125e-06,
+  "training_performed": false,
+  "checkpoint_selection_changed": false
+}

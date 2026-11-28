@@ -1,0 +1,12 @@
+{
+  "kernel": "truongbaokien/5g-ni-cell-attention-precision-replay",
+  "kernel_version": 1,
+  "status_observed": "COMPLETE",
+  "code_commit": "6871a8a",
+  "code_manifest_sha256": "c92d371b2046157814fbef03780f9b9016ddef774b23e74ecef531ecb7ab4363",
+  "trained_manifest_sha256": "0fadd23033ff9228bcf7c76c5f992946a3c599f3efedb88ba4def9975b493788",
+  "training_performed": false,
+  "checkpoint_selection_changed": false,
+  "verification": "reports/cell_attention_precision_verification.json",
+  "holdout_used": false
+}

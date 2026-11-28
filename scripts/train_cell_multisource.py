@@ -15,7 +15,7 @@ from src.models.cell_pretraining import SourcePatchForecaster, transfer_encoder
 from src.models.gru_train import train_gru
 from src.utils.config import load_config
 from src.utils.runtime import require_cloud_training
-from src.utils.seed import set_seed
+from src.utils.seed import set_neural_seed
 
 
 class ContextNormalized:
@@ -34,17 +34,17 @@ class ContextNormalized:
             yield normalized, phase, (target-mean)/scale
 
 
-def main():
+def main(cfg_path="configs/cell_multisource.yaml", artifact_path="artifacts/cell_multisource",
+         report_prefix="cell_multisource"):
     require_cloud_training()
-    cfg_path = "configs/cell_multisource.yaml"
     cfg = load_config(cfg_path)
     for case in cfg["cases"]:
-        root = Path("artifacts/cell_multisource")/case
+        root = Path(artifact_path)/case
 
         def initialize(model, panel, preprocessing, fold, directory, config):
             saved_rng = torch.get_rng_state()
             saved_cuda = torch.cuda.get_rng_state_all()
-            set_seed(config["seed"])
+            set_neural_seed(config["seed"])
             source_model = SourcePatchForecaster(config)
             if case == "target_self_pretrain":
                 prep = GRUPreprocessor.fit(panel, fold["fit_end"], "A")
@@ -68,6 +68,9 @@ def main():
                      "max_epochs": config["pretraining_epochs"],
                      "early_stopping_patience": config["pretraining_epochs"]+1}
             identity = {"case": case, "provenance": provenance, "task": "past_context_normalized_source_forecasting"}
+            print(json.dumps({"case": case, "fold": fold["name"],
+                "pretraining_phase": "source_prefix_forecasting", "source_domains": len(config["source_reports"]) if case != "target_self_pretrain" else 1,
+                "torch_initial_seed": torch.initial_seed()}), flush=True)
             meta_path = pretrain_root/"source_meta.json"
             if meta_path.exists():
                 metadata = json.loads(meta_path.read_text())
@@ -76,17 +79,25 @@ def main():
             else:
                 if (pretrain_root/"last.pt").exists():
                     raise RuntimeError("Inspect partial pretraining state before any restart")
+                pretrain_root.mkdir(parents=True, exist_ok=True)
+                torch.save({"model": source_model.state_dict(), "seed": config["seed"],
+                            "torch_initial_seed": torch.initial_seed()},
+                           pretrain_root/"source_initialization.pt")
                 result = train_gru(source_model, ContextNormalized(train), ContextNormalized(diagnostic),
                     fixed, pretrain_root, config["seed"], run_identity=identity)
                 if result["epochs_completed"] != config["pretraining_epochs"]:
                     raise ValueError("Fixed pretraining budget incomplete")
                 meta_path.write_text(json.dumps({"identity": identity, "config": fixed,
+                    "torch_initial_seed": torch.initial_seed(),
+                    "source_initialization_sha256": sha256(pretrain_root/"source_initialization.pt"),
                     "training": result, "checkpoint": "last.pt", "units": "dimensionless past-context scale",
                     "diagnostic_is_training_prefix_only": True}, indent=2))
             state_path = pretrain_root/"last.pt"
             state = torch.load(state_path, map_location="cpu", weights_only=True)
             transferred = transfer_encoder(model, state["model"])
             torch.save({"model": model.state_dict(), "source_checkpoint_sha256": sha256(state_path),
+                        "cold_checkpoint_sha256": sha256(directory/"cold_initialization.pt"),
+                        "seed": config["seed"],
                         "transferred_encoder_keys": transferred, "case": case, "fold": fold},
                        directory/"initialization.pt")
             torch.set_rng_state(saved_rng)
@@ -94,8 +105,8 @@ def main():
             del source_model, train, diagnostic
             torch.cuda.empty_cache()
 
-        run_study(cfg_path, str(root), f"cell_multisource_{case}", initialize)
-    complete = Path("artifacts/cell_multisource")
+        run_study(cfg_path, str(root), f"{report_prefix}_{case}", initialize)
+    complete = Path(artifact_path)
     files = {p.relative_to(complete).as_posix(): sha256(p) for p in complete.rglob("*")
              if p.is_file() and p != complete/"manifest.json"}
     (complete/"manifest.json").write_text(json.dumps({"files": files}, indent=2))

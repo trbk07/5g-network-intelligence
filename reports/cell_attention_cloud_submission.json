@@ -8,10 +8,16 @@
   "training_performed": true,
   "kernel": "truongbaokien/5g-ni-cell-spatial-temporal-attention",
   "kernel_version": 1,
-  "status_observed": "RUNNING",
+  "status_observed": "COMPLETE",
   "cloud_epoch_progress_observed": 8,
   "local_training_performed": false,
   "holdout_used": false,
   "production_promoted": false,
-  "cloud_training_progress_verified": true
+  "cloud_training_progress_verified": true,
+  "artifact_hashes_verified": true,
+  "verified_artifact_files": 32,
+  "original_fused_gpu_cpu_parity_passed": false,
+  "strict_replay_verified": true,
+  "strict_replay_checkpoint_selection_changed": false,
+  "material_improvement_established": false
 }

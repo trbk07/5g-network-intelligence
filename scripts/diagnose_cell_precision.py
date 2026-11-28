@@ -33,6 +33,7 @@ def main():
     require_cloud_training()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--trained-root", type=Path, required=True)
+    parser.add_argument("--case", choices=["target_self_pretrain", "multi_source_pretrain"])
     args = parser.parse_args()
     if not torch.cuda.is_available():
         raise RuntimeError("Hosted GPU required for backend comparison")
@@ -41,11 +42,12 @@ def main():
     torch.use_deterministic_algorithms(True)
     torch.backends.cuda.enable_flash_sdp(False)
     torch.backends.cuda.enable_mem_efficient_sdp(False)
-    cfg = load_config("configs/cell_attention.yaml")
+    cfg = load_config("configs/cell_multisource.yaml" if args.case else "configs/cell_attention.yaml")
     panel, _ = validation_inputs(load_config("configs/data.yaml"))
     panel = replace(panel, values=panel.values[:504], time=panel.time[:504])
     groups = cell_groups(panel.beam_ids)[[0, 45, 89]]
-    root = Path("artifacts/cell_attention_precision")
+    root = Path("artifacts/cell_multisource_precision")/args.case if args.case else Path("artifacts/cell_attention_precision")
+    report_prefix = f"cell_multisource_{args.case}_precision" if args.case else "cell_attention_precision"
     validate_output_storage(root)
     root.mkdir(parents=True, exist_ok=True)
     Path("reports").mkdir(exist_ok=True)
@@ -81,6 +83,7 @@ def main():
             print(json.dumps({"fold": fold["name"], "mode": mode,
                 "backend_diagnosis_complete": True}), flush=True)
     evidence = {"torch": str(torch.__version__), "gpu": torch.cuda.get_device_name(0),
+                "case": args.case,
                 "training_performed": False, "checkpoint_selection_changed": False,
                 "tolerance": 1e-4, "diagnostics": diagnostics}
     (root/"backend_diagnostic.json").write_text(json.dumps(evidence, indent=2))
@@ -106,7 +109,7 @@ def main():
                 "checkpoint_epoch": state["epoch"], "gpu_attention_fastpath": False,
                 "checkpoint_selection_changed": False}, indent=2))
             rows.extend({"fold": fold["name"], "mode": mode, **r} for r in score(model, panel, pre, fold, directory))
-            pd.DataFrame(rows).to_csv("reports/cell_attention_precision_development.csv", index=False)
+            pd.DataFrame(rows).to_csv(f"reports/{report_prefix}_development.csv", index=False)
             del model
             torch.cuda.empty_cache()
     files = {p.relative_to(root).as_posix(): sha256(p) for p in root.rglob("*") if p.is_file()}

@@ -1,0 +1,77 @@
+protocol: multi-corpus-cell-encoder-pretraining-v1-seeded-strict-v2
+seed: 17
+modes:
+- cell
+folds:
+- name: inner1
+  fit_end: 335
+  stop_end: 383
+  score_end: 443
+- name: inner2
+  fit_end: 395
+  stop_end: 443
+  score_end: 503
+horizons:
+- 1
+- 6
+- 24
+context_length: 168
+beams_per_cell: 32
+patch_length: 12
+patch_stride: 6
+width: 64
+heads: 4
+temporal_layers: 2
+dropout: 0.1
+learning_rate: 0.0003
+weight_decay: 0.01
+batch_size: 32
+max_epochs: 100
+early_stopping_patience: 12
+gradient_clip: 1.0
+training_objective: physical_DLPRB_masked_MAE
+preprocessing: global_per_KPI_fit_prefix_only_missing_masks_phase4
+beam_statistics_as_inputs: forbidden
+beam_identity_embeddings: forbidden
+spatial_inputs: raw_causal_histories_of_the_same_32_beam_cell
+local_control: same_parameters_with_off_diagonal_spatial_attention_blocked
+checkpoint_selection: stopping_MAE_only
+scoring_population: all_original_beams_and_frozen_origins
+initial_gate: no_horizon_regression_vs_current_blend_and_mean_MAE_gain_at_least_2_percent
+material_improvement_target: at_least_5_percent_mean_MAE_gain_then_seed_and_uncertainty_checks
+validation_504_671: forbidden
+original_final_holdout: forbidden
+production_promotion: forbidden
+cases:
+- multi_source_pretrain
+- target_self_pretrain
+pretraining_epochs: 20
+pretraining_samples_per_epoch: 65536
+pretraining_batch_size: 256
+source_reports:
+- reports/pm01_nr1800_preparation.json
+- reports/pm03_nr2100_preparation.json
+- reports/pm03_nr3500_preparation.json
+- reports/cesnet_preparation.json
+- reports/vigo_sessions_preparation.json
+- reports/vigo_vpn_preparation.json
+- reports/vigo_internet_preparation.json
+- reports/vigo_downstream_preparation.json
+- reports/cesnet_agg23_preparation.json
+source_weights:
+- 0.3333333333333333
+- 0.3333333333333333
+- 0.3333333333333333
+- 1
+- 0.25
+- 0.25
+- 0.25
+- 0.25
+- 1
+source_head_transfer: forbidden_temporal_encoder_only
+source_normalization: past_context_only_affine_invariant
+source_physical_label_pooling: forbidden
+seed_all_torch_generators: true
+gpu_attention_fastpath: false
+cold_initialization_evidence: cold_initialization.pt_before_any_pretraining_or_optimization
+historical_v1_status: exploratory_only_neural_initialization_not_seeded_as_declared

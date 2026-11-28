@@ -9,8 +9,9 @@ import torch
 from src.data.panel import Panel
 from src.features.cell_inputs import CellBatches, cell_groups
 from src.features.gru_inputs import GRUPreprocessor
-from src.models.cell_attention import CellPatchAttention
+from src.models.cell_attention import CellPatchAttention, configure_attention_math
 from src.utils.config import load_config
+from src.utils.seed import set_neural_seed
 
 
 def panel_fixture():
@@ -64,3 +65,25 @@ def test_entry_point_refuses_local_training(monkeypatch):
     monkeypatch.setattr(train_cell_attention, "require_cloud_training", reject)
     with pytest.raises(RuntimeError, match="local training forbidden"):
         train_cell_attention.main()
+
+
+def test_explicit_attention_math_policy():
+    original = torch.backends.mha.get_fastpath_enabled()
+    try:
+        torch.backends.mha.set_fastpath_enabled(True)
+        configure_attention_math()
+        assert not torch.backends.mha.get_fastpath_enabled()
+    finally:
+        torch.backends.mha.set_fastpath_enabled(original)
+
+
+def test_neural_seed_matches_cold_weights_across_spatial_modes():
+    cfg = load_config("configs/cell_attention_v2.yaml")
+    set_neural_seed(cfg["seed"])
+    local = CellPatchAttention(cfg, 1, 2, "local")
+    # An unrelated initialization consumes RNG; reseeding must restore the cold start.
+    torch.rand(100)
+    set_neural_seed(cfg["seed"])
+    spatial = CellPatchAttention(cfg, 1, 2, "cell")
+    assert torch.initial_seed() == cfg["seed"]
+    assert all(torch.equal(v, spatial.state_dict()[k]) for k, v in local.state_dict().items())

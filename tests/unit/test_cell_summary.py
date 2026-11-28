@@ -40,7 +40,7 @@ def test_replay_reads_only_past_and_preserves_group_axis():
 
 
 def test_transfer_verifier_rejects_source_head_and_wrong_budget(tmp_path):
-    cfg = load_config("configs/cell_multisource.yaml")
+    cfg = load_config("configs/cell_multisource_v2.yaml")
     fold = cfg["folds"][0]
     source_root = tmp_path/"pretraining"/fold["name"]
     source_root.mkdir(parents=True)
@@ -51,16 +51,27 @@ def test_transfer_verifier_rejects_source_head_and_wrong_budget(tmp_path):
         "identity": {"case": case, "provenance": {"original_fit_end": fold["fit_end"],
                       "maximum_label_hour": fold["fit_end"]}}, "checkpoint": "last.pt"}))
     # These are deliberately constructed verifier fixtures, never a trained artifact.
+    torch.manual_seed(cfg["seed"])
     source = SourcePatchForecaster(cfg)
+    source_cold = source_root/"source_initialization.pt"
+    torch.save({"model": source.state_dict(), "seed": cfg["seed"], "torch_initial_seed": cfg["seed"]}, source_cold)
+    metadata = json.loads((source_root/"source_meta.json").read_text())
+    metadata.update(source_initialization_sha256=sha256(source_cold), torch_initial_seed=cfg["seed"])
+    (source_root/"source_meta.json").write_text(json.dumps(metadata))
+    with torch.no_grad():
+        source.encoder.patch_projection.weight.fill_(.125)  # Fixture mutation, not an optimizer update.
     last = {"epoch": 19, "model": source.state_dict(), "optimizer": {"state": {0: {"step": torch.tensor(5120)}}}}
     checkpoint = source_root/"last.pt"
     torch.save(last, checkpoint)
     torch.manual_seed(cfg["seed"])
     model = CellPatchAttention(cfg, 5, 1, "cell")
-    transferred = transfer_encoder(model, source.state_dict())
     directory = tmp_path/fold["name"]/"cell"
     directory.mkdir(parents=True)
+    torch.save({"model": model.state_dict(), "seed": cfg["seed"], "torch_initial_seed": cfg["seed"]},
+               directory/"cold_initialization.pt")
+    transferred = transfer_encoder(model, source.state_dict())
     initialization = {"model": model.state_dict(), "source_checkpoint_sha256": sha256(checkpoint),
+                      "cold_checkpoint_sha256": sha256(directory/"cold_initialization.pt"), "seed": cfg["seed"],
                       "case": case, "fold": fold, "transferred_encoder_keys": transferred}
     torch.save(initialization, directory/"initialization.pt")
     verified = verify_pretraining(tmp_path, directory, model, fold, case, cfg)

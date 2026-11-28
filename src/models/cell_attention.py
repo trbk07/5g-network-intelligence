@@ -4,6 +4,11 @@ import torch
 from torch import nn
 
 
+def configure_attention_math():
+    """Keep stopping/scoring consistent across CPU and hosted GPU inference."""
+    torch.backends.mha.set_fastpath_enabled(False)
+
+
 class CellPatchAttention(nn.Module):
     def __init__(self, config, mean, scale, mode):
         super().__init__()
