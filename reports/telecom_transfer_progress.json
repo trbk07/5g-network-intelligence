@@ -3,15 +3,18 @@
   "kernel": "truongbaokien/5g-ni-telecom-data-and-pretraining-budget-ablation",
   "version": 1,
   "status": "RUNNING",
-  "completed_arms_observed_in_log": ["telecom_matched"],
-  "current_arm_observed": "existing_extended",
+  "completed_arms_observed_in_log": ["telecom_matched", "existing_extended"],
+  "current_arm_observed": "telecom_extended",
   "current_phase": "source_prefix_forecasting",
-  "last_observed_zero_based_source_epoch": 3,
-  "pending_arm": "telecom_extended",
+  "last_observed_zero_based_source_epoch": 28,
+  "pending_arm": null,
   "reported_confirmation_scores": [
     {"arm": "telecom_matched", "fold": "inner2", "horizon": 1, "mae_rounded": 0.236865, "wape_rounded": 0.401856},
     {"arm": "telecom_matched", "fold": "inner2", "horizon": 6, "mae_rounded": 0.251407, "wape_rounded": 0.433578},
-    {"arm": "telecom_matched", "fold": "inner2", "horizon": 24, "mae_rounded": 0.259535, "wape_rounded": 0.424852}
+    {"arm": "telecom_matched", "fold": "inner2", "horizon": 24, "mae_rounded": 0.259535, "wape_rounded": 0.424852},
+    {"arm": "existing_extended", "fold": "inner2", "horizon": 1, "mae_rounded": 0.236851, "wape_rounded": 0.401832},
+    {"arm": "existing_extended", "fold": "inner2", "horizon": 6, "mae_rounded": 0.251557, "wape_rounded": 0.433836},
+    {"arm": "existing_extended", "fold": "inner2", "horizon": 24, "mae_rounded": 0.259634, "wape_rounded": 0.425014}
   ],
   "score_status": "Rounded worker log only; independent integrity, metric and parity verification pending",
   "quality_gate_assessed": false,
