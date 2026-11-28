@@ -1,6 +1,7 @@
 .venv/
 .kaggle-venv/
 .colab-venv/
+.inference-211-venv/
 .uv-cache/
 .cache/
 __pycache__/

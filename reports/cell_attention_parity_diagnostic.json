@@ -1,0 +1,56 @@
+{
+  "cpu_torch": "2.15.0+cpu",
+  "gpu_torch": "2.11.0+cu130",
+  "historical_refactor_cpu_difference": 0.0,
+  "diagnostics": [
+    {
+      "fold": "inner1",
+      "mode": "local",
+      "fastpath": false,
+      "maximum_error": 0.000225067138671875
+    },
+    {
+      "fold": "inner1",
+      "mode": "local",
+      "fastpath": true,
+      "maximum_error": 0.000225067138671875
+    },
+    {
+      "fold": "inner1",
+      "mode": "cell",
+      "fastpath": false,
+      "maximum_error": 0.0002090930938720703
+    },
+    {
+      "fold": "inner1",
+      "mode": "cell",
+      "fastpath": true,
+      "maximum_error": 0.0002090930938720703
+    },
+    {
+      "fold": "inner2",
+      "mode": "local",
+      "fastpath": false,
+      "maximum_error": 0.00022268295288085938
+    },
+    {
+      "fold": "inner2",
+      "mode": "local",
+      "fastpath": true,
+      "maximum_error": 0.00022268295288085938
+    },
+    {
+      "fold": "inner2",
+      "mode": "cell",
+      "fastpath": false,
+      "maximum_error": 0.00028705596923828125
+    },
+    {
+      "fold": "inner2",
+      "mode": "cell",
+      "fastpath": true,
+      "maximum_error": 0.00028705596923828125
+    }
+  ],
+  "parity_passed": false
+}
