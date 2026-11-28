@@ -61,7 +61,7 @@ def score(model, panel, preprocessing, fold, directory, device="cuda"):
 
 
 def run_study(config_path="configs/cell_attention.yaml", artifact_path="artifacts/cell_attention",
-              report_prefix="cell_attention", initializer=None):
+              report_prefix="cell_attention", initializer=None, *, training_batches=None, training_loss=None):
     require_cloud_training()
     if not torch.cuda.is_available():
         raise RuntimeError("Hosted CUDA required")
@@ -104,12 +104,14 @@ def run_study(config_path="configs/cell_attention.yaml", artifact_path="artifact
                 "cold_initialization_sha256": sha256(directory/"cold_initialization.pt"),
                 "holdout_used": False, "validation_504_671_used": False, "training_complete": False}
             (directory/"meta.json").write_text(json.dumps(metadata, indent=2))
-            train = CellBatches(panel, preprocessing, train_origins_joint(fold["fit_end"]), "cuda")
+            train = (CellBatches(panel, preprocessing, train_origins_joint(fold["fit_end"]), "cuda")
+                     if training_batches is None else training_batches(panel, preprocessing, fold, directory))
             stopping = CellBatches(panel, preprocessing, evaluation_origins(fold["fit_end"], fold["stop_end"], 24), "cuda")
             print(json.dumps({"fold": fold["name"], "mode": mode, "parameters": metadata["parameters"],
                               "training_cell_windows": train.n_samples}), flush=True)
             result = train_gru(model, train, stopping, cfg, directory, cfg["seed"],
-                run_identity={"fold": fold, "mode": mode, "architecture": cfg["protocol"]})
+                run_identity={"fold": fold, "mode": mode, "architecture": cfg["protocol"]},
+                training_loss=training_loss)
             model.load_state_dict(torch.load(directory/"best.pt", map_location="cuda", weights_only=True)["model"])
             metadata.update(training=result, training_complete=True,
                             loss_units="physical DLPRB; historical trainer field names contain scaled")

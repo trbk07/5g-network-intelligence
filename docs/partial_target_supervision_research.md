@@ -26,13 +26,22 @@ invalid-boundary rejection. No fitting or optimizer operation ran locally.
 
 ## Required experiment controls
 
-This implementation has not been trained or shown an accuracy gain. Finish
+This implementation has not been trained or shown an accuracy gain. A hosted
+controller and two matched configurations are now implemented, with the same
+batch horizon-balanced training objective for both new joint-label control and
+available-label candidate. The old historical control is not silently reused
+as an objective-matched arm. Stopping remains complete joint windows and full
+scoring populations remain unchanged. Finish
 the already running Telecom data/compute experiment before allocating a new
 study. If tested, use the same architecture, seed, global fit-prefix
 preprocessing, target cutoffs, original scoring populations and joint stopping
 criterion. Explicitly disclose changes in horizon weighting: pooling all finite
 labels weights shorter horizons more heavily. A matched training objective
-across control and candidate is required before calling it a data-only effect.
+across control and candidate is required. Natural window counts and therefore
+optimizer updates per epoch also differ; report both. This two-arm study cannot
+by itself attribute a gain exclusively to label availability rather than the
+associated extra optimizer steps. A pure data-effect claim needs an additional
+step-matched control.
 
 Record horizon-specific supervision counts and checkpoint/optimizer/RNG state
 on hosted Colab/Kaggle. Verify full-population MAE/WAPE and numerical parity

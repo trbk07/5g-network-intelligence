@@ -1,0 +1,54 @@
+protocol: partial-target-supervision-joint
+seed: 17
+modes:
+- cell
+folds:
+- name: inner1
+  fit_end: 335
+  stop_end: 383
+  score_end: 443
+- name: inner2
+  fit_end: 395
+  stop_end: 443
+  score_end: 503
+horizons:
+- 1
+- 6
+- 24
+context_length: 168
+beams_per_cell: 32
+patch_length: 12
+patch_stride: 6
+width: 64
+heads: 4
+temporal_layers: 2
+dropout: 0.1
+learning_rate: 0.0003
+weight_decay: 0.01
+batch_size: 32
+max_epochs: 100
+early_stopping_patience: 12
+gradient_clip: 1.0
+training_objective: physical_DLPRB_batch_horizon_balanced_MAE
+preprocessing: global_per_KPI_fit_prefix_only_missing_masks_phase4
+beam_statistics_as_inputs: forbidden
+beam_identity_embeddings: forbidden
+spatial_inputs: raw_causal_histories_of_the_same_32_beam_cell
+local_control: same_parameters_with_off_diagonal_spatial_attention_blocked
+checkpoint_selection: stopping_MAE_only
+scoring_population: all_original_beams_and_frozen_origins
+initial_gate: no_horizon_regression_vs_current_blend_and_mean_MAE_gain_at_least_2_percent
+material_improvement_target: at_least_5_percent_mean_MAE_gain_then_seed_and_uncertainty_checks
+validation_504_671: forbidden
+original_final_holdout: forbidden
+production_promotion: forbidden
+seed_all_torch_generators: true
+gpu_attention_fastpath: false
+cold_initialization_evidence: cold_initialization.pt_before_any_pretraining_or_optimization
+historical_v1_status: exploratory_only_neural_initialization_not_seeded_as_declared
+training_label_policy: joint
+stopping_label_policy: complete_joint_windows_unchanged
+source_pretraining: none
+historical_control_reused_as_matched_arm: false
+comparison_scope: paired_new_control_same_training_loss_reused_development
+compute_scope: natural_window_counts_differ_report_actual_optimizer_steps
