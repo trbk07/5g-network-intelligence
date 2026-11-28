@@ -109,3 +109,21 @@ to select a lucky seed. More training epochs are not supported by these runs:
 all seed-17 target fits reached genuine early stopping, not their epoch caps.
 Telecom Italia streaming preparation is underway, separate from these completed
 experiments; sampler/overlap audits must precede its use in hosted pretraining.
+
+### Telecom data/compute ablation (declared before scoring)
+
+The completed prefix audit retains 12,029,560 entity-hours in 10,997 segments;
+the sampler treats Telecom Italia as one additional collection. Use three arms:
+Telecom with 5,120 source updates, existing collections with 15,360 updates, and
+Telecom with 15,360 updates. Target architecture, seed 17, two folds, fit-only
+preprocessing and target stopping remain fixed. The completed existing-data
+5,120-update study supplies the historical short-budget control. Any runtime
+differences must be disclosed rather than called a pure data effect.
+
+Only public licensed Telecom prefixes and MIT source code are newly uploaded
+to a private Kaggle input. Original beam data are reused from the already
+hosted approved dataset. Source output heads never transfer; no physical PRB
+pooling, original hours 504 onward, holdout reuse or production promotion.
+The reader guide is `notebooks/41_telecom_data_and_pretraining_budget_ablation.ipynb`.
+An upload or queued worker is not evidence that fitting has begun or quality
+improved. Verify actual epoch logs, all declared arms, compute and metrics.
