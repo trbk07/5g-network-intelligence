@@ -1,0 +1,32 @@
+[
+  {
+    "source": "vigo_sessions",
+    "segments": 21,
+    "hours": 15036,
+    "processed_sha256": "340b2ce8b946c6504089dea11623dfa49f14e86686f67e04ed87ebe94f81f988"
+  },
+  {
+    "source": "vigo_vpn",
+    "segments": 11,
+    "hours": 7876,
+    "processed_sha256": "2805c53347448d271f882fcf4b6a1702b38d15957f86e7803735ba748228cb87"
+  },
+  {
+    "source": "vigo_internet",
+    "segments": 11,
+    "hours": 7876,
+    "processed_sha256": "2636fc46a528442b653f199de573d917885bf5b3b3e7d3273654a24e9bf97030"
+  },
+  {
+    "source": "vigo_downstream",
+    "segments": 12,
+    "hours": 8592,
+    "processed_sha256": "a2a980c6577df84407a047e127112f55635e8ef70dc27269f74fa1b654152ca6"
+  },
+  {
+    "source": "cesnet_agg23",
+    "segments": 2,
+    "hours": 1273,
+    "processed_sha256": "6073324a794306a3c0b89aa29af5855bb3db68bcd42e27107b7b99d945983455"
+  }
+]

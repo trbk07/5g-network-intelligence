@@ -36,6 +36,22 @@ retroactively make it pass. More training does not guarantee a material gain.
 
 ## Subsequent decisions
 
+The expanded data study is now authorized in parallel with the structural
+screen. `configs/cell_multisource.yaml` freezes longer source pretraining:
+5,120 updates per run, with a compute-matched target-self-pretraining control.
+The four Vigo domains and CESNET-AGG23 add 40,653 eligible prefix entity-hours;
+they join the audited radio and CESNET24 prefixes. Transfer encoder weights
+only, discard the source head, and fine-tune physical DLPRB outputs on each
+original fit prefix. Publisher-scaled Vigo data requires explicit provenance
+and past-context normalization; this does not certify publisher preprocessing.
+The 5.12 GB Telecom Italia intake remains outside the frozen experiment until
+its own acquisition, continuity and overlap checks pass.
+
+Time and source-count limits are not the optimization objective. Use two folds
+for screening, then additional seeds and valid walk-forward windows for strong
+candidates. Five highly overlapping windows are not five independent tests.
+Retain the original chronological exclusions when allocating additional budget.
+
 If spatial attention improves over its matched control and the strong baseline,
 test stability before any fresh-data deployment decision. If it fails, inspect
 zero/positive error and temporal structure, then choose a genuinely different

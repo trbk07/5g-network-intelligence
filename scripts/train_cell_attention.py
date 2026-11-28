@@ -60,12 +60,13 @@ def score(model, panel, preprocessing, fold, directory, device="cuda"):
     return rows
 
 
-def main():
+def run_study(config_path="configs/cell_attention.yaml", artifact_path="artifacts/cell_attention",
+              report_prefix="cell_attention", initializer=None):
     require_cloud_training()
     if not torch.cuda.is_available():
         raise RuntimeError("Hosted CUDA required")
-    cfg = load_config("configs/cell_attention.yaml")
-    root = Path("artifacts/cell_attention")
+    cfg = load_config(config_path)
+    root = Path(artifact_path)
     validate_output_storage(root)
     root.mkdir(parents=True, exist_ok=True)
     Path("reports").mkdir(exist_ok=True)
@@ -87,6 +88,8 @@ def main():
             preprocessing = GRUPreprocessor.fit(panel, fold["fit_end"], "B")
             preprocessing.save(directory/"preprocessor.npz")
             model = CellPatchAttention(cfg, preprocessing.mean[0], preprocessing.scale[0], mode)
+            if initializer is not None:
+                initializer(model, panel, preprocessing, fold, directory, cfg)
             metadata = {"protocol": cfg, "fold": fold, "mode": mode,
                 "parameters": sum(p.numel() for p in model.parameters()), "source_commit": os.environ.get("SOURCE_GIT_COMMIT"),
                 "torch": str(torch.__version__), "gpu": torch.cuda.get_device_name(0),
@@ -103,12 +106,16 @@ def main():
                             loss_units="physical DLPRB; historical trainer field names contain scaled")
             (directory/"meta.json").write_text(json.dumps(metadata, indent=2))
             rows.extend({"fold": fold["name"], "mode": mode, **r} for r in score(model, panel, preprocessing, fold, directory))
-            pd.DataFrame(rows).to_csv("reports/cell_attention_development.csv", index=False)
+            pd.DataFrame(rows).to_csv(f"reports/{report_prefix}_development.csv", index=False)
             print(pd.DataFrame(rows).tail(3).to_string(index=False), flush=True)
             del model, train, stopping
             torch.cuda.empty_cache()
     files = {p.relative_to(root).as_posix(): sha256(p) for p in root.rglob("*") if p.is_file()}
     (root/"manifest.json").write_text(json.dumps({"files": files}, indent=2))
+
+
+def main():
+    run_study()
 
 
 if __name__ == "__main__":

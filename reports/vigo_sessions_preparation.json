@@ -1,0 +1,167 @@
+{
+  "source_id": "vigo_sessions",
+  "source_sha256": "0b31cbc4cc6abd554057fa7ffc5980acbc168ae315f8de8dac9271091275a31e",
+  "processed_path": "data/processed/vigo_sessions_training.npz",
+  "processed_sha256": "340b2ce8b946c6504089dea11623dfa49f14e86686f67e04ed87ebe94f81f988",
+  "license": "CC-BY-4.0",
+  "publisher": "https://zenodo.org/records/22721975",
+  "cutoff_end_exclusive": 716,
+  "source_grid_interval_seconds": 3600,
+  "signal": "publisher_scaled_traffic_or_sessions",
+  "publisher_per_series_scaling": true,
+  "publisher_scaling_fit_scope": "unknown; do not claim externally future-free scaling",
+  "timestamps": "publisher_shifted_relative_time",
+  "segments": [
+    {
+      "name": "segment_0",
+      "entity": 0,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_1",
+      "entity": 1,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_2",
+      "entity": 2,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_3",
+      "entity": 3,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_4",
+      "entity": 4,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_5",
+      "entity": 5,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_6",
+      "entity": 6,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_7",
+      "entity": 7,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_8",
+      "entity": 8,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_9",
+      "entity": 9,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_10",
+      "entity": 10,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_11",
+      "entity": 11,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_12",
+      "entity": 12,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_13",
+      "entity": 13,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_14",
+      "entity": 14,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_15",
+      "entity": 15,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_16",
+      "entity": 16,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_17",
+      "entity": 17,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_18",
+      "entity": 18,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_19",
+      "entity": 19,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    },
+    {
+      "name": "segment_20",
+      "entity": 20,
+      "hours": 716,
+      "start_hour": 0,
+      "end_hour": 715
+    }
+  ],
+  "training_performed": false,
+  "physical_target_pooling_with_PRB": false,
+  "future_metric_values_read": false,
+  "caveat": "Representation pretraining candidate only; original-domain benefit unproven"
+}

@@ -15,7 +15,7 @@ from src.utils.config import load_config
 
 
 def main(study="neural_hurdle"):
-    if study not in ("neural_hurdle", "mae_aligned", "chronos2_lora", "cell_attention"):
+    if study not in ("neural_hurdle", "mae_aligned", "chronos2_lora", "cell_attention", "cell_multisource"):
         raise ValueError("Unknown study")
     stem = study.replace("_", "-")
     notebook_name = ("28_multivariate_zero_inflated_forecasting.ipynb" if study == "neural_hurdle"
@@ -32,6 +32,10 @@ def main(study="neural_hurdle"):
         notebook_name = "33_cell_spatial_temporal_attention.ipynb"
         title = "5G NI Cell Spatial Temporal Attention"
         slug = "5g-ni-cell-spatial-temporal-attention"
+    if study == "cell_multisource":
+        notebook_name = "34_multi_corpus_spatial_encoder_pretraining.ipynb"
+        title = "5G NI Multi Corpus Spatial Encoder Pretraining"
+        slug = "5g-ni-multi-corpus-spatial-encoder-pretraining"
     root = Path.cwd()
     source = root/f".cache/{stem}-source"
     source.mkdir(parents=True, exist_ok=True)
@@ -50,6 +54,17 @@ def main(study="neural_hurdle"):
                   "data/processed/panel_meta.json": stage_panel.with_name("panel_meta.json"),
                   "data/processed/split.json": root/"data/processed/split.json",
                   "LICENSE": root/"LICENSE"})
+    if study == "cell_multisource":
+        files["scripts/train_cell_attention.py"] = root/"scripts/train_cell_attention.py"
+        cfg = load_config("configs/cell_multisource.yaml")
+        for report_name in cfg["source_reports"]:
+            report_path = root/report_name
+            report = json.loads(report_path.read_text())
+            prepared = Path(report["processed_path"])
+            files[report_name] = report_path
+            files[prepared.as_posix()] = root/prepared
+        for name in ("transfer_overlap_audit.json", "multisource_preparation.json"):
+            files["reports/"+name] = root/"reports"/name
     if study == "chronos2_lora":
         model_cfg = load_config("configs/chronos2_synth.yaml")
         model_root = root/"data/external/pretrained/chronos2_synth"/model_cfg["revision"]
@@ -84,6 +99,19 @@ def main(study="neural_hurdle"):
         "https://github.com/netop/gotsf-ds (MIT). Project code: MIT, LICENSE in bundle. "
         "Original values from hour 504 onward have been replaced by NaN. "
         "This job does not include external transfer datasets.\n")
+    if study == "cell_multisource":
+        (source/"DATA_SOURCES.md").write_text(
+            "# Sources and licenses\n\nCode and NETOP GOTS-F: MIT. "
+            "NETOP: https://huggingface.co/datasets/netop/gotsf-ds.\n\n"
+            "External PM: Peter Lehocky et al., https://zenodo.org/records/17815388, CC BY 4.0.\n"
+            "CESNET-TimeSeries24: Koumar, Hynek, Cejka, Siska; https://zenodo.org/records/13382427, CC BY 4.0.\n"
+            "Vigo: Fondo-Ferreiro, Rodelgo-Lacruz, Gonzalez-Castano, Gil-Castineira, Candal-Ventureira; "
+            "https://zenodo.org/records/8147768, CC BY 4.0.\n"
+            "CESNET-AGG23: Benes, Pesek, Cejka; https://zenodo.org/records/8053021, CC BY 4.0.\n"
+            "Vigo/AGG23 HDF5 conversion: Koumar and Jerabek, https://zenodo.org/records/22721975.\n"
+            "Changes: hourly aggregation where needed, chronological prefix filtering, gap-preserving segment export. "
+            "External data retains CC BY 4.0: https://creativecommons.org/licenses/by/4.0/. "
+            "Traffic values are representation-pretraining inputs, not original PRB labels.\n")
     if study == "chronos2_lora":
         with (source/"DATA_SOURCES.md").open("a") as handle:
             handle.write("\nPretrained weights: autogluon/chronos-2-synth, Apache-2.0. "
@@ -91,7 +119,7 @@ def main(study="neural_hurdle"):
                 "Project code and GOTS-F remain under their MIT licenses.\n")
     (source/"dataset-metadata.json").write_text(json.dumps({
         "id": f"truongbaokien/5g-ni-{stem}-inputs", "title": f"5G NI {stem.title()} Inputs",
-        "licenses": [{"name": "Apache 2.0" if study == "chronos2_lora" else "MIT"}]}, indent=2))
+        "licenses": [{"name": "Apache 2.0" if study == "chronos2_lora" else "CC-BY-4.0" if study == "cell_multisource" else "MIT"}]}, indent=2))
     notebook = json.loads(Path("notebooks", notebook_name).read_text(encoding="utf-8"))
     for cell in notebook["cells"]:
         text = "".join(cell["source"])
@@ -139,7 +167,7 @@ def main(study="neural_hurdle"):
         "with tarfile.open(output, 'w:gz') as archive:\n"
         f"    for folder in ('artifacts/{study}', 'reports'):\n"
         "        if (PROJECT / folder).exists():\n            archive.add(PROJECT / folder, arcname=folder)\nprint(output)\n")
-    if study in ("chronos2_lora", "cell_attention"):
+    if study in ("chronos2_lora", "cell_attention", "cell_multisource"):
         export += "if TRAIN_EXIT:\n    raise RuntimeError('Cloud fine-tuning failed; inspect saved logs/checkpoints before restarting')\n"
     notebook["cells"].append({"cell_type": "code", "id": "export-durable-results",
         "metadata": {}, "source": export.splitlines(keepends=True), "execution_count": None, "outputs": []})
@@ -161,5 +189,5 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--study", choices=["neural_hurdle", "mae_aligned", "chronos2_lora", "cell_attention"], default="neural_hurdle")
+    parser.add_argument("--study", choices=["neural_hurdle", "mae_aligned", "chronos2_lora", "cell_attention", "cell_multisource"], default="neural_hurdle")
     main(parser.parse_args().study)

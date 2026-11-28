@@ -1,0 +1,53 @@
+{
+  "record": "https://zenodo.org/records/22721975",
+  "files": [
+    {
+      "path": "data/external/network_expansion/Vigo-NetworkOperatorKPIs-sessions-network_operator-1_hour.h5",
+      "bytes": 1005202,
+      "sha256": "0b31cbc4cc6abd554057fa7ffc5980acbc168ae315f8de8dac9271091275a31e",
+      "md5": "c74da81cc7234309d2c178964f26d104",
+      "license": "CC-BY-4.0",
+      "attribution": "Original dataset authors and CESNET TS-Zoo conversion; see publisher metadata",
+      "training_ready": false
+    },
+    {
+      "path": "data/external/network_expansion/Vigo-NetworkOperatorKPIs-vpn-network_operator-1_hour.h5",
+      "bytes": 677358,
+      "sha256": "766c5876c7f3abf662488cf8f31deddeeb7f73002d3eebf439a74cfb03b0c3b8",
+      "md5": "2a2570c1d6b6e92640de31b604abf650",
+      "license": "CC-BY-4.0",
+      "attribution": "Original dataset authors and CESNET TS-Zoo conversion; see publisher metadata",
+      "training_ready": false
+    },
+    {
+      "path": "data/external/network_expansion/Vigo-NetworkOperatorKPIs-internet-network_operator-1_hour.h5",
+      "bytes": 677358,
+      "sha256": "d9c4ebf34323635373547da6a882165a155a4b29db5ad137192d641ec64a41ab",
+      "md5": "937e1a5b0b6a05d7d7187d9283696af6",
+      "license": "CC-BY-4.0",
+      "attribution": "Original dataset authors and CESNET TS-Zoo conversion; see publisher metadata",
+      "training_ready": false
+    },
+    {
+      "path": "data/external/network_expansion/Vigo-NetworkOperatorKPIs-downstream-network_operator-1_hour.h5",
+      "bytes": 742898,
+      "sha256": "bc489116d990c2122858e82b0d5cded6ae4feb20f8af408f929965d4e01d652b",
+      "md5": "e92633d69371523f016b4e4f95c16ef6",
+      "license": "CC-BY-4.0",
+      "attribution": "Original dataset authors and CESNET TS-Zoo conversion; see publisher metadata",
+      "training_ready": false
+    },
+    {
+      "path": "data/external/network_expansion/CESNET-AGG23-CESNET2-minute.h5",
+      "bytes": 31856669,
+      "sha256": "23c6f9720f3cba4ec84f18054822e4eb21e43346037a0b5a13e0f8625805611b",
+      "md5": "3080ad2c9d4317e6bd2967557112dd9a",
+      "license": "CC-BY-4.0",
+      "attribution": "Original dataset authors and CESNET TS-Zoo conversion; see publisher metadata",
+      "training_ready": false
+    }
+  ],
+  "training_performed": false,
+  "row_level_audit_complete": false,
+  "note": "Raw acquisition only; prefix, units, gaps and overlap still require audit"
+}

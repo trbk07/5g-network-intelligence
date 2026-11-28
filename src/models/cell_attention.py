@@ -29,17 +29,24 @@ class CellPatchAttention(nn.Module):
         self.register_buffer("seasonal_indices", torch.tensor([[167+h-24*d for d in range(1, 8)] for h in (1, 6, 24)]))
         self.register_buffer("local_mask", ~torch.eye(32, dtype=torch.bool))
 
+    def encode_history(self, history):
+        """Encode individual histories; shared by source pretraining and full-cell inference."""
+        if history.ndim != 3 or history.shape[1:] != (168, 8):
+            raise ValueError("Expected individual 168 x 8 histories")
+        # Only this origin's observed window is centered; no learned beam statistics.
+        last = history[:, -1:, :4].detach()
+        centered = torch.cat([history[:, :, :4]-last, history[:, :, 4:]], dim=-1)
+        channels = centered.permute(0, 2, 1)
+        patches = channels.unfold(-1, self.patch_length, self.patch_stride).permute(0, 2, 1, 3).flatten(2)
+        temporal = self.temporal(self.patch_projection(patches)+self.position)
+        return self.history_projection(temporal)
+
     def forward(self, history, phase):
         if history.ndim != 4 or history.shape[1:] != (168, 32, 8) or phase.shape != (len(history), 4):
             raise ValueError("Expected batch x 168 x 32 x 8 causal history and phase4")
         batch = len(history)
-        # Only this origin's observed window is centered; no learned beam statistics.
-        last = history[:, -1:, :, :4].detach()
-        centered = torch.cat([history[:, :, :, :4]-last, history[:, :, :, 4:]], dim=-1)
-        channels = centered.permute(0, 2, 3, 1).reshape(batch*32, 8, 168)
-        patches = channels.unfold(-1, self.patch_length, self.patch_stride).permute(0, 2, 1, 3).flatten(2)
-        temporal = self.temporal(self.patch_projection(patches)+self.position)
-        tokens = self.history_projection(temporal).reshape(batch, 32, -1)
+        individual = history.permute(0, 2, 1, 3).reshape(batch*32, 168, 8)
+        tokens = self.encode_history(individual).reshape(batch, 32, -1)
         mixed, _ = self.spatial(tokens, tokens, tokens,
             attn_mask=self.local_mask if self.mode == "local" else None, need_weights=False)
         features = self.norm(tokens+mixed)

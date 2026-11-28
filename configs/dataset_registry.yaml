@@ -71,6 +71,35 @@ datasets:
     status: public_deliverable_review_only
     blocker: dataset_download_and_reuse_license_not_verified
     training_allowed: false
+  vigo_network_operator_kpis:
+    role: external_representation_pretraining
+    source: https://zenodo.org/records/8147768
+    converted_distribution: https://zenodo.org/records/22721975
+    license: CC-BY-4.0
+    domains: [downstream, internet, sessions, vpn]
+    status: acquired_verified_and_hourly_prefix_prepared
+    eligible_prefix_entity_hours: 39380
+    evidence: reports/network_expansion_preparation.json
+    caveat: publisher_per_series_scaling_scope_unknown_use_past_context_normalized_source_task_and_disclose_limitations
+    independent_network_count: not_established
+  cesnet_agg23:
+    role: external_representation_pretraining
+    source: https://zenodo.org/records/8053021
+    converted_distribution: https://zenodo.org/records/22721975
+    license: CC-BY-4.0
+    status: acquired_verified_and_complete_hour_prefix_prepared
+    eligible_prefix_entity_hours: 1273
+    aggregation: complete_60_minute_hours_only_no_gap_interpolation
+    evidence: reports/cesnet_agg23_preparation.json
+  telecom_italia_milan:
+    role: additional_mobile_traffic_pretraining_candidate
+    source: https://doi.org/10.7910/DVN/EGZHFV
+    converted_distribution: https://zenodo.org/records/22721975
+    license: ODbL-1.0
+    status: hourly_HDF5_download_in_progress_not_training_ready
+    expected_bytes: 5117552328
+    attribution: from_BigDataChallenge_contest
+    training_allowed: false_until_checksum_prefix_and_overlap_audit_complete
 pretrained_models:
   chronos_bolt_base:
     source: https://huggingface.co/amazon/chronos-bolt-base
