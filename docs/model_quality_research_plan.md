@@ -96,3 +96,16 @@ number of downloaded files or mix incompatible units as the same target.
 The existing original holdout and hours 504 onward stay excluded from all new
 tuning. Repeated development comparisons cannot establish fresh generalization.
 No production promotion or final-validation refit is implicit in this plan.
+
+### Seeded architecture and transfer evidence (2026-11-28)
+
+Both Kaggle seed-17 studies completed with verified cold initialization, stopping,
+metrics and CPU/GPU replay. Multi-corpus transfer wins five of six comparisons
+against the matched cold architecture by less than 0.65%, but loses five of six
+against the stronger historical blend. It fails the predeclared quality gate.
+See `reports/cell_multisource_v2_analysis.md`; no production promotion follows.
+Colab seed 29 remains a predeclared seed/runtime robustness check, not an excuse
+to select a lucky seed. More training epochs are not supported by these runs:
+all seed-17 target fits reached genuine early stopping, not their epoch caps.
+Telecom Italia streaming preparation is underway, separate from these completed
+experiments; sampler/overlap audits must precede its use in hosted pretraining.

@@ -1,0 +1,34 @@
+{
+  "all_metrics_reconstructed": true,
+  "fit_only_preprocessing_verified": true,
+  "cpu_torch": "2.11.0+cpu",
+  "preprocessing_reduction_tolerance": 1e-12,
+  "forecast_root": "artifacts/cell_multisource_v2/multi_source_pretrain",
+  "original_checkpoint_selection_changed": false,
+  "controlled_neural_initialization_verified": true,
+  "stopping_choices_verified": true,
+  "history_only_beam_predictions_checked": 1152,
+  "maximum_cpu_gpu_error": 1.1920928955078125e-06,
+  "epoch_capped_runs": 0,
+  "pretraining_transfer": [
+    {
+      "fold": "inner1",
+      "case": "multi_source_pretrain",
+      "optimizer_steps": 5120,
+      "source_cold_arithmetic": "hosted_fma",
+      "transferred_tensors": 29,
+      "source_checkpoint_sha256": "39c665baeb713fd4bc46b1c4d16165e007693eb793b210b7f5924f2a237c05da"
+    },
+    {
+      "fold": "inner2",
+      "case": "multi_source_pretrain",
+      "optimizer_steps": 5120,
+      "source_cold_arithmetic": "hosted_fma",
+      "transferred_tensors": 29,
+      "source_checkpoint_sha256": "39c665baeb713fd4bc46b1c4d16165e007693eb793b210b7f5924f2a237c05da"
+    }
+  ],
+  "holdout_used": false,
+  "production_promoted": false,
+  "claim_scope": "reused development; fresh generalization unproven"
+}

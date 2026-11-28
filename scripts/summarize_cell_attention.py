@@ -18,6 +18,7 @@ from src.features.gru_inputs import GRUPreprocessor
 from src.models.cell_attention import CellPatchAttention
 from src.models.cell_pretraining import ENCODER_PREFIXES, SourcePatchForecaster
 from src.models.forecast_blend import blend_forecasts
+from src.models.initialization_replay import verify_cold_state
 from src.models.training_status import stopping_status
 from src.utils.config import load_config
 
@@ -50,11 +51,7 @@ def verify_pretraining(root, directory, model, fold, case, cfg):
     source_cold = torch.load(source_cold_path, map_location="cpu", weights_only=True)
     if source_cold["seed"] != cfg["seed"] or source_cold["torch_initial_seed"] != cfg["seed"]:
         raise ValueError("Source Torch seed differs")
-    with torch.random.fork_rng(devices=[]):
-        torch.manual_seed(cfg["seed"])
-        expected_source = SourcePatchForecaster(cfg)
-    if any(not torch.equal(value, source_cold["model"][key]) for key, value in expected_source.state_dict().items()):
-        raise ValueError("Source cold weights do not reproduce declared seed")
+    source_initialization_policy = verify_cold_state(lambda: SourcePatchForecaster(cfg), cfg["seed"], source_cold["model"])
     if case == "target_self_pretrain":
         provenance = metadata["identity"]["provenance"]
         if provenance["maximum_label_hour"] != fold["fit_end"] or provenance["original_fit_end"] != fold["fit_end"]:
@@ -94,6 +91,7 @@ def verify_pretraining(root, directory, model, fold, case, cfg):
         if key not in expected_keys and not torch.equal(value, initialization["model"][key]):
             raise ValueError("Unexpected source transfer into target head/spatial/scales")
     return {"fold": fold["name"], "case": case, "optimizer_steps": expected_steps,
+            "source_cold_arithmetic": source_initialization_policy,
             "transferred_tensors": len(expected_keys), "source_checkpoint_sha256": sha256(last_path)}
 
 
@@ -156,11 +154,8 @@ def summarize(root, cfg, report_prefix, case=None, forecast_root=None):
                         or metadata.get("cold_initialization_sha256") != sha256(cold_path)
                         or metadata.get("gpu_attention_fastpath") is not False):
                     raise ValueError("Seeded strict-backend contract differs")
-                with torch.random.fork_rng(devices=[]):
-                    torch.manual_seed(cfg["seed"])
-                    expected_cold = CellPatchAttention(cfg, preprocessing.mean[0], preprocessing.scale[0], mode)
-                if any(not torch.equal(value, cold["model"][key]) for key, value in expected_cold.state_dict().items()):
-                    raise ValueError("Target cold weights do not reproduce declared seed")
+                verify_cold_state(lambda: CellPatchAttention(cfg, preprocessing.mean[0], preprocessing.scale[0], mode),
+                                  cfg["seed"], cold["model"])
             best = torch.load(directory/"best.pt", map_location="cpu", weights_only=True)
             last = torch.load(directory/"last.pt", map_location="cpu", weights_only=True)
             history = [json.loads(line) for line in (directory/"history.jsonl").read_text().splitlines()]

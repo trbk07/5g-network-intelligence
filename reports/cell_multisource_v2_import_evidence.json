@@ -1,0 +1,7 @@
+{
+  "archive_sha256": "4457a5c9acc19b956a3c2465521adc964fb9840a8f58a005b0673efb5ba02aac",
+  "verified_artifact_files": 57,
+  "copied_or_identical_files": 61,
+  "frozen_artifacts_touched": false,
+  "scope": "Archive integrity only; temporal, metric and prediction verification still required"
+}
