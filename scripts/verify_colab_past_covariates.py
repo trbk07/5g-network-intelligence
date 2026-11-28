@@ -69,7 +69,7 @@ def main():
         raise ValueError('Canonical redacted panel required')
     if hashlib.sha256(panel.values[:504].tobytes()).hexdigest() != 'c0f9cbe86244df0f9658ba4c3fb541183e62c613328f1aeb7c41ebb8d09df661':
         raise ValueError('Canonical development values differ')
-    cold_controls, rows, replay, stopping = {}, [], [], []
+    cold_controls, rows, replay, stopping, diagnostics = {}, [], [], [], []
     beam_indices = np.linspace(0, 2879, 24, dtype=int)
     for case in cfg['cases']:
         verify_tree(root/case)
@@ -147,6 +147,22 @@ def main():
                     mask = np.isfinite(actual)
                     error = np.abs(actual[mask]-predicted[mask])
                     zero = mask & (actual == 0)
+                    # Target-conditioned groups explain error only. They cannot
+                    # become inference-time routing labels or achievable floors.
+                    positive = mask & (actual > 0)
+                    # Forecasts are float32; accumulate in float64 so the
+                    # accounting check uses the same precision as target errors.
+                    zero_error = float(np.abs(predicted[zero]).sum(dtype=np.float64))
+                    positive_error = float(np.abs(actual[positive]-predicted[positive]).sum())
+                    np.testing.assert_allclose(zero_error+positive_error, error.sum(), rtol=1e-12, atol=1e-12)
+                    diagnostics.append({'case': case, 'fold': fold['name'], 'horizon': h,
+                        'n_valid': int(mask.sum()), 'zero_target_fraction': float(zero.sum()/mask.sum()),
+                        'zero_absolute_error': zero_error, 'positive_absolute_error': positive_error,
+                        'zero_share_of_absolute_error': zero_error/float(error.sum()) if error.sum() else 0.,
+                        'zero_conditional_mae': float(np.abs(predicted[zero]).mean(dtype=np.float64)) if zero.any() else None,
+                        'positive_conditional_mae': float(np.abs(actual[positive]-predicted[positive]).mean()) if positive.any() else None,
+                        'positive_signed_bias': float((predicted[positive]-actual[positive]).mean()) if positive.any() else None,
+                        'wape_if_only_zero_errors_were_perfect': positive_error/float(np.abs(actual[mask]).sum())})
                     case_rows.append({'fold': fold['name'], 'variant': 'B', 'horizon': h,
                         'mae': float(error.mean()), 'wape': float(error.sum()/np.abs(actual[mask]).sum()),
                         'zero_fp_rate': float((predicted[zero] > 0).mean()), 'n_valid': int(mask.sum())})
@@ -168,10 +184,12 @@ def main():
              'history_only_predictions_checked': len(replay)*24, 'termination': stopping,
              'source_commit': state['source_commit'], 'training_performed_by_audit': False,
              'holdout_used': False, 'production_promoted': False, 'metrics': rows,
+             'error_decomposition': diagnostics,
+             'diagnostic_scope': 'target-conditioned accounting only; no routing labels or irreducible-error claim',
              'scope': 'reused development; quality assessment separate; weights remain on Drive'}
     output = project/'reports/past_covariate_attention_verified_metrics.json'
     output.write_text(json.dumps(proof, indent=2))
-    print(json.dumps({k: v for k, v in proof.items() if k != 'metrics'}, indent=2))
+    print(json.dumps({k: v for k, v in proof.items() if k not in ('metrics', 'error_decomposition')}, indent=2))
 
 
 if __name__ == '__main__':
