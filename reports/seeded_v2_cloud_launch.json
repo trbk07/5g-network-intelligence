@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-28",
+  "status": "in_progress_not_a_quality_result",
+  "kaggle_source_commit": "d80a05cb318f103cfdf3a96c16f2b916669b5062",
+  "colab_source_commit": "96806fe4ab4334a41b7b7a189753c209676477b9",
+  "kaggle_jobs": [
+    {"slug": "truongbaokien/5g-ni-seeded-cell-spatial-temporal-attention", "last_observed_status": "RUNNING", "seed": 17},
+    {"slug": "truongbaokien/5g-ni-reproducible-multi-corpus-encoder-transfer", "last_observed_status": "RUNNING", "seed": 17}
+  ],
+  "colab": {
+    "session": "seeded-cell-v2-recovery",
+    "hardware": "T4",
+    "seed": 29,
+    "drive_mount_verified": true,
+    "public_rebuild_canonical_prefix_verified": true,
+    "local_beam_payload_uploaded": false,
+    "code_archive_sha256": "03aab5c12a00e40ad100f576f5b5c22a86a1fc4648548544364181f5398cabc5",
+    "training_started": true,
+    "observed_epochs": [0, 1],
+    "checkpoint_directory": "5g-network-intelligence/checkpoints/cell_seed29_96806fe4ab43",
+    "note": "Stopping losses are not final development scores. Seed/runtime robustness study; do not select a best seed. Previous runtime was reclaimed before fitting."
+  },
+  "local_training_performed": false,
+  "forward_only_tests": {"passed": 9, "failed": 0},
+  "holdout_used": false,
+  "model_promoted": false
+}
